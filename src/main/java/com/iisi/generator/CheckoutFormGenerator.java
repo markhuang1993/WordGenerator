@@ -1,14 +1,19 @@
 package com.iisi.generator;
 
+import com.iisi.freemarker.FreemarkerUtil;
 import com.iisi.freemarker.FtlProvider;
+import com.iisi.generator.model.Table;
+import com.iisi.generator.model.TableRow;
 import com.iisi.util.FileUtil;
+import com.iisi.util.ModelUtil;
 import freemarker.template.Template;
+import freemarker.template.TemplateException;
 
 import java.io.*;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
+import java.util.stream.Collectors;
 
 public class CheckoutFormGenerator {
 
@@ -23,7 +28,8 @@ public class CheckoutFormGenerator {
         ftlProvider = new FtlProvider(new File(checkoutFormFtl).getParentFile());
     }
 
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) throws IOException, TemplateException, IllegalAccessException {
+        CheckoutFormGenerator checkoutFormGenerator = new CheckoutFormGenerator();
         HashMap<String, String> dataMap = new HashMap<>();
         dataMap.put("lacrNo", "37037");
         dataMap.put("systemApplication", "sapp");
@@ -31,29 +37,98 @@ public class CheckoutFormGenerator {
         dataMap.put("lacrCoordinator", "asdwq");
         dataMap.put("librarian", "shxt");
         dataMap.put("processDate", "2019-06-23");
+
         String pgStr = FileUtil.toBase64Encoding(new File("C:\\Users\\markh\\Desktop\\mark.png"));
         String spvStr = FileUtil.toBase64Encoding(new File("C:\\Users\\markh\\Desktop\\huang.png"));
         dataMap.put("programmerB64Img", pgStr);
         dataMap.put("supervisorB64Img", spvStr);
-        CheckoutFormGenerator checkoutFormGenerator = new CheckoutFormGenerator();
+
+        Table table = checkoutFormGenerator.tableData();
+        String javaAppTable = checkoutFormGenerator.createJavaAppTable(table);
+        dataMap.put("javaCheckoutTable", javaAppTable);
+
         checkoutFormGenerator.createDocument(dataMap, "resume");
     }
 
-    private String createJavaAppTable(TableRow tableRow) {
-        Template t = ftlProvider.getFreeMarkerTemplate("table/table.ftl");
-        return "";
+    private Table tableData() {
+        ArrayList<TableRow> tableRows = new ArrayList<>();
+        String s = Arrays.stream(new String[50]).map(x -> "q").collect(Collectors.joining(""));
+        String s1 = Arrays.stream(new String[50]).map(x -> "w").collect(Collectors.joining(""));
+        String s2 = Arrays.stream(new String[50]).map(x -> "e").collect(Collectors.joining(""));
+        String s3 = Arrays.stream(new String[50]).map(x -> "t").collect(Collectors.joining(""));
+        tableRows.add(new TableRow(s,s1,s2,s3,"床前明月光\r\n疑似地上霜\r\n舉頭望明月\r\n低頭思故鄉"));
+        for (int i = 0; i < 160; i++) {
+            tableRows.add(new TableRow(
+                    String.valueOf(i),
+                    String.valueOf(i + 160),
+                    String.valueOf(i + 320),
+                    String.valueOf(i + 480),
+                    String.valueOf(i + 640)
+            ));
+        }
+
+        return new Table(tableRows);
     }
 
-    private String createTableRow() {
-        return "";
+    private String createJavaAppTable(Table table) throws IOException, TemplateException, IllegalAccessException {
+        Template t = ftlProvider.getFreeMarkerTemplate("table/visualStudioOrJava/table.ftl");
+        StringBuilder sb = new StringBuilder();
+        sb.append(createTableRow(null, true));
+        for (TableRow tableRow : table.getTableRows()) {
+            sb.append(createTableRow(tableRow, false));
+        }
+
+        HashMap<String, String> dataMap = new HashMap<>();
+        dataMap.put("tableRows", sb.toString());
+
+        StringWriter stringWriter = new StringWriter();
+        FreemarkerUtil.processTemplate(t, dataMap, stringWriter);
+        return stringWriter.toString();
     }
 
-    private String createTableHeadColumn() {
-        return "";
+    private String createTableRow(TableRow tableRow, boolean isHead) throws IOException, TemplateException, IllegalAccessException {
+        Template t = ftlProvider.getFreeMarkerTemplate("table/visualStudioOrJava/table-row.ftl");
+        String tableColumns = isHead ? createTableHeadColumns() : createTableColumns(tableRow);
+
+        HashMap<String, String> dataMap = new HashMap<>();
+        dataMap.put("randomId", getRandomParaId());
+        dataMap.put("tableColumns", tableColumns);
+
+        StringWriter stringWriter = new StringWriter();
+        FreemarkerUtil.processTemplate(t, dataMap, stringWriter);
+        return stringWriter.toString();
     }
 
-    private String createTableColumn(TableColumn tableColumn) {
-        return "";
+    private String createTableHeadColumns() throws IOException, TemplateException {
+        Template t = ftlProvider.getFreeMarkerTemplate("table/visualStudioOrJava/table-head-column.ftl");
+        String[] titles = new String[]{"No", "System ID", "Program/File Name", "Program Execution Name", "Program Description"};
+        StringBuilder sb = new StringBuilder();
+        for (String title : titles) {
+            HashMap<String, String> dataMap = new HashMap<>();
+            dataMap.put("randomId", getRandomParaId());
+            dataMap.put("columnValue", title);
+            StringWriter stringWriter = new StringWriter();
+            FreemarkerUtil.processTemplate(t, dataMap, stringWriter);
+            sb.append(stringWriter.toString());
+        }
+        return sb.toString();
+    }
+
+    private String createTableColumns(TableRow tableRow) throws IOException, TemplateException, IllegalAccessException {
+        Template t = ftlProvider.getFreeMarkerTemplate("table/visualStudioOrJava/table-column.ftl");
+        StringBuilder sb = new StringBuilder();
+
+        Map<String, Object> fieldsMap = ModelUtil.getFieldsMap(tableRow);
+        for (Object value : fieldsMap.values()) {
+            HashMap<String, String> dataMap = new HashMap<>();
+            dataMap.put("randomId", getRandomParaId());
+            dataMap.put("columnValue", String.valueOf(value));
+            StringWriter stringWriter = new StringWriter();
+            FreemarkerUtil.processTemplate(t, dataMap, stringWriter);
+            sb.append(stringWriter.toString());
+        }
+
+        return sb.toString();
     }
 
     public File createDocument(Map<?, ?> dataMap, String type) {
@@ -69,6 +144,10 @@ public class CheckoutFormGenerator {
             throw new RuntimeException(ex);
         }
         return f;
+    }
+
+    private String getRandomParaId() {
+        return UUID.randomUUID().toString().replace("-", "");
     }
 }
 

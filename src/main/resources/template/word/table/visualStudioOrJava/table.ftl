@@ -25,5 +25,5 @@
         <w:gridCol w:w="3120"/>
         <w:gridCol w:w="3120"/>
     </w:tblGrid>
-    ${tableColumns!}
+    ${tableRows!}
 </w:tbl>

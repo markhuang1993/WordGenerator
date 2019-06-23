@@ -1,13 +1,13 @@
-package com.iisi.generator;
+package com.iisi.generator.model;
 
-public class TableColumn {
+public class TableRow {
     private String no;
     private String systemID;
     private String programFileName;
     private String programExecutionName;
     private String ProgramDescription;
 
-    public TableColumn(String no, String systemID, String programFileName, String programExecutionName, String programDescription) {
+    public TableRow(String no, String systemID, String programFileName, String programExecutionName, String programDescription) {
         this.no = no;
         this.systemID = systemID;
         this.programFileName = programFileName;
