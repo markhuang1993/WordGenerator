@@ -1,4 +1,4 @@
-package com.iisi.generator.model;
+package com.iisi.generator.model.checkoutform;
 
 public class TableRow {
     private String no;

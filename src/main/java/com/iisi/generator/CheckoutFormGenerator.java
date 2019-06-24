@@ -2,8 +2,8 @@ package com.iisi.generator;
 
 import com.iisi.freemarker.FreemarkerUtil;
 import com.iisi.freemarker.FtlProvider;
-import com.iisi.generator.model.Table;
-import com.iisi.generator.model.TableRow;
+import com.iisi.generator.model.checkoutform.Table;
+import com.iisi.generator.model.checkoutform.TableRow;
 import com.iisi.util.FileUtil;
 import com.iisi.util.ModelUtil;
 import freemarker.template.Template;
