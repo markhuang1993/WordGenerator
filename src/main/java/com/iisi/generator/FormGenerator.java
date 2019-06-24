@@ -1,8 +1,11 @@
 package com.iisi.generator;
 
-import java.io.File;
-import java.util.Map;
+import com.iisi.generator.model.FormData;
+import freemarker.template.TemplateException;
 
-public interface FormGenerator {
-    File createForm(Map<?, ?> dataMap);
+import java.io.File;
+import java.io.IOException;
+
+public interface FormGenerator<T extends FormData> {
+    File createForm(T formData) throws IOException, TemplateException, IllegalAccessException;
 }

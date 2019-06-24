@@ -1,13 +1,13 @@
-package com.iisi.generator.model;
+package com.iisi.generator;
 
 import com.iisi.freemarker.FtlProvider;
-import com.iisi.generator.FormGenerator;
+import com.iisi.generator.model.FormData;
 import com.iisi.util.ResourceUtil;
 
 import java.io.File;
 
-public abstract class AbstractFormGenerator implements FormGenerator {
-    protected static FtlProvider ftlProvider;
+abstract class AbstractFormGenerator<T extends FormData> implements FormGenerator<T> {
+    static FtlProvider ftlProvider;
 
     static {
         File templateDir = ResourceUtil.getClassPathResource("template");
