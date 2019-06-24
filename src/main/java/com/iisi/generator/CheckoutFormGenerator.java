@@ -1,32 +1,21 @@
 package com.iisi.generator;
 
 import com.iisi.freemarker.FreemarkerUtil;
-import com.iisi.freemarker.FtlProvider;
+import com.iisi.generator.model.AbstractFormGenerator;
 import com.iisi.generator.model.checkoutform.Table;
 import com.iisi.generator.model.checkoutform.TableRow;
 import com.iisi.util.FileUtil;
 import com.iisi.util.ModelUtil;
+import com.iisi.util.ResourceUtil;
 import freemarker.template.Template;
 import freemarker.template.TemplateException;
 
 import java.io.*;
-import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.util.*;
 import java.util.stream.Collectors;
 
-public class CheckoutFormGenerator {
-
-    private static FtlProvider ftlProvider;
-
-    static {
-        URL resource = CheckoutFormGenerator.class.getClassLoader().getResource("template/word/checkoutForm.ftl");
-        if (resource == null) {
-            throw new RuntimeException("template/word/checkoutForm.ftl not found in resources folder");
-        }
-        String checkoutFormFtl = resource.getFile();
-        ftlProvider = new FtlProvider(new File(checkoutFormFtl).getParentFile());
-    }
+public class CheckoutFormGenerator extends AbstractFormGenerator {
 
     public static void main(String[] args) throws IOException, TemplateException, IllegalAccessException {
         CheckoutFormGenerator checkoutFormGenerator = new CheckoutFormGenerator();
@@ -38,8 +27,8 @@ public class CheckoutFormGenerator {
         dataMap.put("librarian", "shxt");
         dataMap.put("processDate", "2019-06-23");
 
-        String pgStr = FileUtil.toBase64Encoding(new File("C:\\Users\\markh\\IdeaProjects\\WordGenerator\\src\\main\\resources\\image\\mark.png"));
-        String spvStr = FileUtil.toBase64Encoding(new File("C:\\Users\\markh\\IdeaProjects\\WordGenerator\\src\\main\\resources\\image\\huang.png"));
+        String pgStr = FileUtil.toBase64Encoding(ResourceUtil.getClassPathResource("image\\mark.png"));
+        String spvStr = FileUtil.toBase64Encoding(ResourceUtil.getClassPathResource("image\\huang.png"));
         dataMap.put("programmerB64Img", pgStr);
         dataMap.put("supervisorB64Img", spvStr);
 
@@ -47,7 +36,7 @@ public class CheckoutFormGenerator {
         String javaAppTable = checkoutFormGenerator.createJavaAppTable(table);
         dataMap.put("javaCheckoutTable", javaAppTable);
 
-        File documentFile = checkoutFormGenerator.createDocument(dataMap);
+        File documentFile = checkoutFormGenerator.createForm(dataMap);
         System.out.println("doc is created at:" + documentFile.getAbsolutePath());
     }
 
@@ -131,7 +120,7 @@ public class CheckoutFormGenerator {
         return stringWriter.toString();
     }
 
-    public File createDocument(Map<?, ?> dataMap) {
+    public File createForm(Map<?, ?> dataMap) {
         File f = new File("checkoutForm.doc");
         Template t = ftlProvider.getFreeMarkerTemplate("checkoutForm.ftl");
         try {
