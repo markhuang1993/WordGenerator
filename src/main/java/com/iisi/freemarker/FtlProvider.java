@@ -46,7 +46,11 @@ public class FtlProvider {
 
     public Template getFreeMarkerTemplate(String templatePath) {
         String newTemplatePath = templatePath.replace("\\", "/").replaceAll("^/(.*)$","$1");
-        return templateCacheMap.get(newTemplatePath);
+        Template template = templateCacheMap.get(newTemplatePath);
+        if (template == null){
+            System.out.println("[Error]Template not found, path:" + templatePath);
+        }
+        return template;
     }
 
 }

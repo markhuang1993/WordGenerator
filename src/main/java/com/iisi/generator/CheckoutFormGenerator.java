@@ -1,18 +1,18 @@
 package com.iisi.generator;
 
-import com.iisi.freemarker.FreemarkerUtil;
 import com.iisi.generator.model.checkoutform.CheckoutFormData;
-import com.iisi.generator.model.checkoutform.Table;
-import com.iisi.generator.model.checkoutform.TableRow;
+import com.iisi.generator.model.checkoutform.CheckoutFormTable;
+import com.iisi.generator.model.checkoutform.CheckoutFormTableRow;
 import com.iisi.util.FileUtil;
-import com.iisi.util.ModelUtil;
 import com.iisi.util.ResourceUtil;
 import freemarker.template.Template;
 import freemarker.template.TemplateException;
 
 import java.io.*;
 import java.nio.charset.StandardCharsets;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
 import java.util.stream.Collectors;
 
 public class CheckoutFormGenerator extends AbstractFormGenerator<CheckoutFormData> {
@@ -34,15 +34,15 @@ public class CheckoutFormGenerator extends AbstractFormGenerator<CheckoutFormDat
         checkoutFormGenerator.createForm(formData);
     }
 
-    private Table tableData() {
-        ArrayList<TableRow> tableRows = new ArrayList<>();
+    private CheckoutFormTable tableData() {
+        ArrayList<CheckoutFormTableRow> tableRows = new ArrayList<>();
         String s = Arrays.stream(new String[50]).map(x -> "q").collect(Collectors.joining(""));
         String s1 = Arrays.stream(new String[50]).map(x -> "w").collect(Collectors.joining(""));
         String s2 = Arrays.stream(new String[50]).map(x -> "e").collect(Collectors.joining(""));
         String s3 = Arrays.stream(new String[50]).map(x -> "t").collect(Collectors.joining(""));
-        tableRows.add(new TableRow(s, s1, s2, s3, "床前明月光\r\n疑似地上霜\r\n舉頭望明月\r\n低頭思故鄉"));
+        tableRows.add(new CheckoutFormTableRow(s, s1, s2, s3, "床前明月光\r\n疑似地上霜\r\n舉頭望明月\r\n低頭思故鄉"));
         for (int i = 0; i < 160; i++) {
-            tableRows.add(new TableRow(
+            tableRows.add(new CheckoutFormTableRow(
                     String.valueOf(i),
                     String.valueOf(i + 160),
                     String.valueOf(i + 320),
@@ -51,68 +51,9 @@ public class CheckoutFormGenerator extends AbstractFormGenerator<CheckoutFormDat
             ));
         }
 
-        return new Table(tableRows);
+        return new CheckoutFormTable(tableRows);
     }
 
-    private String createJavaAppTable(Table table) throws IOException, TemplateException, IllegalAccessException {
-        Template t = ftlProvider.getFreeMarkerTemplate("word/table/visualStudioOrJava/table.ftl");
-        StringBuilder sb = new StringBuilder();
-        sb.append(createTableRow(null, true));
-        for (TableRow tableRow : table.getTableRows()) {
-            sb.append(createTableRow(tableRow, false));
-        }
-
-        HashMap<String, String> dataMap = new HashMap<>();
-        dataMap.put("tableRows", sb.toString());
-
-        StringWriter stringWriter = new StringWriter();
-        FreemarkerUtil.processTemplate(t, dataMap, stringWriter);
-        return stringWriter.toString();
-    }
-
-    private String createTableRow(TableRow tableRow, boolean isHead) throws IOException, TemplateException, IllegalAccessException {
-        Template t = ftlProvider.getFreeMarkerTemplate("word/table/visualStudioOrJava/table-row.ftl");
-        String tableColumns = isHead ? createTableHeadColumns() : createTableColumns(tableRow);
-
-        HashMap<String, String> dataMap = new HashMap<>();
-        dataMap.put("randomId", getRandomParaId());
-        dataMap.put("tableColumns", tableColumns);
-
-        StringWriter stringWriter = new StringWriter();
-        FreemarkerUtil.processTemplate(t, dataMap, stringWriter);
-        return stringWriter.toString();
-    }
-
-    private String createTableHeadColumns() throws IOException, TemplateException {
-        Template t = ftlProvider.getFreeMarkerTemplate("word/table/visualStudioOrJava/table-head-column.ftl");
-        String[] titles = new String[]{"No", "System ID", "Program/File Name", "Program Execution Name", "Program Description"};
-        StringBuilder sb = new StringBuilder();
-        for (String title : titles) {
-            sb.append(processColumnTemplate(title, t));
-        }
-        return sb.toString();
-    }
-
-    private String createTableColumns(TableRow tableRow) throws IOException, TemplateException, IllegalAccessException {
-        Template t = ftlProvider.getFreeMarkerTemplate("word/table/visualStudioOrJava/table-column.ftl");
-        StringBuilder sb = new StringBuilder();
-
-        Map<String, Object> fieldsMap = ModelUtil.getFieldsMap(tableRow);
-        for (Object value : fieldsMap.values()) {
-            sb.append(processColumnTemplate(String.valueOf(value), t));
-        }
-
-        return sb.toString();
-    }
-
-    private String processColumnTemplate(String columnValue, Template columnTemplate) throws IOException, TemplateException {
-        HashMap<String, String> dataMap = new HashMap<>();
-        dataMap.put("randomId", getRandomParaId());
-        dataMap.put("columnValue", String.valueOf(columnValue));
-        StringWriter stringWriter = new StringWriter();
-        FreemarkerUtil.processTemplate(columnTemplate, dataMap, stringWriter);
-        return stringWriter.toString();
-    }
 
     public File createForm(CheckoutFormData checkoutFormData) throws IOException, TemplateException, IllegalAccessException {
         File documentFile = new File("checkoutForm.doc");
@@ -129,8 +70,8 @@ public class CheckoutFormGenerator extends AbstractFormGenerator<CheckoutFormDat
         dataMap.put("programmerB64Img", FileUtil.toBase64Encoding(checkoutFormData.getProgrammerB64Png()));
         dataMap.put("supervisorB64Img", FileUtil.toBase64Encoding(checkoutFormData.getSupervisorB64Png()));
 
-        Table table = checkoutFormData.getJavaAppTable();
-        String javaAppTable = checkoutFormGenerator.createJavaAppTable(table);
+        CheckoutFormTable table = checkoutFormData.getJavaAppTable();
+        String javaAppTable = checkoutFormGenerator.createTable(table, "word/table/visualStudioOrJava");
         dataMap.put("javaCheckoutTable", javaAppTable);
 
         Template t = ftlProvider.getFreeMarkerTemplate("word/checkoutForm.ftl");
@@ -144,8 +85,5 @@ public class CheckoutFormGenerator extends AbstractFormGenerator<CheckoutFormDat
         return documentFile;
     }
 
-    private String getRandomParaId() {
-        return UUID.randomUUID().toString().replace("-", "");
-    }
 }
 

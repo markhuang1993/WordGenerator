@@ -13,7 +13,7 @@ public class CheckoutFormData implements FormData {
     private String processDate;
     private File programmerB64Png;
     private File supervisorB64Png;
-    private Table javaAppTable;
+    private CheckoutFormTable javaAppTable;
 
     public String getLacrNo() {
         return lacrNo;
@@ -79,11 +79,11 @@ public class CheckoutFormData implements FormData {
         this.supervisorB64Png = supervisorB64Png;
     }
 
-    public Table getJavaAppTable() {
+    public CheckoutFormTable getJavaAppTable() {
         return javaAppTable;
     }
 
-    public void setJavaAppTable(Table javaAppTable) {
+    public void setJavaAppTable(CheckoutFormTable javaAppTable) {
         this.javaAppTable = javaAppTable;
     }
 
@@ -137,7 +137,7 @@ public class CheckoutFormData implements FormData {
             return this;
         }
 
-        public Builder setJavaAppTable(Table javaAppTable) {
+        public Builder setJavaAppTable(CheckoutFormTable javaAppTable) {
             this.checkoutFormData.javaAppTable = javaAppTable;
             return this;
         }

@@ -1,13 +1,15 @@
 package com.iisi.generator.model.checkoutform;
 
-public class TableRow {
+import com.iisi.generator.model.FormTableRow;
+
+public class CheckoutFormTableRow implements FormTableRow {
     private String no;
     private String systemID;
     private String programFileName;
     private String programExecutionName;
     private String ProgramDescription;
 
-    public TableRow(String no, String systemID, String programFileName, String programExecutionName, String programDescription) {
+    public CheckoutFormTableRow(String no, String systemID, String programFileName, String programExecutionName, String programDescription) {
         this.no = no;
         this.systemID = systemID;
         this.programFileName = programFileName;
