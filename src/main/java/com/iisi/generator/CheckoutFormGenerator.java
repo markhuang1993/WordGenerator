@@ -38,8 +38,8 @@ public class CheckoutFormGenerator {
         dataMap.put("librarian", "shxt");
         dataMap.put("processDate", "2019-06-23");
 
-        String pgStr = FileUtil.toBase64Encoding(new File("C:\\Users\\markh\\Desktop\\mark.png"));
-        String spvStr = FileUtil.toBase64Encoding(new File("C:\\Users\\markh\\Desktop\\huang.png"));
+        String pgStr = FileUtil.toBase64Encoding(new File("C:\\Users\\markh\\IdeaProjects\\WordGenerator\\src\\main\\resources\\image\\mark.png"));
+        String spvStr = FileUtil.toBase64Encoding(new File("C:\\Users\\markh\\IdeaProjects\\WordGenerator\\src\\main\\resources\\image\\huang.png"));
         dataMap.put("programmerB64Img", pgStr);
         dataMap.put("supervisorB64Img", spvStr);
 
@@ -47,7 +47,8 @@ public class CheckoutFormGenerator {
         String javaAppTable = checkoutFormGenerator.createJavaAppTable(table);
         dataMap.put("javaCheckoutTable", javaAppTable);
 
-        checkoutFormGenerator.createDocument(dataMap, "resume");
+        File documentFile = checkoutFormGenerator.createDocument(dataMap);
+        System.out.println("doc is created at:" + documentFile.getAbsolutePath());
     }
 
     private Table tableData() {
@@ -56,7 +57,7 @@ public class CheckoutFormGenerator {
         String s1 = Arrays.stream(new String[50]).map(x -> "w").collect(Collectors.joining(""));
         String s2 = Arrays.stream(new String[50]).map(x -> "e").collect(Collectors.joining(""));
         String s3 = Arrays.stream(new String[50]).map(x -> "t").collect(Collectors.joining(""));
-        tableRows.add(new TableRow(s,s1,s2,s3,"床前明月光\r\n疑似地上霜\r\n舉頭望明月\r\n低頭思故鄉"));
+        tableRows.add(new TableRow(s, s1, s2, s3, "床前明月光\r\n疑似地上霜\r\n舉頭望明月\r\n低頭思故鄉"));
         for (int i = 0; i < 160; i++) {
             tableRows.add(new TableRow(
                     String.valueOf(i),
@@ -104,12 +105,7 @@ public class CheckoutFormGenerator {
         String[] titles = new String[]{"No", "System ID", "Program/File Name", "Program Execution Name", "Program Description"};
         StringBuilder sb = new StringBuilder();
         for (String title : titles) {
-            HashMap<String, String> dataMap = new HashMap<>();
-            dataMap.put("randomId", getRandomParaId());
-            dataMap.put("columnValue", title);
-            StringWriter stringWriter = new StringWriter();
-            FreemarkerUtil.processTemplate(t, dataMap, stringWriter);
-            sb.append(stringWriter.toString());
+            sb.append(processColumnTemplate(title, t));
         }
         return sb.toString();
     }
@@ -120,18 +116,22 @@ public class CheckoutFormGenerator {
 
         Map<String, Object> fieldsMap = ModelUtil.getFieldsMap(tableRow);
         for (Object value : fieldsMap.values()) {
-            HashMap<String, String> dataMap = new HashMap<>();
-            dataMap.put("randomId", getRandomParaId());
-            dataMap.put("columnValue", String.valueOf(value));
-            StringWriter stringWriter = new StringWriter();
-            FreemarkerUtil.processTemplate(t, dataMap, stringWriter);
-            sb.append(stringWriter.toString());
+            sb.append(processColumnTemplate(String.valueOf(value), t));
         }
 
         return sb.toString();
     }
 
-    public File createDocument(Map<?, ?> dataMap, String type) {
+    private String processColumnTemplate(String columnValue, Template columnTemplate) throws IOException, TemplateException {
+        HashMap<String, String> dataMap = new HashMap<>();
+        dataMap.put("randomId", getRandomParaId());
+        dataMap.put("columnValue", String.valueOf(columnValue));
+        StringWriter stringWriter = new StringWriter();
+        FreemarkerUtil.processTemplate(columnTemplate, dataMap, stringWriter);
+        return stringWriter.toString();
+    }
+
+    public File createDocument(Map<?, ?> dataMap) {
         File f = new File("checkoutForm.doc");
         Template t = ftlProvider.getFreeMarkerTemplate("checkoutForm.ftl");
         try {
