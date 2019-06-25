@@ -76,7 +76,7 @@
                             <w:rPr>
                                 <w:sz w:val="36"/>
                             </w:rPr>
-                            <w:t>■</w:t>
+                            <w:t>&#9632;</w:t>
                         </w:r>
                         <w:r>
                             <w:t xml:space="preserve"> Promote to UAT</w:t>
@@ -91,7 +91,7 @@
                             <w:rPr>
                                 <w:sz w:val="36"/>
                             </w:rPr>
-                            <w:t>□</w:t>
+                            <w:t>&#9633;</w:t>
                         </w:r>
                         <w:r>
                             <w:t xml:space="preserve"> Promote to Production</w:t>

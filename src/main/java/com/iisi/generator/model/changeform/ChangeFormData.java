@@ -6,6 +6,8 @@ import com.iisi.generator.model.checkoutform.CheckoutFormTable;
 import java.io.File;
 
 public class ChangeFormData implements FormData {
+    private String promoteToUat;
+    private String promoteToProduction;
     private String lacrNo;
     private String systemApplication;
     private String submitDate;
@@ -18,6 +20,22 @@ public class ChangeFormData implements FormData {
     private File programmerB64Png;
     private File supervisorB64Png;
     private File vendorQmB64Png;
+
+    public String getPromoteToUat() {
+        return promoteToUat;
+    }
+
+    public void setPromoteToUat(String promoteToUat) {
+        this.promoteToUat = promoteToUat;
+    }
+
+    public String getPromoteToProduction() {
+        return promoteToProduction;
+    }
+
+    public void setPromoteToProduction(String promoteToProduction) {
+        this.promoteToProduction = promoteToProduction;
+    }
 
     public String getLacrNo() {
         return lacrNo;
@@ -125,6 +143,16 @@ public class ChangeFormData implements FormData {
 
         private ChangeFormData checkoutFormData = new ChangeFormData();
 
+        public Builder setPromoteToUat(String promoteToUat) {
+            this.checkoutFormData.promoteToUat = promoteToUat;
+            return this;
+        }
+
+        public Builder setPromoteToProduction(String promoteToProduction) {
+            this.checkoutFormData.promoteToProduction = promoteToProduction;
+            return this;
+        }
+
         public Builder setLacrNo(String lacrNo) {
             this.checkoutFormData.lacrNo = lacrNo;
             return this;
@@ -185,7 +213,7 @@ public class ChangeFormData implements FormData {
             return this;
         }
 
-        public ChangeFormData build(){
+        public ChangeFormData build() {
             return this.checkoutFormData;
         }
     }

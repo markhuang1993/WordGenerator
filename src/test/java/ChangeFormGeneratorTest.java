@@ -1,3 +1,4 @@
+import com.iisi.constants.CheckboxString;
 import com.iisi.generator.ChangeFormGenerator;
 import com.iisi.generator.model.changeform.ChangeFormData;
 import com.iisi.generator.model.checkoutform.CheckoutFormTable;
@@ -17,6 +18,8 @@ public class ChangeFormGeneratorTest {
     public void createDocTest() throws IllegalAccessException, TemplateException, IOException {
         ChangeFormGenerator changeFormGenerator = new ChangeFormGenerator();
         ChangeFormData formData = ChangeFormData.builder()
+                .setPromoteToUat(CheckboxString.CHECKED.val())
+                .setPromoteToProduction(CheckboxString.UNCHECKED.val())
                 .setLacrNo("37037")
                 .setSystemApplication("sapp")
                 .setSystemApplication("2019-06-22")
