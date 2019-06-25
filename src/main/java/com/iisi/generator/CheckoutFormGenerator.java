@@ -1,42 +1,30 @@
 package com.iisi.generator;
 
+import com.iisi.freemarker.FreemarkerUtil;
 import com.iisi.generator.model.checkoutform.CheckoutFormData;
 import com.iisi.generator.model.checkoutform.CheckoutFormTable;
-import com.iisi.util.FileUtil;
 import freemarker.template.Template;
 import freemarker.template.TemplateException;
 
 import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
+import java.util.Map;
 
 public class CheckoutFormGenerator extends AbstractFormGenerator<CheckoutFormData> {
 
     @SuppressWarnings("Duplicates")
-    public File createForm(CheckoutFormData checkoutFormData) throws IOException, TemplateException, IllegalAccessException {
+    public File processFormTemplate(CheckoutFormData checkoutFormData) throws IOException, TemplateException, IllegalAccessException {
         File documentFile = new File("checkoutForm.doc");
-
-        HashMap<String, String> dataMap = new HashMap<>();
-        dataMap.put("lacrNo", checkoutFormData.getLacrNo());
-        dataMap.put("systemApplication", checkoutFormData.getSystemApplication());
-        dataMap.put("submitDate", checkoutFormData.getSubmitDate());
-        dataMap.put("lacrCoordinator", checkoutFormData.getLacrCoordinator());
-        dataMap.put("librarian", checkoutFormData.getLibrarian());
-        dataMap.put("processDate", checkoutFormData.getProcessDate());
-
-        dataMap.put("programmerB64Img", FileUtil.toBase64Encoding(checkoutFormData.getProgrammerB64Png()));
-        dataMap.put("supervisorB64Img", FileUtil.toBase64Encoding(checkoutFormData.getSupervisorB64Png()));
+        Map<String, String> dataMap = new HashMap<>(injectFormDataInMap(checkoutFormData));
 
         CheckoutFormTable table = checkoutFormData.getJavaAppTable();
         String javaAppTable = this.createTable(table, "word/table/visualStudioOrJava");
         dataMap.put("javaCheckoutTable", javaAppTable);
 
         Template t = ftlProvider.getFreeMarkerTemplate("word/checkoutForm.ftl");
-
-        try (Writer w = new OutputStreamWriter(new FileOutputStream(documentFile), StandardCharsets.UTF_8)){
-            t.process(dataMap, w);
-            w.flush();
-        }
+        OutputStreamWriter writer = new OutputStreamWriter(new FileOutputStream(documentFile), StandardCharsets.UTF_8);
+        FreemarkerUtil.processTemplate(t, dataMap, writer);
 
         System.out.println("doc is created at:" + documentFile.getAbsolutePath());
         return documentFile;

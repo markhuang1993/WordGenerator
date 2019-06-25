@@ -5,6 +5,7 @@ import com.iisi.freemarker.FtlProvider;
 import com.iisi.generator.model.FormData;
 import com.iisi.generator.model.FormTable;
 import com.iisi.generator.model.FormTableRow;
+import com.iisi.util.FileUtil;
 import com.iisi.util.ModelUtil;
 import com.iisi.util.ResourceUtil;
 import freemarker.template.Template;
@@ -29,6 +30,19 @@ abstract class AbstractFormGenerator<T extends FormData> implements FormGenerato
         ftlProvider = new FtlProvider(templateDir);
     }
 
+    Map<String, String> injectFormDataInMap(T formData) throws IllegalAccessException, IOException {
+        Map<String, String> dataMap = new HashMap<>();
+
+        Map<String, Object> formStrData = ModelUtil.getFieldsMap(formData, o -> o.getClass().equals(String.class));
+        formStrData.forEach((k, v) -> dataMap.put(k, String.valueOf(v)));
+
+        Map<String, Object> formImgData = ModelUtil.getFieldsMap(formData, o -> o.getClass().equals(File.class));
+        for (Map.Entry<String, Object> entry : formImgData.entrySet()) {
+            dataMap.put(entry.getKey(), FileUtil.toBase64Encoding((File) entry.getValue()));
+        }
+        return dataMap;
+    }
+
     String createTable(FormTable table, String tableTemplateBasePath) throws IOException, TemplateException, IllegalAccessException {
         Template t = ftlProvider.getFreeMarkerTemplate(tableTemplateBasePath + "/table.ftl");
         StringBuilder sb = new StringBuilder();
@@ -45,7 +59,7 @@ abstract class AbstractFormGenerator<T extends FormData> implements FormGenerato
         return stringWriter.toString();
     }
 
-    private String createTableRow( String tableColumns, Template rowTemplate) throws IOException, TemplateException {
+    private String createTableRow(String tableColumns, Template rowTemplate) throws IOException, TemplateException {
         HashMap<String, String> dataMap = new HashMap<>();
         dataMap.put("randomId", getRandomParaId());
         dataMap.put("tableColumns", tableColumns);

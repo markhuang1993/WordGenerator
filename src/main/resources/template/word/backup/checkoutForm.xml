@@ -2570,10 +2570,10 @@
         </pkg:xmlData>
     </pkg:part>
     <pkg:part pkg:name="/word/media/image1.png" pkg:contentType="image/png" pkg:compression="store">
-        <pkg:binaryData>${programmerB64Img!}</pkg:binaryData>
+        <pkg:binaryData>${programmerB64Png!}</pkg:binaryData>
     </pkg:part>
     <pkg:part pkg:name="/word/media/image2.png" pkg:contentType="image/png" pkg:compression="store">
-        <pkg:binaryData>${supervisorB64Img!}</pkg:binaryData>
+        <pkg:binaryData>${supervisorB64Png!}</pkg:binaryData>
     </pkg:part>
     <pkg:part pkg:name="/word/media/image3.png" pkg:contentType="image/png" pkg:compression="store">
         <pkg:binaryData>iVBORw0KGgoAAAANSUhEUgAAAEAAAAAmCAIAAAD7pgrOAAAAAXNSR0IArs4c6QAAAAlwSFlzAAAO

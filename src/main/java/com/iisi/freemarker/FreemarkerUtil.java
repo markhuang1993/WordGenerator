@@ -10,6 +10,8 @@ public class FreemarkerUtil {
     public static void processTemplate(Template template, Object dataModel, Writer out) throws IOException, TemplateException {
         try {
             template.process(dataModel, out);
+        } catch (Exception e) {
+            e.printStackTrace();
         } finally {
             out.flush();
             out.close();

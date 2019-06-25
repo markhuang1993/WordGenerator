@@ -31,7 +31,7 @@ public class ChangeFormGeneratorTest {
                 .setSupervisorB64Png(ResourceUtil.getClassPathResource("image/huang.png"))
                 .setVendorQmB64Png(ResourceUtil.getClassPathResource("image/handsome.png"))
                 .build();
-        changeFormGenerator.createForm(formData);
+        changeFormGenerator.processFormTemplate(formData);
     }
 
     private CheckoutFormTable tableData() {
