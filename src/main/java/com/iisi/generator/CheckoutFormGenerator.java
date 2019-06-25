@@ -12,10 +12,10 @@ import java.util.HashMap;
 
 public class CheckoutFormGenerator extends AbstractFormGenerator<CheckoutFormData> {
 
+    @SuppressWarnings("Duplicates")
     public File createForm(CheckoutFormData checkoutFormData) throws IOException, TemplateException, IllegalAccessException {
         File documentFile = new File("checkoutForm.doc");
 
-        CheckoutFormGenerator checkoutFormGenerator = new CheckoutFormGenerator();
         HashMap<String, String> dataMap = new HashMap<>();
         dataMap.put("lacrNo", checkoutFormData.getLacrNo());
         dataMap.put("systemApplication", checkoutFormData.getSystemApplication());
@@ -28,7 +28,7 @@ public class CheckoutFormGenerator extends AbstractFormGenerator<CheckoutFormDat
         dataMap.put("supervisorB64Img", FileUtil.toBase64Encoding(checkoutFormData.getSupervisorB64Png()));
 
         CheckoutFormTable table = checkoutFormData.getJavaAppTable();
-        String javaAppTable = checkoutFormGenerator.createTable(table, "word/table/visualStudioOrJava");
+        String javaAppTable = this.createTable(table, "word/table/visualStudioOrJava");
         dataMap.put("javaCheckoutTable", javaAppTable);
 
         Template t = ftlProvider.getFreeMarkerTemplate("word/checkoutForm.ftl");
