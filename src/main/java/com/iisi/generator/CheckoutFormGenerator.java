@@ -19,7 +19,7 @@ public class CheckoutFormGenerator extends AbstractFormGenerator<CheckoutFormDat
         Map<String, String> dataMap = new HashMap<>(injectFormDataInMap(checkoutFormData));
 
         CheckoutFormTable table = checkoutFormData.getJavaAppTable();
-        String javaAppTable = this.createTable(table, "word/table/visualStudioOrJava");
+        String javaAppTable = this.createTable(table, "word/table/checkoutform/java");
         dataMap.put("javaCheckoutTable", javaAppTable);
 
         Template t = ftlProvider.getFreeMarkerTemplate("word/checkoutForm.ftl");
