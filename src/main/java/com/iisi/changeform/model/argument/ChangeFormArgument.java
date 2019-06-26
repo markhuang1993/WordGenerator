@@ -1,4 +1,4 @@
-package com.iisi.changeform.model;
+package com.iisi.changeform.model.argument;
 
 import java.io.File;
 

@@ -1,4 +1,4 @@
-package com.iisi.changeform.model;
+package com.iisi.changeform.model.argument;
 
 public class ArgumentParseResult {
     private ChangeFormArgument changeFormArgument;

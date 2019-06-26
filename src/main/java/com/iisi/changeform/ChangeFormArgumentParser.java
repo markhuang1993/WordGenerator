@@ -1,16 +1,15 @@
 package com.iisi.changeform;
 
-import com.iisi.changeform.model.ArgumentParseResult;
-import com.iisi.changeform.model.ChangeFormArgument;
+import com.iisi.changeform.model.argument.ArgumentParseResult;
+import com.iisi.changeform.model.argument.ChangeFormArgument;
 
 import java.io.File;
 
 public class ChangeFormArgumentParser {
     private ChangeFormArgumentParser() {
-        throw new AssertionError();
     }
 
-    private static class Nested{
+    private static class Nested {
         private static final ChangeFormArgumentParser CHANGE_FORM_ARGUMENT_PARSER = new ChangeFormArgumentParser();
     }
 
@@ -18,12 +17,18 @@ public class ChangeFormArgumentParser {
         return Nested.CHANGE_FORM_ARGUMENT_PARSER;
     }
 
-    public ArgumentParseResult parseArguments(String[] args) {
+    ArgumentParseResult parseArguments(String[] args) {
         StringBuilder sb = new StringBuilder();
         ChangeFormArgument changeFormArgument = new ChangeFormArgument();
 
         if (args == null) {
             return new ArgumentParseResult("Args is null!");
+        }
+
+        int len = args.length;
+        if (len <= 0) {
+            sb.append("Args diffTxtPath not found").append(System.lineSeparator());
+            return new ArgumentParseResult(sb.toString());
         }
 
         String diffTxtPath = args[0];
@@ -34,7 +39,6 @@ public class ChangeFormArgumentParser {
             changeFormArgument.setDiffTxtFile(diffTxtFile);
         }
 
-        int len = args.length;
         if (len <= 1) {
             sb.append("Args globalConfigYmlPath not found").append(System.lineSeparator());
             return new ArgumentParseResult(sb.toString());
