@@ -12,7 +12,7 @@
             <w:rPr>
                 <w:rFonts w:hint="eastAsia"/>
             </w:rPr>
-            <w:t>${rowNum!}</w:t>
+            <w:t>${no!}</w:t>
         </w:r>
     </w:p>
 </w:tc>

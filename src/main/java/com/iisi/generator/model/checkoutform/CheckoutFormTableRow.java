@@ -7,14 +7,14 @@ public class CheckoutFormTableRow implements FormTableRow {
     private String systemID;
     private String programFileName;
     private String programExecutionName;
-    private String ProgramDescription;
+    private String programDescription;
 
     public CheckoutFormTableRow(String no, String systemID, String programFileName, String programExecutionName, String programDescription) {
         this.no = no;
         this.systemID = systemID;
         this.programFileName = programFileName;
         this.programExecutionName = programExecutionName;
-        ProgramDescription = programDescription;
+        this.programDescription = programDescription;
     }
 
     public String getNo() {
@@ -50,10 +50,10 @@ public class CheckoutFormTableRow implements FormTableRow {
     }
 
     public String getProgramDescription() {
-        return ProgramDescription;
+        return programDescription;
     }
 
     public void setProgramDescription(String programDescription) {
-        ProgramDescription = programDescription;
+        this.programDescription = programDescription;
     }
 }

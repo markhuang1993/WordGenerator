@@ -15,7 +15,6 @@ import java.io.File;
 import java.io.IOException;
 import java.io.StringWriter;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
@@ -46,7 +45,7 @@ abstract class AbstractFormGenerator<T extends FormData> implements FormGenerato
     String createTable(FormTable table, String tableTemplateBasePath) throws IOException, TemplateException, IllegalAccessException {
         Template t = ftlProvider.getFreeMarkerTemplate(tableTemplateBasePath + "/table.ftl");
         StringBuilder sb = new StringBuilder();
-        sb.append(createTableHeadRow(table.getTableHeadTitles(), tableTemplateBasePath));
+        sb.append(createTableHeadRow(tableTemplateBasePath));
         for (FormTableRow tableRow : table.getTableRows()) {
             sb.append(createTableDefaultRow(tableRow, tableTemplateBasePath));
         }
@@ -75,39 +74,29 @@ abstract class AbstractFormGenerator<T extends FormData> implements FormGenerato
         return createTableRow(tableColumns, t);
     }
 
-    private String createTableHeadRow(List<String> titles, String tableTemplateBasePath) throws IOException, TemplateException {
+    private String createTableHeadRow(String tableTemplateBasePath) throws IOException, TemplateException {
         Template t = ftlProvider.getFreeMarkerTemplate(tableTemplateBasePath + "/table-row.ftl");
-        String tableColumns = createTableHeadColumns(titles, tableTemplateBasePath);
+        String tableColumns = createTableHeadColumns(tableTemplateBasePath);
         return createTableRow(tableColumns, t);
     }
 
-    private String createTableHeadColumns(List<String> titles, String tableTemplateBasePath) throws IOException, TemplateException {
+    private String createTableHeadColumns( String tableTemplateBasePath) throws IOException, TemplateException {
         Template t = ftlProvider.getFreeMarkerTemplate(tableTemplateBasePath + "/table-head-column.ftl");
-        StringBuilder sb = new StringBuilder();
-        for (String title : titles) {
-            sb.append(processColumnTemplate(title, t));
-        }
-        return sb.toString();
+        return processTemplateToString(new HashMap<>(), t);
     }
 
     private String createTableColumns(FormTableRow tableRow, String tableTemplateBasePath) throws IOException, TemplateException, IllegalAccessException {
         Template t = ftlProvider.getFreeMarkerTemplate(tableTemplateBasePath + "/table-column.ftl");
-        StringBuilder sb = new StringBuilder();
-
         Map<String, Object> fieldsMap = ModelUtil.getFieldsMap(tableRow);
-        for (Object value : fieldsMap.values()) {
-            sb.append(processColumnTemplate(String.valueOf(value), t));
-        }
-
-        return sb.toString();
+        Map<String, String> dataMap = new HashMap<>();
+        fieldsMap.forEach((k ,v ) -> dataMap.put(k, String.valueOf(v)));
+        return processTemplateToString(dataMap, t);
     }
 
-    private String processColumnTemplate(String columnValue, Template columnTemplate) throws IOException, TemplateException {
-        HashMap<String, String> dataMap = new HashMap<>();
+    private String processTemplateToString(Map<String, String> dataMap, Template template) throws IOException, TemplateException {
         dataMap.put("randomId", getRandomParaId());
-        dataMap.put("columnValue", String.valueOf(columnValue));
         StringWriter stringWriter = new StringWriter();
-        FreemarkerUtil.processTemplate(columnTemplate, dataMap, stringWriter);
+        FreemarkerUtil.processTemplate(template, dataMap, stringWriter);
         return stringWriter.toString();
     }
 
