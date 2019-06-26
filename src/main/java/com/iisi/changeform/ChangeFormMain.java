@@ -1,12 +1,11 @@
 package com.iisi.changeform;
 
-import com.fasterxml.jackson.dataformat.yaml.YAMLMapper;
-import com.iisi.changeform.model.ArgumentParseResult;
-import com.iisi.changeform.model.ChangeFormArgument;
+import com.iisi.changeform.model.argument.ArgumentParseResult;
+import com.iisi.changeform.model.argument.ChangeFormArgument;
+import com.iisi.changeform.model.yml.global.GlobalYmlParseResult;
+import com.iisi.changeform.model.yml.local.LocalYmlParseResult;
 
-import java.io.File;
 import java.io.IOException;
-import java.util.Map;
 
 public class ChangeFormMain {
     public static void main(String[] args) throws IOException {
@@ -17,11 +16,13 @@ public class ChangeFormMain {
 
         ChangeFormArgument changeFormArgument = argumentParseResult.getChangeFormArgument();
 
-        YAMLMapper yamlMapper = new YAMLMapper();
-        File globalConfigYmlFile = changeFormArgument.getGlobalConfigYmlFile();
-        yamlMapper.readValue(globalConfigYmlFile, Map.class);
+        ChangeFormYmlParser ymlParser = ChangeFormYmlParser.getInstance();
+        GlobalYmlParseResult globalYmlParseResult = ymlParser.parseGlobalYml(changeFormArgument.getGlobalConfigYmlFile());
+        System.out.println(globalYmlParseResult);
 
-
+        LocalYmlParseResult localYmlParseResult = ymlParser.parsLocalYml(changeFormArgument.getLocalConfigYmlFile());
+        System.out.println(localYmlParseResult);
+        System.out.println(123);
     }
 }
 
