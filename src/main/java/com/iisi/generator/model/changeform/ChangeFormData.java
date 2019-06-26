@@ -20,6 +20,7 @@ public class ChangeFormData implements FormData {
     private File programmerB64Png;
     private File supervisorB64Png;
     private File vendorQmB64Png;
+    private ChangeFormTable javaAppTable;
 
     public String getPromoteToUat() {
         return promoteToUat;
@@ -133,6 +134,14 @@ public class ChangeFormData implements FormData {
         this.vendorQmB64Png = vendorQmB64Png;
     }
 
+    public void setJavaAppTable(ChangeFormTable javaAppTable) {
+        this.javaAppTable = javaAppTable;
+    }
+
+    public ChangeFormTable getJavaAppTable() {
+        return javaAppTable;
+    }
+
     public static Builder builder() {
         return new Builder();
     }
@@ -210,6 +219,11 @@ public class ChangeFormData implements FormData {
 
         public Builder setVendorQmB64Png(File vendorQmB64Png) {
             this.checkoutFormData.vendorQmB64Png = vendorQmB64Png;
+            return this;
+        }
+
+        public Builder setJavaAppTable(ChangeFormTable javaAppTable) {
+            this.checkoutFormData.javaAppTable = javaAppTable;
             return this;
         }
 

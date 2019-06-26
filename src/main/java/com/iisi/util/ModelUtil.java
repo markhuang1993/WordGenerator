@@ -27,8 +27,11 @@ public final class ModelUtil {
         for (Field field : fields) {
             field.setAccessible(true);
             Object val = field.get(model);
+            if (val == null) {
+                continue;
+            }
             if (filter == null || filter.test(val)) {
-                result.put(field.getName(),  val);
+                result.put(field.getName(), val);
             }
         }
         fieldCache.put(cls, fields);

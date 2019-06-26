@@ -32,10 +32,10 @@ abstract class AbstractFormGenerator<T extends FormData> implements FormGenerato
     Map<String, String> injectFormDataInMap(T formData) throws IllegalAccessException, IOException {
         Map<String, String> dataMap = new HashMap<>();
 
-        Map<String, Object> formStrData = ModelUtil.getFieldsMap(formData, o -> o.getClass().equals(String.class));
+        Map<String, Object> formStrData = ModelUtil.getFieldsMap(formData, o -> o != null && o.getClass().equals(String.class));
         formStrData.forEach((k, v) -> dataMap.put(k, String.valueOf(v)));
 
-        Map<String, Object> formImgData = ModelUtil.getFieldsMap(formData, o -> o.getClass().equals(File.class));
+        Map<String, Object> formImgData = ModelUtil.getFieldsMap(formData, o -> o != null && o.getClass().equals(File.class));
         for (Map.Entry<String, Object> entry : formImgData.entrySet()) {
             dataMap.put(entry.getKey(), FileUtil.toBase64Encoding((File) entry.getValue()));
         }
@@ -43,9 +43,15 @@ abstract class AbstractFormGenerator<T extends FormData> implements FormGenerato
     }
 
     String createTable(FormTable table, String tableTemplateBasePath) throws IOException, TemplateException, IllegalAccessException {
+        if (table == null) {
+            return "";
+        }
         Template t = ftlProvider.getFreeMarkerTemplate(tableTemplateBasePath + "/table.ftl");
         StringBuilder sb = new StringBuilder();
         sb.append(createTableHeadRow(tableTemplateBasePath));
+        if (table.getTableRows() == null) {
+            return sb.toString();
+        }
         for (FormTableRow tableRow : table.getTableRows()) {
             sb.append(createTableDefaultRow(tableRow, tableTemplateBasePath));
         }
@@ -80,7 +86,7 @@ abstract class AbstractFormGenerator<T extends FormData> implements FormGenerato
         return createTableRow(tableColumns, t);
     }
 
-    private String createTableHeadColumns( String tableTemplateBasePath) throws IOException, TemplateException {
+    private String createTableHeadColumns(String tableTemplateBasePath) throws IOException, TemplateException {
         Template t = ftlProvider.getFreeMarkerTemplate(tableTemplateBasePath + "/table-head-column.ftl");
         return processTemplateToString(new HashMap<>(), t);
     }
@@ -89,7 +95,7 @@ abstract class AbstractFormGenerator<T extends FormData> implements FormGenerato
         Template t = ftlProvider.getFreeMarkerTemplate(tableTemplateBasePath + "/table-column.ftl");
         Map<String, Object> fieldsMap = ModelUtil.getFieldsMap(tableRow);
         Map<String, String> dataMap = new HashMap<>();
-        fieldsMap.forEach((k ,v ) -> dataMap.put(k, String.valueOf(v)));
+        fieldsMap.forEach((k, v) -> dataMap.put(k, String.valueOf(v)));
         return processTemplateToString(dataMap, t);
     }
 

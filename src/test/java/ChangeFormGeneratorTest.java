@@ -1,6 +1,8 @@
 import com.iisi.constants.CheckboxString;
 import com.iisi.generator.ChangeFormGenerator;
 import com.iisi.generator.model.changeform.ChangeFormData;
+import com.iisi.generator.model.changeform.ChangeFormTable;
+import com.iisi.generator.model.changeform.ChangeFormTableRow;
 import com.iisi.generator.model.checkoutform.CheckoutFormTable;
 import com.iisi.generator.model.checkoutform.CheckoutFormTableRow;
 import com.iisi.util.ResourceUtil;
@@ -33,27 +35,30 @@ public class ChangeFormGeneratorTest {
                 .setProgrammerB64Png(ResourceUtil.getClassPathResource("image/mark.png"))
                 .setSupervisorB64Png(ResourceUtil.getClassPathResource("image/huang.png"))
                 .setVendorQmB64Png(ResourceUtil.getClassPathResource("image/handsome.png"))
+                .setJavaAppTable(this.tableData())
                 .build();
         changeFormGenerator.processFormTemplate(formData);
     }
 
-    private CheckoutFormTable tableData() {
-        ArrayList<CheckoutFormTableRow> tableRows = new ArrayList<>();
-        String s = Arrays.stream(new String[50]).map(x -> "q").collect(Collectors.joining(""));
-        String s1 = Arrays.stream(new String[50]).map(x -> "w").collect(Collectors.joining(""));
-        String s2 = Arrays.stream(new String[50]).map(x -> "e").collect(Collectors.joining(""));
-        String s3 = Arrays.stream(new String[50]).map(x -> "t").collect(Collectors.joining(""));
-        tableRows.add(new CheckoutFormTableRow(s, s1, s2, s3, "床前明月光\r\n疑似地上霜\r\n舉頭望明月\r\n低頭思故鄉"));
+    private ChangeFormTable tableData() {
+        ArrayList<ChangeFormTableRow> tableRows = new ArrayList<>();
+        String s = Arrays.stream(new String[20]).map(x -> "q").collect(Collectors.joining(""));
+        String s1 = Arrays.stream(new String[20]).map(x -> "w").collect(Collectors.joining(""));
+        String s2 = Arrays.stream(new String[20]).map(x -> "e").collect(Collectors.joining(""));
+        String s3 = Arrays.stream(new String[20]).map(x -> "t").collect(Collectors.joining(""));
+        tableRows.add(new ChangeFormTableRow(s, s1, s2, s3,"asd","qwe", "床前明月光\r\n疑似地上霜\r\n舉頭望明月\r\n低頭思故鄉"));
         for (int i = 0; i < 160; i++) {
-            tableRows.add(new CheckoutFormTableRow(
+            tableRows.add(new ChangeFormTableRow(
                     String.valueOf(i),
                     String.valueOf(i + 160),
                     String.valueOf(i + 320),
                     String.valueOf(i + 480),
-                    String.valueOf(i + 640)
+                    String.valueOf(i + 640),
+                    String.valueOf(i + 800),
+                    String.valueOf(i + 960)
             ));
         }
 
-        return new CheckoutFormTable(tableRows);
+        return new ChangeFormTable(tableRows);
     }
 }
