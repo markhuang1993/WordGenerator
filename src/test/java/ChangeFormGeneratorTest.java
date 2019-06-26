@@ -3,8 +3,6 @@ import com.iisi.generator.ChangeFormGenerator;
 import com.iisi.generator.model.changeform.ChangeFormData;
 import com.iisi.generator.model.changeform.ChangeFormTable;
 import com.iisi.generator.model.changeform.ChangeFormTableRow;
-import com.iisi.generator.model.checkoutform.CheckoutFormTable;
-import com.iisi.generator.model.checkoutform.CheckoutFormTableRow;
 import com.iisi.util.ResourceUtil;
 import freemarker.template.TemplateException;
 import org.junit.Test;
@@ -32,9 +30,9 @@ public class ChangeFormGeneratorTest {
                 .setAction1("Hello every one")
                 .setAction2("i am here")
                 .setAction3("nice to meet yours")
-                .setProgrammerB64Png(ResourceUtil.getClassPathResource("image/mark.png"))
-                .setSupervisorB64Png(ResourceUtil.getClassPathResource("image/huang.png"))
-                .setVendorQmB64Png(ResourceUtil.getClassPathResource("image/handsome.png"))
+                .setProgrammerB64Png(ResourceUtil.getClassPathResource("image/programmer/mark.png"))
+                .setSupervisorB64Png(ResourceUtil.getClassPathResource("image/supervisor/huang.png"))
+                .setVendorQmB64Png(ResourceUtil.getClassPathResource("image/vendorQm/handsome.png"))
                 .setJavaAppTable(this.tableData())
                 .build();
         changeFormGenerator.processFormTemplate(formData);
