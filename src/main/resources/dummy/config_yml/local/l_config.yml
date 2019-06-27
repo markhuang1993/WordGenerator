@@ -5,5 +5,5 @@ project:
   systemId: 'sId01'
   warName: 'extfunc05.war'
   owner: 'mark, johnson, roger'
-  supervisor: 'a, b, c'
-  vendorQm: 'd, e, f'
+  supervisor: 'andy, johnson'
+  vendorQm: 'mark, huang, handsome'

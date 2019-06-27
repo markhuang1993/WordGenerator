@@ -15,12 +15,12 @@ import com.iisi.parser.DiffTxtParser;
 import com.iisi.util.ResourceUtil;
 import freemarker.template.TemplateException;
 
+import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.stream.Collectors;
 
 public class ChangeFormMain {
     public static void main(String[] args) throws IOException, TemplateException, IllegalAccessException {
@@ -40,14 +40,15 @@ public class ChangeFormMain {
 
         List<DiffDetail> diffDetails = DiffTxtParser.getInstance().parseDiffTxt(changeFormArgument.getDiffTxtFile());
 
-        createChangeForm(changeFormArgument, globalYmlParseResult, localYmlParseResult, diffDetails);
+        createChangeForm(changeFormArgument.getJenkinsJobExecutor(), globalYmlParseResult, localYmlParseResult, diffDetails);
     }
 
     private static void createChangeForm(
-            ChangeFormArgument changeFormArgument,
+            String jobExecutor,
             GlobalYmlParseResult globalYmlParseResult,
             LocalYmlParseResult localYmlParseResult,
             List<DiffDetail> diffDetails) throws IllegalAccessException, TemplateException, IOException {
+        File[] signatureImages = getSignatureImages(jobExecutor, globalYmlParseResult, localYmlParseResult);
         ChangeFormGenerator changeFormGenerator = new ChangeFormGenerator();
         ChangeFormData formData = ChangeFormData.builder()
                 .setPromoteToUat(CheckboxString.CHECKED.val())
@@ -56,13 +57,68 @@ public class ChangeFormMain {
                 .setSystemApplication(localYmlParseResult.getSystemApplication())
                 .setSubmitDate(new SimpleDateFormat("yyyy-MM-dd").format(new Date()))
                 .setAction1("V01")
-                .setProgrammerB64Png(ResourceUtil.getClassPathResource("image/mark.png"))
-                .setSupervisorB64Png(ResourceUtil.getClassPathResource("image/huang.png"))
-                .setVendorQmB64Png(ResourceUtil.getClassPathResource("image/handsome.png"))
+                .setProgrammerB64Png(signatureImages[0])
+                .setSupervisorB64Png(signatureImages[1])
+                .setVendorQmB64Png(signatureImages[2])
                 .setJavaAppTable(javaTableData(globalYmlParseResult, localYmlParseResult, diffDetails))
                 .build();
 
         changeFormGenerator.processFormTemplate(formData);
+    }
+
+    @SuppressWarnings("Duplicates")
+    private static File[] getSignatureImages(
+            String jobExecutor,
+            GlobalYmlParseResult globalYmlParseResult,
+            LocalYmlParseResult localYmlParseResult) {
+
+        File signatureImgDir = globalYmlParseResult.getSignatureImgDir();
+
+        File programmerSing = getSignaturePng(new String[]{jobExecutor}, signatureImgDir);
+        if (programmerSing == null) {
+            String owner = localYmlParseResult.getOwner();
+            String[] owners = owner.split(",");
+            programmerSing = getSignaturePng(owners, signatureImgDir);
+            if (programmerSing == null) {
+                programmerSing = ResourceUtil.getClassPathResource("image/unknown.png");
+            }
+        }
+
+        String supervisor = localYmlParseResult.getSupervisor();
+        String[] supervisors = supervisor.split(",");
+        File supervisorSing = getSignaturePng(supervisors, signatureImgDir);
+        supervisorSing = getSignaturePng(supervisors, signatureImgDir);
+        if (supervisorSing == null) {
+            supervisorSing = ResourceUtil.getClassPathResource("image/unknown.png");
+        }
+
+        String vendorQm = localYmlParseResult.getvendorQm();
+        String[] vendorQms = vendorQm.split(",");
+        File vendorQmSing = getSignaturePng(vendorQms, signatureImgDir);
+        vendorQmSing = getSignaturePng(vendorQms, signatureImgDir);
+        if (vendorQmSing == null) {
+            vendorQmSing = ResourceUtil.getClassPathResource("image/unknown.png");
+        }
+
+        return new File[]{programmerSing, supervisorSing, vendorQmSing};
+    }
+
+    private static File getSignaturePng(String[] names, File signatureImgDir) {
+        File result = null;
+        List<String> nameList = Arrays.stream(names).map(String::trim).collect(Collectors.toList());
+        Collections.shuffle(nameList);
+        File[] imgs = signatureImgDir.listFiles(f -> f.getName().matches(".*?\\.png$"));
+        if (imgs == null) {
+            return result;
+        }
+        for (String name : nameList) {
+            for (File img : imgs) {
+                if (img.getName().contains(name)) {
+                    return img;
+                }
+            }
+        }
+        return result;
     }
 
 
