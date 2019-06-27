@@ -5,19 +5,22 @@ import com.iisi.changeform.model.argument.ChangeFormArgument;
 import com.iisi.changeform.model.yml.global.GlobalYmlParseResult;
 import com.iisi.changeform.model.yml.local.LocalYmlParseResult;
 import com.iisi.constants.CheckboxString;
+import com.iisi.constants.DiffStatus;
 import com.iisi.generator.ChangeFormGenerator;
 import com.iisi.generator.model.changeform.ChangeFormData;
 import com.iisi.generator.model.changeform.ChangeFormTable;
 import com.iisi.generator.model.changeform.ChangeFormTableRow;
+import com.iisi.parser.DiffDetail;
+import com.iisi.parser.DiffTxtParser;
 import com.iisi.util.ResourceUtil;
 import freemarker.template.TemplateException;
 
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Date;
-import java.util.stream.Collectors;
+import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class ChangeFormMain {
     public static void main(String[] args) throws IOException, TemplateException, IllegalAccessException {
@@ -34,13 +37,17 @@ public class ChangeFormMain {
 
         LocalYmlParseResult localYmlParseResult = ymlParser.parsLocalYml(changeFormArgument.getLocalConfigYmlFile());
         System.out.println(localYmlParseResult);
-        createChangeForm(changeFormArgument, globalYmlParseResult, localYmlParseResult);
+
+        List<DiffDetail> diffDetails = DiffTxtParser.getInstance().parseDiffTxt(changeFormArgument.getDiffTxtFile());
+
+        createChangeForm(changeFormArgument, globalYmlParseResult, localYmlParseResult, diffDetails);
     }
 
     private static void createChangeForm(
             ChangeFormArgument changeFormArgument,
             GlobalYmlParseResult globalYmlParseResult,
-            LocalYmlParseResult localYmlParseResult) throws IllegalAccessException, TemplateException, IOException {
+            LocalYmlParseResult localYmlParseResult,
+            List<DiffDetail> diffDetails) throws IllegalAccessException, TemplateException, IOException {
         ChangeFormGenerator changeFormGenerator = new ChangeFormGenerator();
         ChangeFormData formData = ChangeFormData.builder()
                 .setPromoteToUat(CheckboxString.CHECKED.val())
@@ -52,32 +59,42 @@ public class ChangeFormMain {
                 .setProgrammerB64Png(ResourceUtil.getClassPathResource("image/mark.png"))
                 .setSupervisorB64Png(ResourceUtil.getClassPathResource("image/huang.png"))
                 .setVendorQmB64Png(ResourceUtil.getClassPathResource("image/handsome.png"))
-                .setJavaAppTable(tableData())
+                .setJavaAppTable(javaTableData(globalYmlParseResult, localYmlParseResult, diffDetails))
                 .build();
 
         changeFormGenerator.processFormTemplate(formData);
     }
 
 
-    private static ChangeFormTable tableData() {
+    private static ChangeFormTable javaTableData(
+            GlobalYmlParseResult globalYmlParseResult,
+            LocalYmlParseResult localYmlParseResult,
+            List<DiffDetail> diffDetails) {
         ArrayList<ChangeFormTableRow> tableRows = new ArrayList<>();
-        String s = Arrays.stream(new String[20]).map(x -> "q").collect(Collectors.joining(""));
-        String s1 = Arrays.stream(new String[20]).map(x -> "w").collect(Collectors.joining(""));
-        String s2 = Arrays.stream(new String[20]).map(x -> "e").collect(Collectors.joining(""));
-        String s3 = Arrays.stream(new String[20]).map(x -> "t").collect(Collectors.joining(""));
-        tableRows.add(new ChangeFormTableRow(s, s1, s2, s3, "asd", "qwe", "床前明月光\r\n疑似地上霜\r\n舉頭望明月\r\n低頭思故鄉"));
-        for (int i = 0; i < 160; i++) {
-            tableRows.add(new ChangeFormTableRow(
-                    String.valueOf(i),
-                    String.valueOf(i + 160),
-                    String.valueOf(i + 320),
-                    String.valueOf(i + 480),
-                    String.valueOf(i + 640),
-                    String.valueOf(i + 800),
-                    String.valueOf(i + 960)
-            ));
-        }
 
+        AtomicInteger no = new AtomicInteger(1);
+        diffDetails.stream()
+                .filter(diffDetail -> {
+                    DiffStatus status = diffDetail.getStatus();
+                    return DiffStatus.A.equals(status) || DiffStatus.M.equals(status);
+                })
+                .forEach(diffDetail -> {
+                    ChangeFormTableRow changeFormTableRow = new ChangeFormTableRow();
+                    DiffStatus status = diffDetail.getStatus();
+                    changeFormTableRow.setNewOld(status.equals(DiffStatus.A) ? "N" : "O");
+                    changeFormTableRow.setNo(String.valueOf(no.getAndAdd(1)));
+                    changeFormTableRow.setSystemID(localYmlParseResult.getSystemId());
+                    changeFormTableRow.setProgramFileName(
+                            globalYmlParseResult.getCitiProjectRelativePathPrefix() + "/"
+                                    + localYmlParseResult.getProjectName() + "/"
+                                    + diffDetail.getFilePath()
+                    );
+                    changeFormTableRow.setCheckIn("Y");
+                    tableRows.add(changeFormTableRow);
+                });
+        ChangeFormTableRow changeFormTableRow = new ChangeFormTableRow();
+        changeFormTableRow.setProgramExecutionName(localYmlParseResult.getWarName());
+        tableRows.add(changeFormTableRow);
         return new ChangeFormTable(tableRows);
     }
 

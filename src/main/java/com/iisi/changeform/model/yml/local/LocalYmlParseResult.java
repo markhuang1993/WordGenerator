@@ -1,22 +1,22 @@
 package com.iisi.changeform.model.yml.local;
 
 public  class LocalYmlParseResult {
-    private String name;
+    private String projectName;
     private String lacrNo;
     private String systemApplication;
     private String systemId;
     private String warName;
 
-    public LocalYmlParseResult(String name, String lacrNo, String systemApplication, String systemId, String warName) {
-        this.name = name;
+    public LocalYmlParseResult(String projectName, String lacrNo, String systemApplication, String systemId, String warName) {
+        this.projectName = projectName;
         this.lacrNo = lacrNo;
         this.systemApplication = systemApplication;
         this.systemId = systemId;
         this.warName = warName;
     }
 
-    public String getName() {
-        return name;
+    public String getProjectName() {
+        return projectName;
     }
 
     public String getLacrNo() {
@@ -38,7 +38,7 @@ public  class LocalYmlParseResult {
     @Override
     public String toString() {
         return "LocalYmlParseResult{" +
-                "name='" + name + '\'' +
+                "projectName='" + projectName + '\'' +
                 ", lacrNo='" + lacrNo + '\'' +
                 ", systemApplication='" + systemApplication + '\'' +
                 ", systemId='" + systemId + '\'' +
