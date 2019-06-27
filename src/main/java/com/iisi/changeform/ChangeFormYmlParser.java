@@ -26,29 +26,16 @@ public class ChangeFormYmlParser {
     GlobalYmlParseResult parseGlobalYml(File ymlFile) throws IOException {
 
         Map map = yamlMapper.readValue(ymlFile, Map.class);
-        Map<String, String> imagePathMap = MapUtil.getMapValueByPath(map, "form.image.path");
+        String signatureImgPath = MapUtil.getMapValueByPath(map, "form.image.signature.path");
 
-        String programmerImgPath = imagePathMap.get("programmer");
-        File programmerImgDir = new File(programmerImgPath);
-        if (!programmerImgDir.exists()) {
-            System.out.println(String.format("[Warn] programmerImgDir:%s not exist", programmerImgDir.getAbsolutePath()));
-        }
-
-        String supervisorImgPath = imagePathMap.get("supervisor");
-        File supervisorImgDir = new File(supervisorImgPath);
-        if (!supervisorImgDir.exists()) {
-            System.out.println(String.format("[Warn] programmerImgDir:%s not exist", supervisorImgDir.getAbsolutePath()));
-        }
-
-        String vendorQmImgPath = imagePathMap.get("vendorQm");
-        File vendorQmImgDir = new File(vendorQmImgPath);
-        if (!vendorQmImgDir.exists()) {
-            System.out.println(String.format("[Warn] programmerImgDir:%s not exist", vendorQmImgDir.getAbsolutePath()));
+        File signatureImgDir = new File(signatureImgPath);
+        if (!signatureImgDir.exists()) {
+            System.out.println(String.format("[Warn] programmerImgDir:%s not exist", signatureImgDir.getAbsolutePath()));
         }
 
         String citiProjectRelativePathPrefix = MapUtil.getMapValueByPath(map, "citi.project.relativePathPrefix");
 
-        return new GlobalYmlParseResult(programmerImgDir, supervisorImgDir, vendorQmImgDir, citiProjectRelativePathPrefix);
+        return new GlobalYmlParseResult(signatureImgDir, citiProjectRelativePathPrefix);
     }
 
 

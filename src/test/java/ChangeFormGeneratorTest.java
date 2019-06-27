@@ -30,9 +30,9 @@ public class ChangeFormGeneratorTest {
                 .setAction1("Hello every one")
                 .setAction2("i am here")
                 .setAction3("nice to meet yours")
-                .setProgrammerB64Png(ResourceUtil.getClassPathResource("image/programmer/mark.png"))
-                .setSupervisorB64Png(ResourceUtil.getClassPathResource("image/supervisor/huang.png"))
-                .setVendorQmB64Png(ResourceUtil.getClassPathResource("image/vendorQm/handsome.png"))
+                .setProgrammerB64Png(ResourceUtil.getClassPathResource("image/mark.png"))
+                .setSupervisorB64Png(ResourceUtil.getClassPathResource("image/huang.png"))
+                .setVendorQmB64Png(ResourceUtil.getClassPathResource("image/handsome.png"))
                 .setJavaAppTable(this.tableData())
                 .build();
         changeFormGenerator.processFormTemplate(formData);

@@ -2,3 +2,6 @@ project:
   name: 'PCL'
   lacrNo: 'lno01'
   systemApplication: 'sapp01'
+  owner: 'mark, johnson, roger'
+  supervisor: 'a, b, c'
+  verdorQm: 'd, e, f'

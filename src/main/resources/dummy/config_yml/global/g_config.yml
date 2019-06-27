@@ -1,10 +1,7 @@
 form:
   image:
-    path:
-      programmer: 'C:\Users\markh\IdeaProjects\WordGenerator\src\main\resources\image\programmer'
-      supervisor:  'C:\Users\markh\IdeaProjects\WordGenerator\src\main\resources\image\supervisor'
-      vendorQm: 'C:\Users\markh\IdeaProjects\WordGenerator\src\main\resources\image\vendorQm'
-
+    signature:
+      path: 'C:\Users\markh\IdeaProjects\WordGenerator\src\main\resources\image'
 citi:
   project:
     relativePathPrefix: '@iisi/repos'

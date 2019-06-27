@@ -3,40 +3,34 @@ package com.iisi.changeform.model.yml.global;
 import java.io.File;
 
 public  class GlobalYmlParseResult {
-    private File programmerImageDir;
-    private File supervisorImageDir;
-    private File vendorQmImageDir;
+    private File signatureImgDir;
     private String citiProjectRelativePathPrefix;
 
-    public GlobalYmlParseResult(File programmerImageDir, File supervisorImageDir, File vendorQmImageDir, String citiProjectRelativePathPrefix) {
-        this.programmerImageDir = programmerImageDir;
-        this.supervisorImageDir = supervisorImageDir;
-        this.vendorQmImageDir = vendorQmImageDir;
+    public GlobalYmlParseResult(File signatureImgDir, String citiProjectRelativePathPrefix) {
+        this.signatureImgDir = signatureImgDir;
         this.citiProjectRelativePathPrefix = citiProjectRelativePathPrefix;
     }
 
-    public File getProgrammerImageDir() {
-        return programmerImageDir;
+    public File getSignatureImgDir() {
+        return signatureImgDir;
     }
 
-    public File getSupervisorImageDir() {
-        return supervisorImageDir;
-    }
-
-    public File getVendorQmImageDir() {
-        return vendorQmImageDir;
+    public void setSignatureImgDir(File signatureImgDir) {
+        this.signatureImgDir = signatureImgDir;
     }
 
     public String getCitiProjectRelativePathPrefix() {
         return citiProjectRelativePathPrefix;
     }
 
+    public void setCitiProjectRelativePathPrefix(String citiProjectRelativePathPrefix) {
+        this.citiProjectRelativePathPrefix = citiProjectRelativePathPrefix;
+    }
+
     @Override
     public String toString() {
         return "GlobalYmlParseResult{" +
-                "programmerImageDir=" + programmerImageDir +
-                ", supervisorImageDir=" + supervisorImageDir +
-                ", vendorQmImageDir=" + vendorQmImageDir +
+                "signatureImgDir=" + signatureImgDir +
                 ", citiProjectRelativePathPrefix='" + citiProjectRelativePathPrefix + '\'' +
                 '}';
     }

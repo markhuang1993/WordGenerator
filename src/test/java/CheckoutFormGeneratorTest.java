@@ -24,8 +24,8 @@ public class CheckoutFormGeneratorTest {
                 .setLacrCoordinator("77777")
                 .setLibrarian("shxt")
                 .setProcessDate("2019-06-23")
-                .setProgrammerB64Png(ResourceUtil.getClassPathResource("image/programmer/mark.png"))
-                .setSupervisorB64Png(ResourceUtil.getClassPathResource("image/supervisor/huang.png"))
+                .setProgrammerB64Png(ResourceUtil.getClassPathResource("image/mark.png"))
+                .setSupervisorB64Png(ResourceUtil.getClassPathResource("image/huang.png"))
                 .setJavaAppTable(this.tableData())
                 .build();
         checkoutFormGenerator.processFormTemplate(formData);
