@@ -6,13 +6,19 @@ public  class LocalYmlParseResult {
     private String systemApplication;
     private String systemId;
     private String warName;
+    private String owner;
+    private String supervisor;
+    private String vendorQm;
 
-    public LocalYmlParseResult(String projectName, String lacrNo, String systemApplication, String systemId, String warName) {
+    public LocalYmlParseResult(String projectName, String lacrNo, String systemApplication, String systemId, String warName, String owner, String supervisor, String vendorQm) {
         this.projectName = projectName;
         this.lacrNo = lacrNo;
         this.systemApplication = systemApplication;
         this.systemId = systemId;
         this.warName = warName;
+        this.owner = owner;
+        this.supervisor = supervisor;
+        this.vendorQm = vendorQm;
     }
 
     public String getProjectName() {
@@ -35,6 +41,18 @@ public  class LocalYmlParseResult {
         return warName;
     }
 
+    public String getOwner() {
+        return owner;
+    }
+
+    public String getSupervisor() {
+        return supervisor;
+    }
+
+    public String getvendorQm() {
+        return vendorQm;
+    }
+
     @Override
     public String toString() {
         return "LocalYmlParseResult{" +
@@ -43,6 +61,9 @@ public  class LocalYmlParseResult {
                 ", systemApplication='" + systemApplication + '\'' +
                 ", systemId='" + systemId + '\'' +
                 ", warName='" + warName + '\'' +
+                ", owner='" + owner + '\'' +
+                ", supervisor='" + supervisor + '\'' +
+                ", vendorQm='" + vendorQm + '\'' +
                 '}';
     }
 }
