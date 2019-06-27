@@ -44,7 +44,9 @@ public class ChangeFormYmlParser {
         String name = MapUtil.getMapValueByPath(map, "project.name");
         String lacrNo = MapUtil.getMapValueByPath(map, "project.lacrNo");
         String systemApplication = MapUtil.getMapValueByPath(map, "project.systemApplication");
-        return new LocalYmlParseResult(name, lacrNo, systemApplication);
+        String systemId = MapUtil.getMapValueByPath(map, "project.systemId");
+        String warName = MapUtil.getMapValueByPath(map, "project.warName");
+        return new LocalYmlParseResult(name, lacrNo, systemApplication, systemId, warName);
     }
 
 
