@@ -1,6 +1,6 @@
 <w:tc>
     <w:tcPr>
-        <w:tcW w:w="469" w:type="dxa"/>
+        <w:tcW w:w="402" w:type="dxa"/>
     </w:tcPr>
     <w:p w:rsidR="00792B33" w:rsidRDefault="00792B33" w:rsidP="00FC425B">
         <w:pPr>
@@ -18,7 +18,7 @@
 </w:tc>
 <w:tc>
     <w:tcPr>
-        <w:tcW w:w="711" w:type="dxa"/>
+        <w:tcW w:w="850" w:type="dxa"/>
     </w:tcPr>
     <w:p w:rsidR="00792B33" w:rsidRDefault="00792B33" w:rsidP="00792B33">
         <w:pPr>
@@ -34,7 +34,7 @@
 </w:tc>
 <w:tc>
     <w:tcPr>
-        <w:tcW w:w="680" w:type="dxa"/>
+        <w:tcW w:w="567" w:type="dxa"/>
     </w:tcPr>
     <w:p w:rsidR="00792B33" w:rsidRDefault="00792B33" w:rsidP="00FC425B">
         <w:pPr>
@@ -49,7 +49,7 @@
 </w:tc>
 <w:tc>
     <w:tcPr>
-        <w:tcW w:w="660" w:type="dxa"/>
+        <w:tcW w:w="801" w:type="dxa"/>
     </w:tcPr>
     <w:p w:rsidR="00792B33" w:rsidRDefault="00792B33" w:rsidP="00FC425B">
         <w:pPr>
@@ -68,7 +68,7 @@
 </w:tc>
 <w:tc>
     <w:tcPr>
-        <w:tcW w:w="2140" w:type="dxa"/>
+        <w:tcW w:w="3800" w:type="dxa"/>
     </w:tcPr>
     <w:p w:rsidR="00792B33" w:rsidRDefault="00792B33" w:rsidP="00FC425B">
         <w:pPr>
@@ -87,7 +87,7 @@
 </w:tc>
 <w:tc>
     <w:tcPr>
-        <w:tcW w:w="2300" w:type="dxa"/>
+        <w:tcW w:w="2107" w:type="dxa"/>
     </w:tcPr>
     <w:p w:rsidR="00792B33" w:rsidRDefault="00792B33" w:rsidP="00FC425B">
         <w:pPr>
@@ -106,7 +106,7 @@
 </w:tc>
 <w:tc>
     <w:tcPr>
-        <w:tcW w:w="3520" w:type="dxa"/>
+        <w:tcW w:w="1065" w:type="dxa"/>
     </w:tcPr>
     <w:p w:rsidR="00792B33" w:rsidRDefault="00792B33" w:rsidP="00FC425B">
         <w:pPr>
