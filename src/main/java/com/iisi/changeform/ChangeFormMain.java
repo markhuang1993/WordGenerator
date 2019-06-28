@@ -24,23 +24,28 @@ import java.util.stream.Collectors;
 
 public class ChangeFormMain {
     public static void main(String[] args) throws IOException, TemplateException, IllegalAccessException {
-        ArgumentParseResult argumentParseResult = ChangeFormArgumentParser.getInstance().parseArguments(args);
-        if (!argumentParseResult.isParseSuccess()) {
-            throw new IllegalArgumentException(argumentParseResult.getErrorMessage());
+        try{
+            ArgumentParseResult argumentParseResult = ChangeFormArgumentParser.getInstance().parseArguments(args);
+            if (!argumentParseResult.isParseSuccess()) {
+                throw new IllegalArgumentException(argumentParseResult.getErrorMessage());
+            }
+
+            ChangeFormArgument changeFormArgument = argumentParseResult.getChangeFormArgument();
+
+            ChangeFormYmlParser ymlParser = ChangeFormYmlParser.getInstance();
+            GlobalYmlParseResult globalYmlParseResult = ymlParser.parseGlobalYml(changeFormArgument.getGlobalConfigYmlFile());
+            System.out.println(globalYmlParseResult);
+
+            LocalYmlParseResult localYmlParseResult = ymlParser.parsLocalYml(changeFormArgument.getLocalConfigYmlFile());
+            System.out.println(localYmlParseResult);
+
+            List<DiffDetail> diffDetails = DiffTxtParser.getInstance().parseDiffTxt(changeFormArgument.getDiffTxtFile());
+
+            createChangeForm(changeFormArgument.getJenkinsJobExecutor(), globalYmlParseResult, localYmlParseResult, diffDetails);
+        }catch(Exception e){
+            System.out.println("Something error, changeForm not generated");
+            e.printStackTrace();
         }
-
-        ChangeFormArgument changeFormArgument = argumentParseResult.getChangeFormArgument();
-
-        ChangeFormYmlParser ymlParser = ChangeFormYmlParser.getInstance();
-        GlobalYmlParseResult globalYmlParseResult = ymlParser.parseGlobalYml(changeFormArgument.getGlobalConfigYmlFile());
-        System.out.println(globalYmlParseResult);
-
-        LocalYmlParseResult localYmlParseResult = ymlParser.parsLocalYml(changeFormArgument.getLocalConfigYmlFile());
-        System.out.println(localYmlParseResult);
-
-        List<DiffDetail> diffDetails = DiffTxtParser.getInstance().parseDiffTxt(changeFormArgument.getDiffTxtFile());
-
-        createChangeForm(changeFormArgument.getJenkinsJobExecutor(), globalYmlParseResult, localYmlParseResult, diffDetails);
     }
 
     private static void createChangeForm(
