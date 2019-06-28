@@ -145,10 +145,13 @@ public class ChangeFormMain {
                     changeFormTableRow.setNewOld(status.equals(DiffStatus.A) ? "N" : "O");
                     changeFormTableRow.setNo(String.valueOf(no.getAndAdd(1)));
                     changeFormTableRow.setSystemID(localYmlParseResult.getSystemId());
-                    changeFormTableRow.setProgramFileName(
+                    File diffFile = new File(diffDetail.getFilePath());
+                    String diffFileName = diffFile.getName();
+                    changeFormTableRow.setProgramFileName(diffFileName);
+                    changeFormTableRow.setProgramDescription(
                             globalYmlParseResult.getCitiProjectRelativePathPrefix() + "/"
                                     + localYmlParseResult.getProjectName() + "/"
-                                    + diffDetail.getFilePath()
+                                    + diffDetail.getFilePath().replace(diffFileName, "")
                     );
                     changeFormTableRow.setCheckIn("Y");
                     tableRows.add(changeFormTableRow);
