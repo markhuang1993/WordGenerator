@@ -25,8 +25,8 @@ import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 
 public class ChangeFormMain {
-    public static void main(String[] args) throws IOException, TemplateException, IllegalAccessException {
-        try{
+    public static void main(String[] args) {
+        try {
             ArgumentParseResult argumentParseResult = ChangeFormArgumentParser.getInstance().parseArguments(args);
             if (!argumentParseResult.isParseSuccess()) {
                 throw new IllegalArgumentException(argumentParseResult.getErrorMessage());
@@ -44,7 +44,7 @@ public class ChangeFormMain {
             List<DiffDetail> diffDetails = DiffTxtParser.getInstance().parseDiffTxt(changeFormArgument.getDiffTxtFile());
 
             createChangeForm(changeFormArgument.getJenkinsJobExecutor(), globalYmlParseResult, localYmlParseResult, diffDetails);
-        }catch(Exception e){
+        } catch (Exception e) {
             System.out.println("Something error, changeForm not generated");
             e.printStackTrace();
         }
@@ -94,7 +94,6 @@ public class ChangeFormMain {
         String supervisor = localYmlParseResult.getSupervisor();
         String[] supervisors = supervisor.split(",");
         File supervisorSing = getSignaturePng(supervisors, signatureImgDir);
-        supervisorSing = getSignaturePng(supervisors, signatureImgDir);
         if (supervisorSing == null) {
             supervisorSing = ResourceUtil.getClassPathResource("image/unknown.png");
         }
@@ -102,7 +101,6 @@ public class ChangeFormMain {
         String vendorQm = localYmlParseResult.getvendorQm();
         String[] vendorQms = vendorQm.split(",");
         File vendorQmSing = getSignaturePng(vendorQms, signatureImgDir);
-        vendorQmSing = getSignaturePng(vendorQms, signatureImgDir);
         if (vendorQmSing == null) {
             vendorQmSing = ResourceUtil.getClassPathResource("image/unknown.png");
         }
@@ -111,12 +109,11 @@ public class ChangeFormMain {
     }
 
     private static File getSignaturePng(String[] names, File signatureImgDir) {
-        File result = null;
         List<String> nameList = Arrays.stream(names).map(String::trim).collect(Collectors.toList());
         Collections.shuffle(nameList);
         File[] imgs = signatureImgDir.listFiles(f -> f.getName().matches(".*?\\.png$"));
         if (imgs == null) {
-            return result;
+            return null;
         }
         for (String name : nameList) {
             for (File img : imgs) {
@@ -125,7 +122,7 @@ public class ChangeFormMain {
                 }
             }
         }
-        return result;
+        return null;
     }
 
 
