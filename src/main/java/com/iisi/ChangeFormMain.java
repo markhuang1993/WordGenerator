@@ -1,5 +1,7 @@
-package com.iisi.changeform;
+package com.iisi;
 
+import com.iisi.changeform.ChangeFormArgumentParser;
+import com.iisi.changeform.ChangeFormYmlParser;
 import com.iisi.changeform.model.argument.ArgumentParseResult;
 import com.iisi.changeform.model.argument.ChangeFormArgument;
 import com.iisi.changeform.model.yml.global.GlobalYmlParseResult;

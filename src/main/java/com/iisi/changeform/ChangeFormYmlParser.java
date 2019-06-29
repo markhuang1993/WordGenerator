@@ -23,7 +23,7 @@ public class ChangeFormYmlParser {
         return ChangeFormYmlParser.Nested.CHANGE_FORM_YML_PARSER;
     }
 
-    GlobalYmlParseResult parseGlobalYml(File ymlFile) throws IOException {
+    public GlobalYmlParseResult parseGlobalYml(File ymlFile) throws IOException {
 
         Map map = yamlMapper.readValue(ymlFile, Map.class);
         String signatureImgPath = MapUtil.getMapValueByPath(map, "form.image.signature.path");
@@ -39,7 +39,7 @@ public class ChangeFormYmlParser {
     }
 
 
-    LocalYmlParseResult parsLocalYml(File ymlFile) throws IOException {
+    public LocalYmlParseResult parsLocalYml(File ymlFile) throws IOException {
         Map map = yamlMapper.readValue(ymlFile, Map.class);
         String name = MapUtil.getMapValueByPath(map, "project.name");
         String lacrNo = MapUtil.getMapValueByPath(map, "project.lacrNo");

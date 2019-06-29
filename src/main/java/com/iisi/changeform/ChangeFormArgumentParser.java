@@ -17,7 +17,7 @@ public class ChangeFormArgumentParser {
         return Nested.CHANGE_FORM_ARGUMENT_PARSER;
     }
 
-    ArgumentParseResult parseArguments(String[] args) {
+    public ArgumentParseResult parseArguments(String[] args) {
         StringBuilder sb = new StringBuilder();
         ChangeFormArgument changeFormArgument = new ChangeFormArgument();
 
