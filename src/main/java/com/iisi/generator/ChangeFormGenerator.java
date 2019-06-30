@@ -14,8 +14,8 @@ import java.util.Map;
 public class ChangeFormGenerator extends AbstractFormGenerator<ChangeFormData> {
 
     @SuppressWarnings("Duplicates")
-    public File processFormTemplate(ChangeFormData changeFormData) throws IOException, TemplateException, IllegalAccessException {
-        File documentFile = new File("changeForm.doc");
+    public File processFormTemplate(ChangeFormData changeFormData, File destDir) throws IOException, TemplateException, IllegalAccessException {
+        File documentFile = new File(destDir, "changeForm.doc");
         Map<String, String> dataMap = new HashMap<>(injectFormDataInMap(changeFormData));
 
         ChangeFormTable table = changeFormData.getJavaAppTable();

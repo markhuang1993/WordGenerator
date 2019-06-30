@@ -7,6 +7,7 @@ import com.iisi.util.ResourceUtil;
 import freemarker.template.TemplateException;
 import org.junit.Test;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -35,7 +36,7 @@ public class ChangeFormGeneratorTest {
                 .setVendorQmB64Png(ResourceUtil.getClassPathResource("image/handsome.png"))
                 .setJavaAppTable(this.tableData())
                 .build();
-        changeFormGenerator.processFormTemplate(formData);
+        changeFormGenerator.processFormTemplate(formData, new File(System.getProperty("user.dir")));
     }
 
     private ChangeFormTable tableData() {
@@ -44,7 +45,7 @@ public class ChangeFormGeneratorTest {
         String s1 = Arrays.stream(new String[20]).map(x -> "w").collect(Collectors.joining(""));
         String s2 = Arrays.stream(new String[20]).map(x -> "e").collect(Collectors.joining(""));
         String s3 = Arrays.stream(new String[20]).map(x -> "t").collect(Collectors.joining(""));
-        tableRows.add(new ChangeFormTableRow(s, s1, s2, s3,"asd","qwe", "床前明月光\r\n疑似地上霜\r\n舉頭望明月\r\n低頭思故鄉"));
+        tableRows.add(new ChangeFormTableRow(s, s1, s2, s3, "asd", "qwe", "床前明月光\r\n疑似地上霜\r\n舉頭望明月\r\n低頭思故鄉"));
         for (int i = 0; i < 160; i++) {
             tableRows.add(new ChangeFormTableRow(
                     String.valueOf(i),

@@ -6,6 +6,7 @@ import com.iisi.util.ResourceUtil;
 import freemarker.template.TemplateException;
 import org.junit.Test;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -28,7 +29,7 @@ public class CheckoutFormGeneratorTest {
                 .setSupervisorB64Png(ResourceUtil.getClassPathResource("image/huang.png"))
                 .setJavaAppTable(this.tableData())
                 .build();
-        checkoutFormGenerator.processFormTemplate(formData);
+        checkoutFormGenerator.processFormTemplate(formData, new File(System.getProperty("user.dir")));
     }
 
     private CheckoutFormTable tableData() {

@@ -72,6 +72,15 @@ public class FormArgumentParser {
         }
 
         formArgument.setJenkinsJobExecutor(args[3]);
+
+        if (len <= 4) {
+            sb.append("Args dest dircectory not found").append(System.lineSeparator());
+            return new ArgumentParseResult(sb.toString());
+        }
+        File destDir = new File(args[4]);
+        destDir.mkdirs();
+        formArgument.setDestDir(destDir);
+
         return new ArgumentParseResult(formArgument, true, sb.toString());
     }
 }

@@ -48,8 +48,11 @@ public class Main {
 
             List<DiffDetail> diffDetails = DiffTxtParser.getInstance().parseDiffTxt(formArgument.getDiffTxtFile());
 
-            createCheckoutForm(formArgument.getJenkinsJobExecutor(), globalYmlParseResult, localYmlParseResult, diffDetails);
-            createChangeForm(formArgument.getJenkinsJobExecutor(), globalYmlParseResult, localYmlParseResult, diffDetails);
+            String jenkinsJobExecutor = formArgument.getJenkinsJobExecutor();
+            File destDir = formArgument.getDestDir();
+
+            createCheckoutForm(jenkinsJobExecutor, destDir, globalYmlParseResult, localYmlParseResult, diffDetails);
+            createChangeForm(jenkinsJobExecutor, destDir, globalYmlParseResult, localYmlParseResult, diffDetails);
         } catch (Exception e) {
             System.out.println("Something error, changeForm not generated");
             e.printStackTrace();
@@ -58,6 +61,7 @@ public class Main {
 
     private static void createChangeForm(
             String jobExecutor,
+            File destDir,
             GlobalYmlParseResult globalYmlParseResult,
             LocalYmlParseResult localYmlParseResult,
             List<DiffDetail> diffDetails) throws IllegalAccessException, TemplateException, IOException {
@@ -76,7 +80,7 @@ public class Main {
                 .setJavaAppTable(changeFormJavaTable(globalYmlParseResult, localYmlParseResult, diffDetails))
                 .build();
 
-        changeFormGenerator.processFormTemplate(formData);
+        changeFormGenerator.processFormTemplate(formData, destDir);
     }
 
     private static ChangeFormTable changeFormJavaTable(
@@ -111,6 +115,7 @@ public class Main {
 
     private static void createCheckoutForm(
             String jobExecutor,
+            File destDir,
             GlobalYmlParseResult globalYmlParseResult,
             LocalYmlParseResult localYmlParseResult,
             List<DiffDetail> diffDetails) throws IllegalAccessException, TemplateException, IOException {
@@ -125,7 +130,7 @@ public class Main {
                 .setJavaAppTable(checkoutFormJavaTable(globalYmlParseResult, localYmlParseResult, diffDetails))
                 .build();
 
-        checkoutFormGenerator.processFormTemplate(formData);
+        checkoutFormGenerator.processFormTemplate(formData, destDir);
     }
 
     private static CheckoutFormTable checkoutFormJavaTable(
@@ -152,12 +157,12 @@ public class Main {
         return new CheckoutFormTable(tableRows);
     }
 
-    private static String getDiffFileName(DiffDetail diffDetail){
+    private static String getDiffFileName(DiffDetail diffDetail) {
         File diffFile = new File(diffDetail.getFilePath());
-       return diffFile.getName();
+        return diffFile.getName();
     }
 
-    private static String genProgramDescription(GlobalYmlParseResult globalYmlParseResult, LocalYmlParseResult localYmlParseResult, DiffDetail diffDetail){
+    private static String genProgramDescription(GlobalYmlParseResult globalYmlParseResult, LocalYmlParseResult localYmlParseResult, DiffDetail diffDetail) {
         return globalYmlParseResult.getCitiProjectRelativePathPrefix() + "/"
                 + localYmlParseResult.getProjectName() + "/"
                 + diffDetail.getFilePath().replace(getDiffFileName(diffDetail), "");

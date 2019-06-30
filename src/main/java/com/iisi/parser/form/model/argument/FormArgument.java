@@ -6,6 +6,7 @@ public class FormArgument {
     private File diffTxtFile;
     private File globalConfigYmlFile;
     private File localConfigYmlFile;
+    private File destDir;
     private String jenkinsJobExecutor;
 
     public File getDiffTxtFile() {
@@ -38,5 +39,13 @@ public class FormArgument {
 
     public void setJenkinsJobExecutor(String jenkinsJobExecutor) {
         this.jenkinsJobExecutor = jenkinsJobExecutor;
+    }
+
+    public void setDestDir(File destDir) {
+        this.destDir = destDir;
+    }
+
+    public File getDestDir() {
+        return destDir;
     }
 }

@@ -14,8 +14,8 @@ import java.util.Map;
 public class CheckoutFormGenerator extends AbstractFormGenerator<CheckoutFormData> {
 
     @SuppressWarnings("Duplicates")
-    public File processFormTemplate(CheckoutFormData checkoutFormData) throws IOException, TemplateException, IllegalAccessException {
-        File documentFile = new File("checkoutForm.doc");
+    public File processFormTemplate(CheckoutFormData checkoutFormData, File destDir) throws IOException, TemplateException, IllegalAccessException {
+        File documentFile = new File(destDir,"checkoutForm.doc");
         Map<String, String> dataMap = new HashMap<>(injectFormDataInMap(checkoutFormData));
 
         CheckoutFormTable table = checkoutFormData.getJavaAppTable();
@@ -26,7 +26,7 @@ public class CheckoutFormGenerator extends AbstractFormGenerator<CheckoutFormDat
         OutputStreamWriter writer = new OutputStreamWriter(new FileOutputStream(documentFile), StandardCharsets.UTF_8);
         FreemarkerUtil.processTemplate(t, dataMap, writer);
 
-        System.out.println("doc is created at:" + documentFile.getAbsolutePath());
+        System.out.println("checkout form doc is created at:" + documentFile.getAbsolutePath());
         return documentFile;
     }
 

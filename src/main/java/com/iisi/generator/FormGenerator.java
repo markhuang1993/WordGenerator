@@ -7,5 +7,5 @@ import java.io.File;
 import java.io.IOException;
 
 public interface FormGenerator<T extends FormData> {
-    File processFormTemplate(T formData) throws IOException, TemplateException, IllegalAccessException;
+    File processFormTemplate(T formData, File destDir) throws IOException, TemplateException, IllegalAccessException;
 }
