@@ -30,33 +30,28 @@ import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class Main {
-    public static void main(String[] args) {
-        try {
-            ArgumentParseResult argumentParseResult = FormArgumentParser.getInstance().parseArguments(args);
-            if (!argumentParseResult.isParseSuccess()) {
-                throw new IllegalArgumentException(argumentParseResult.getErrorMessage());
-            }
-
-            FormArgument formArgument = argumentParseResult.getFormArgument();
-
-            FormYmlParser ymlParser = FormYmlParser.getInstance();
-            GlobalYmlParseResult globalYmlParseResult = ymlParser.parseGlobalYml(formArgument.getGlobalConfigYmlFile());
-            System.out.println(globalYmlParseResult);
-
-            LocalYmlParseResult localYmlParseResult = ymlParser.parsLocalYml(formArgument.getLocalConfigYmlFile());
-            System.out.println(localYmlParseResult);
-
-            List<DiffDetail> diffDetails = DiffTxtParser.getInstance().parseDiffTxt(formArgument.getDiffTxtFile());
-
-            String jenkinsJobExecutor = formArgument.getJenkinsJobExecutor();
-            File destDir = formArgument.getDestDir();
-
-            createCheckoutForm(jenkinsJobExecutor, destDir, globalYmlParseResult, localYmlParseResult, diffDetails);
-            createChangeForm(jenkinsJobExecutor, destDir, globalYmlParseResult, localYmlParseResult, diffDetails);
-        } catch (Exception e) {
-            System.out.println("Something error, changeForm not generated");
-            e.printStackTrace();
+    public static void main(String[] args) throws IOException, TemplateException, IllegalAccessException {
+        ArgumentParseResult argumentParseResult = FormArgumentParser.getInstance().parseArguments(args);
+        if (!argumentParseResult.isParseSuccess()) {
+            throw new IllegalArgumentException(argumentParseResult.getErrorMessage());
         }
+
+        FormArgument formArgument = argumentParseResult.getFormArgument();
+
+        FormYmlParser ymlParser = FormYmlParser.getInstance();
+        GlobalYmlParseResult globalYmlParseResult = ymlParser.parseGlobalYml(formArgument.getGlobalConfigYmlFile());
+        System.out.println(globalYmlParseResult);
+
+        LocalYmlParseResult localYmlParseResult = ymlParser.parsLocalYml(formArgument.getLocalConfigYmlFile());
+        System.out.println(localYmlParseResult);
+
+        List<DiffDetail> diffDetails = DiffTxtParser.getInstance().parseDiffTxt(formArgument.getDiffTxtFile());
+
+        String jenkinsJobExecutor = formArgument.getJenkinsJobExecutor();
+        File destDir = formArgument.getDestDir();
+
+        createCheckoutForm(jenkinsJobExecutor, destDir, globalYmlParseResult, localYmlParseResult, diffDetails);
+        createChangeForm(jenkinsJobExecutor, destDir, globalYmlParseResult, localYmlParseResult, diffDetails);
     }
 
     private static void createChangeForm(
