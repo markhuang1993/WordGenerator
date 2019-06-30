@@ -1,6 +1,6 @@
 <w:tc>
     <w:tcPr>
-        <w:tcW w:w="1151" w:type="dxa"/>
+        <w:tcW w:w="806" w:type="dxa"/>
     </w:tcPr>
     <w:p w:rsidR="00961FDC"
          w:rsidRDefault="001C5817">
@@ -57,7 +57,7 @@
 </w:tc>
 <w:tc>
     <w:tcPr>
-        <w:tcW w:w="1151" w:type="dxa"/>
+        <w:tcW w:w="806" w:type="dxa"/>
     </w:tcPr>
     <w:p w:rsidR="00961FDC"
          w:rsidRDefault="001C5817">
@@ -76,7 +76,7 @@
 </w:tc>
 <w:tc>
     <w:tcPr>
-        <w:tcW w:w="1151" w:type="dxa"/>
+        <w:tcW w:w="1841" w:type="dxa"/>
     </w:tcPr>
     <w:p w:rsidR="00961FDC"
          w:rsidRDefault="001C5817">

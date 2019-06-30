@@ -1006,7 +1006,7 @@
         <w:gridCol w:w="3120"/>
         <w:gridCol w:w="3120"/>
     </w:tblGrid>
-    <w:tr w:rsidR="00961FDC" w14:paraId="69c4a262d9364614b98b78f549a7b33b" w14:textId="77777777">
+    <w:tr w:rsidR="00961FDC" w14:paraId="23c02b6ac8554c7485a30bbcdd44744c" w14:textId="77777777">
     <w:tblPrEx>
         <w:tblCellMar>
             <w:top w:w="0" w:type="dxa"/>
@@ -1131,7 +1131,7 @@
         </w:r>
     </w:p>
 </w:tc>
-</w:tr><w:tr w:rsidR="00961FDC" w14:paraId="a5f011b4b6db4da0877a7e1a595022b0" w14:textId="77777777">
+</w:tr><w:tr w:rsidR="00961FDC" w14:paraId="efe70ed8a4bc49d096bff4f26d9f118c" w14:textId="77777777">
     <w:tblPrEx>
         <w:tblCellMar>
             <w:top w:w="0" w:type="dxa"/>
@@ -1143,7 +1143,7 @@
     </w:trPr>
     <w:tc>
     <w:tcPr>
-        <w:tcW w:w="1151" w:type="dxa"/>
+        <w:tcW w:w="806" w:type="dxa"/>
     </w:tcPr>
     <w:p w:rsidR="00961FDC"
          w:rsidRDefault="001C5817">
@@ -1200,7 +1200,7 @@
 </w:tc>
 <w:tc>
     <w:tcPr>
-        <w:tcW w:w="1151" w:type="dxa"/>
+        <w:tcW w:w="806" w:type="dxa"/>
     </w:tcPr>
     <w:p w:rsidR="00961FDC"
          w:rsidRDefault="001C5817">
@@ -1219,7 +1219,7 @@
 </w:tc>
 <w:tc>
     <w:tcPr>
-        <w:tcW w:w="1151" w:type="dxa"/>
+        <w:tcW w:w="1841" w:type="dxa"/>
     </w:tcPr>
     <w:p w:rsidR="00961FDC"
          w:rsidRDefault="001C5817">
