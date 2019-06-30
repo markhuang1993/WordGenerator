@@ -1,4 +1,4 @@
-package com.iisi.parser;
+package com.iisi.parser.diff;
 
 import com.iisi.constants.DiffStatus;
 

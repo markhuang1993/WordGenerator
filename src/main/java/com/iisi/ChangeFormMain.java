@@ -1,19 +1,19 @@
 package com.iisi;
 
-import com.iisi.changeform.ChangeFormArgumentParser;
-import com.iisi.changeform.ChangeFormYmlParser;
-import com.iisi.changeform.model.argument.ArgumentParseResult;
-import com.iisi.changeform.model.argument.ChangeFormArgument;
-import com.iisi.changeform.model.yml.global.GlobalYmlParseResult;
-import com.iisi.changeform.model.yml.local.LocalYmlParseResult;
+import com.iisi.parser.form.FormArgumentParser;
+import com.iisi.parser.form.FormYmlParser;
+import com.iisi.parser.form.model.argument.ArgumentParseResult;
+import com.iisi.parser.form.model.argument.FormArgument;
+import com.iisi.parser.form.model.yml.global.GlobalYmlParseResult;
+import com.iisi.parser.form.model.yml.local.LocalYmlParseResult;
 import com.iisi.constants.CheckboxString;
 import com.iisi.constants.DiffStatus;
 import com.iisi.generator.ChangeFormGenerator;
 import com.iisi.generator.model.changeform.ChangeFormData;
 import com.iisi.generator.model.changeform.ChangeFormTable;
 import com.iisi.generator.model.changeform.ChangeFormTableRow;
-import com.iisi.parser.DiffDetail;
-import com.iisi.parser.DiffTxtParser;
+import com.iisi.parser.diff.DiffDetail;
+import com.iisi.parser.diff.DiffTxtParser;
 import com.iisi.util.ResourceUtil;
 import freemarker.template.TemplateException;
 
@@ -27,23 +27,23 @@ import java.util.stream.Collectors;
 public class ChangeFormMain {
     public static void main(String[] args) {
         try {
-            ArgumentParseResult argumentParseResult = ChangeFormArgumentParser.getInstance().parseArguments(args);
+            ArgumentParseResult argumentParseResult = FormArgumentParser.getInstance().parseArguments(args);
             if (!argumentParseResult.isParseSuccess()) {
                 throw new IllegalArgumentException(argumentParseResult.getErrorMessage());
             }
 
-            ChangeFormArgument changeFormArgument = argumentParseResult.getChangeFormArgument();
+            FormArgument formArgument = argumentParseResult.getFormArgument();
 
-            ChangeFormYmlParser ymlParser = ChangeFormYmlParser.getInstance();
-            GlobalYmlParseResult globalYmlParseResult = ymlParser.parseGlobalYml(changeFormArgument.getGlobalConfigYmlFile());
+            FormYmlParser ymlParser = FormYmlParser.getInstance();
+            GlobalYmlParseResult globalYmlParseResult = ymlParser.parseGlobalYml(formArgument.getGlobalConfigYmlFile());
             System.out.println(globalYmlParseResult);
 
-            LocalYmlParseResult localYmlParseResult = ymlParser.parsLocalYml(changeFormArgument.getLocalConfigYmlFile());
+            LocalYmlParseResult localYmlParseResult = ymlParser.parsLocalYml(formArgument.getLocalConfigYmlFile());
             System.out.println(localYmlParseResult);
 
-            List<DiffDetail> diffDetails = DiffTxtParser.getInstance().parseDiffTxt(changeFormArgument.getDiffTxtFile());
+            List<DiffDetail> diffDetails = DiffTxtParser.getInstance().parseDiffTxt(formArgument.getDiffTxtFile());
 
-            createChangeForm(changeFormArgument.getJenkinsJobExecutor(), globalYmlParseResult, localYmlParseResult, diffDetails);
+            createChangeForm(formArgument.getJenkinsJobExecutor(), globalYmlParseResult, localYmlParseResult, diffDetails);
         } catch (Exception e) {
             System.out.println("Something error, changeForm not generated");
             e.printStackTrace();

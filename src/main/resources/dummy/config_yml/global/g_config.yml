@@ -1,7 +1,7 @@
 form:
   image:
     signature:
-      path: 'C:\Users\markh\Desktop\ktc\Word\src\main\resources\image'
+      path: 'C:\Users\markh\IdeaProjects\WordGenerator\src\main\resources\image'
 citi:
   project:
     relativePathPrefix: '@iisi/repos'
