@@ -9,6 +9,9 @@ public class CheckoutFormTableRow implements FormTableRow {
     private String programExecutionName;
     private String programDescription;
 
+    public CheckoutFormTableRow() {
+    }
+
     public CheckoutFormTableRow(String no, String systemID, String programFileName, String programExecutionName, String programDescription) {
         this.no = no;
         this.systemID = systemID;
