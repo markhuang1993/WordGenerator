@@ -28,7 +28,7 @@ public class DiffTxtParser {
         if (sp.length < 2) return new ArrayList<>();
 
         List<DiffDetail> diffDetails = new ArrayList<>();
-        String[] diffDetailLines = sp[1].split("\n");
+        String[] diffDetailLines = sp[1].split("\r?\n");
         for (String diffDetailLine : diffDetailLines) {
             DiffDetail diffDetail = new DiffDetail();
             if (diffDetailLine == null || "".equals(diffDetailLine)) continue;
@@ -39,7 +39,7 @@ public class DiffTxtParser {
                 if ("Added".equals(d0)) {
                     diffDetail.setStatus(DiffStatus.A);
                 } else if ("Modified".equals(d0)) {
-                    diffDetail.setStatus(DiffStatus.A);
+                    diffDetail.setStatus(DiffStatus.M);
                 }
             }
 
