@@ -42,7 +42,6 @@ public class FormYmlParser {
     public LocalYmlParseResult parsLocalYml(File ymlFile) throws IOException {
         Map map = yamlMapper.readValue(ymlFile, Map.class);
         String name = MapUtil.getMapValueByPath(map, "project.name");
-        String lacrNo = MapUtil.getMapValueByPath(map, "project.lacrNo");
         String systemApplication = MapUtil.getMapValueByPath(map, "project.systemApplication");
         String systemId = MapUtil.getMapValueByPath(map, "project.systemId");
         String warName = MapUtil.getMapValueByPath(map, "project.warName");
@@ -51,7 +50,6 @@ public class FormYmlParser {
         String vendorQm = MapUtil.getMapValueByPath(map, "project.vendorQm");
         return new LocalYmlParseResult(
                 name,
-                lacrNo,
                 systemApplication,
                 systemId,
                 warName,

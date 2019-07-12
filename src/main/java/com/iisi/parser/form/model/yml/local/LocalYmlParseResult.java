@@ -2,7 +2,6 @@ package com.iisi.parser.form.model.yml.local;
 
 public  class LocalYmlParseResult {
     private String projectName;
-    private String lacrNo;
     private String systemApplication;
     private String systemId;
     private String warName;
@@ -10,9 +9,8 @@ public  class LocalYmlParseResult {
     private String supervisor;
     private String vendorQm;
 
-    public LocalYmlParseResult(String projectName, String lacrNo, String systemApplication, String systemId, String warName, String owner, String supervisor, String vendorQm) {
+    public LocalYmlParseResult(String projectName, String systemApplication, String systemId, String warName, String owner, String supervisor, String vendorQm) {
         this.projectName = projectName;
-        this.lacrNo = lacrNo;
         this.systemApplication = systemApplication;
         this.systemId = systemId;
         this.warName = warName;
@@ -23,10 +21,6 @@ public  class LocalYmlParseResult {
 
     public String getProjectName() {
         return projectName;
-    }
-
-    public String getLacrNo() {
-        return lacrNo;
     }
 
     public String getSystemApplication() {
@@ -57,7 +51,6 @@ public  class LocalYmlParseResult {
     public String toString() {
         return "LocalYmlParseResult{" +
                 "projectName='" + projectName + '\'' +
-                ", lacrNo='" + lacrNo + '\'' +
                 ", systemApplication='" + systemApplication + '\'' +
                 ", systemId='" + systemId + '\'' +
                 ", warName='" + warName + '\'' +
