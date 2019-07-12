@@ -65,7 +65,7 @@ public class Main {
         ChangeFormData formData = ChangeFormData.builder()
                 .setPromoteToUat(CheckboxString.CHECKED.val())
                 .setPromoteToProduction(CheckboxString.UNCHECKED.val())
-                .setLacrNo(System.getenv().get("lacrNo"))
+                .setLacrNo(System.getProperty("lacrNo"))
                 .setSystemApplication(localYmlParseResult.getSystemApplication())
                 .setSubmitDate(new SimpleDateFormat("yyyy/MM/dd").format(new Date()))
                 .setAction1("V" + new SimpleDateFormat("yyyyMMdd").format(new Date()))
@@ -117,7 +117,7 @@ public class Main {
         File[] signatureImages = ResourceUtil.getSignatureImages(jobExecutor, globalYmlParseResult, localYmlParseResult);
         CheckoutFormGenerator checkoutFormGenerator = new CheckoutFormGenerator();
         CheckoutFormData formData = CheckoutFormData.builder()
-                .setLacrNo(System.getenv().get("lacrNo"))
+                .setLacrNo(System.getProperty("lacrNo"))
                 .setSystemApplication(localYmlParseResult.getSystemApplication())
                 .setSubmitDate(new SimpleDateFormat("yyyy-MM-dd").format(new Date()))
                 .setProgrammerB64Png(signatureImages[0])
@@ -160,7 +160,7 @@ public class Main {
     private static String genProgramDescription(GlobalYmlParseResult globalYmlParseResult, LocalYmlParseResult localYmlParseResult, DiffDetail diffDetail) {
         return globalYmlParseResult.getCitiProjectRelativePathPrefix() + "/"
                 + localYmlParseResult.getProjectName() + "/"
-                + diffDetail.getFilePath().replace(getDiffFileName(diffDetail), "");
+                + diffDetail.getFilePath().replace(getDiffFileName(diffDetail), "").replaceAll("(.+)?/", "$1");
     }
 
 
