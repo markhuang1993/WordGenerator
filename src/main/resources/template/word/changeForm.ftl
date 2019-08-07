@@ -990,13 +990,6 @@
                                     </w:pPr>
                                     <w:r>
                                         <w:rPr>
-                                            <w:b/>
-                                            <w:color w:val="800000"/>
-                                        </w:rPr>
-                                        <w:t>UAT Version:</w:t>
-                                    </w:r>
-                                    <w:r>
-                                        <w:rPr>
                                             <w:rFonts w:hint="eastAsia"/>
                                             <w:sz w:val="18"/>
                                         </w:rPr>
@@ -1052,7 +1045,8 @@
                                         <w:right w:val="single" w:sz="6" w:space="0" w:color="auto"/>
                                     </w:tcBorders>
                                 </w:tcPr>
-                                <w:p w:rsidR="00792B33" w:rsidRDefault="00792B33" w:rsidP="00FC425B">
+                                <w:p w14:paraId="130B2E9F" w14:textId="0760D29B" w:rsidR="00792B33"
+                                     w:rsidRDefault="00792B33" w:rsidP="00FC425B">
                                     <w:pPr>
                                         <w:pStyle w:val="Header"/>
                                         <w:tabs>
@@ -1061,7 +1055,6 @@
                                         </w:tabs>
                                         <w:spacing w:beforeLines="50" w:before="120" w:line="320" w:lineRule="exact"/>
                                         <w:rPr>
-                                            <w:rFonts w:hint="eastAsia"/>
                                             <w:color w:val="800000"/>
                                         </w:rPr>
                                     </w:pPr>
@@ -1069,7 +1062,27 @@
                                         <w:rPr>
                                             <w:sz w:val="18"/>
                                         </w:rPr>
-                                        <w:t>${action2!}</w:t>
+                                        <w:t>${action2A!}</w:t>
+                                    </w:r>
+                                </w:p>
+                                <w:p w14:paraId="130B2E9F" w14:textId="0760D29B" w:rsidR="00792B33"
+                                     w:rsidRDefault="00792B33" w:rsidP="00FC425B">
+                                    <w:pPr>
+                                        <w:pStyle w:val="Header"/>
+                                        <w:tabs>
+                                            <w:tab w:val="clear" w:pos="4320"/>
+                                            <w:tab w:val="clear" w:pos="8640"/>
+                                        </w:tabs>
+                                        <w:spacing w:beforeLines="50" w:before="120" w:line="320" w:lineRule="exact"/>
+                                        <w:rPr>
+                                            <w:color w:val="800000"/>
+                                        </w:rPr>
+                                    </w:pPr>
+                                    <w:r>
+                                        <w:rPr>
+                                            <w:sz w:val="18"/>
+                                        </w:rPr>
+                                        <w:t>${action2B!}</w:t>
                                     </w:r>
                                 </w:p>
                             </w:tc>
@@ -1139,6 +1152,77 @@
                                             <w:sz w:val="18"/>
                                         </w:rPr>
                                         <w:t>${action3!}</w:t>
+                                    </w:r>
+                                    <w:bookmarkStart w:id="0" w:name="_GoBack"/>
+                                    <w:bookmarkEnd w:id="0"/>
+                                </w:p>
+                            </w:tc>
+                        </w:tr>
+                        <w:tr w:rsidR="00792B33" w:rsidTr="00FC425B">
+                            <w:tblPrEx>
+                                <w:tblCellMar>
+                                    <w:top w:w="0" w:type="dxa"/>
+                                    <w:bottom w:w="0" w:type="dxa"/>
+                                </w:tblCellMar>
+                            </w:tblPrEx>
+                            <w:trPr>
+                                <w:trHeight w:val="451"/>
+                            </w:trPr>
+                            <w:tc>
+                                <w:tcPr>
+                                    <w:tcW w:w="1000" w:type="dxa"/>
+                                    <w:tcBorders>
+                                        <w:top w:val="single" w:sz="6" w:space="0" w:color="auto"/>
+                                        <w:left w:val="single" w:sz="6" w:space="0" w:color="auto"/>
+                                        <w:bottom w:val="single" w:sz="6" w:space="0" w:color="auto"/>
+                                        <w:right w:val="single" w:sz="6" w:space="0" w:color="auto"/>
+                                    </w:tcBorders>
+                                </w:tcPr>
+                                <w:p w:rsidR="00792B33" w:rsidRDefault="00792B33" w:rsidP="00FC425B">
+                                    <w:pPr>
+                                        <w:spacing w:beforeLines="50" w:before="120" w:line="320" w:lineRule="exact"/>
+                                        <w:jc w:val="center"/>
+                                        <w:rPr>
+                                            <w:rFonts w:hint="eastAsia"/>
+                                        </w:rPr>
+                                    </w:pPr>
+                                    <w:r>
+                                        <w:rPr>
+                                            <w:rFonts w:hint="eastAsia"/>
+                                        </w:rPr>
+                                        <w:t>4</w:t>
+                                    </w:r>
+                                </w:p>
+                            </w:tc>
+                            <w:tc>
+                                <w:tcPr>
+                                    <w:tcW w:w="9520" w:type="dxa"/>
+                                    <w:gridSpan w:val="2"/>
+                                    <w:tcBorders>
+                                        <w:top w:val="single" w:sz="6" w:space="0" w:color="auto"/>
+                                        <w:left w:val="single" w:sz="6" w:space="0" w:color="auto"/>
+                                        <w:bottom w:val="single" w:sz="6" w:space="0" w:color="auto"/>
+                                        <w:right w:val="single" w:sz="6" w:space="0" w:color="auto"/>
+                                    </w:tcBorders>
+                                </w:tcPr>
+                                <w:p w:rsidR="00792B33" w:rsidRDefault="00792B33" w:rsidP="00FC425B">
+                                    <w:pPr>
+                                        <w:pStyle w:val="Header"/>
+                                        <w:tabs>
+                                            <w:tab w:val="clear" w:pos="4320"/>
+                                            <w:tab w:val="clear" w:pos="8640"/>
+                                        </w:tabs>
+                                        <w:spacing w:beforeLines="50" w:before="120" w:line="320" w:lineRule="exact"/>
+                                        <w:rPr>
+                                            <w:rFonts w:hint="eastAsia"/>
+                                            <w:color w:val="800000"/>
+                                        </w:rPr>
+                                    </w:pPr>
+                                    <w:r>
+                                        <w:rPr>
+                                            <w:sz w:val="18"/>
+                                        </w:rPr>
+                                        <w:t>${action4!}</w:t>
                                     </w:r>
                                     <w:bookmarkStart w:id="0" w:name="_GoBack"/>
                                     <w:bookmarkEnd w:id="0"/>

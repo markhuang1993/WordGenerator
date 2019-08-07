@@ -29,7 +29,7 @@ public class ChangeFormGeneratorTest {
                 .setLibrarian("shxt")
                 .setProcessDate("2019-06-23")
                 .setAction1("Hello every one")
-                .setAction2("i am here")
+                .setAction2A("i am here")
                 .setAction3("nice to meet yours")
                 .setProgrammerB64Png(ResourceUtil.getClassPathResource("image/mark.png"))
                 .setSupervisorB64Png(ResourceUtil.getClassPathResource("image/huang.png"))

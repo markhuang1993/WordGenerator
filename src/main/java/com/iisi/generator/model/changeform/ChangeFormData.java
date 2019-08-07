@@ -1,7 +1,6 @@
 package com.iisi.generator.model.changeform;
 
 import com.iisi.generator.model.FormData;
-import com.iisi.generator.model.checkoutform.CheckoutFormTable;
 
 import java.io.File;
 
@@ -15,8 +14,10 @@ public class ChangeFormData implements FormData {
     private String librarian;
     private String processDate;
     private String action1;
-    private String action2;
+    private String action2A;
+    private String action2B;
     private String action3;
+    private String action4;
     private File programmerB64Png;
     private File supervisorB64Png;
     private File vendorQmB64Png;
@@ -110,12 +111,20 @@ public class ChangeFormData implements FormData {
         this.action1 = action1;
     }
 
-    public String getAction2() {
-        return action2;
+    public String getAction2A() {
+        return action2A;
     }
 
-    public void setAction2(String action2) {
-        this.action2 = action2;
+    public void setAction2A(String action2A) {
+        this.action2A = action2A;
+    }
+
+    public void setAction2B(String action2B) {
+        this.action2B = action2B;
+    }
+
+    public String getAction2B() {
+        return action2B;
     }
 
     public String getAction3() {
@@ -124,6 +133,14 @@ public class ChangeFormData implements FormData {
 
     public void setAction3(String action3) {
         this.action3 = action3;
+    }
+
+    public String getAction4() {
+        return action4;
+    }
+
+    public void setAction4(String action4) {
+        this.action4 = action4;
     }
 
     public File getVendorQmB64Png() {
@@ -197,13 +214,23 @@ public class ChangeFormData implements FormData {
             return this;
         }
 
-        public Builder setAction2(String action2) {
-            this.checkoutFormData.action2 = action2;
+        public Builder setAction2A(String action2A) {
+            this.checkoutFormData.action2A = action2A;
+            return this;
+        }
+
+        public Builder setAction2B(String action2B) {
+            this.checkoutFormData.action2B = action2B;
             return this;
         }
 
         public Builder setAction3(String action3) {
             this.checkoutFormData.action3 = action3;
+            return this;
+        }
+
+        public Builder setAction4(String action4) {
+            this.checkoutFormData.action4 = action4;
             return this;
         }
 
