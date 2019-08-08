@@ -3,6 +3,8 @@ package com.iisi.generator.model.changeform;
 import com.iisi.generator.model.FormData;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 
 public class ChangeFormData implements FormData {
     private String promoteToUat;
@@ -13,11 +15,7 @@ public class ChangeFormData implements FormData {
     private String lacrCoordinator;
     private String librarian;
     private String processDate;
-    private String action1;
-    private String action2A;
-    private String action2B;
-    private String action3;
-    private String action4;
+    private List<Action> actions = new ArrayList<>();
     private File programmerB64Png;
     private File supervisorB64Png;
     private File vendorQmB64Png;
@@ -103,44 +101,16 @@ public class ChangeFormData implements FormData {
         this.supervisorB64Png = supervisorB64Png;
     }
 
-    public String getAction1() {
-        return action1;
+    public List<Action> getActions() {
+        return new ArrayList<>(actions);
     }
 
-    public void setAction1(String action1) {
-        this.action1 = action1;
+    public void setActions(List<Action> actions) {
+        this.actions = new ArrayList<>(actions);
     }
 
-    public String getAction2A() {
-        return action2A;
-    }
-
-    public void setAction2A(String action2A) {
-        this.action2A = action2A;
-    }
-
-    public void setAction2B(String action2B) {
-        this.action2B = action2B;
-    }
-
-    public String getAction2B() {
-        return action2B;
-    }
-
-    public String getAction3() {
-        return action3;
-    }
-
-    public void setAction3(String action3) {
-        this.action3 = action3;
-    }
-
-    public String getAction4() {
-        return action4;
-    }
-
-    public void setAction4(String action4) {
-        this.action4 = action4;
+    public void addAction(Action action) {
+        this.actions.add(action);
     }
 
     public File getVendorQmB64Png() {
@@ -209,28 +179,13 @@ public class ChangeFormData implements FormData {
             return this;
         }
 
-        public Builder setAction1(String action1) {
-            this.checkoutFormData.action1 = action1;
+        public Builder setActions(List<Action> actions) {
+            this.checkoutFormData.actions = new ArrayList<>(actions);
             return this;
         }
 
-        public Builder setAction2A(String action2A) {
-            this.checkoutFormData.action2A = action2A;
-            return this;
-        }
-
-        public Builder setAction2B(String action2B) {
-            this.checkoutFormData.action2B = action2B;
-            return this;
-        }
-
-        public Builder setAction3(String action3) {
-            this.checkoutFormData.action3 = action3;
-            return this;
-        }
-
-        public Builder setAction4(String action4) {
-            this.checkoutFormData.action4 = action4;
+        public Builder addAction(Action action) {
+            this.checkoutFormData.actions.add(action);
             return this;
         }
 

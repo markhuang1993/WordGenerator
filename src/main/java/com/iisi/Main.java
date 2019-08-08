@@ -4,6 +4,7 @@ import com.iisi.constants.CheckboxString;
 import com.iisi.constants.DiffStatus;
 import com.iisi.generator.ChangeFormGenerator;
 import com.iisi.generator.CheckoutFormGenerator;
+import com.iisi.generator.model.changeform.Action;
 import com.iisi.generator.model.changeform.ChangeFormData;
 import com.iisi.generator.model.changeform.ChangeFormTable;
 import com.iisi.generator.model.changeform.ChangeFormTableRow;
@@ -68,11 +69,14 @@ public class Main {
                 .setLacrNo(System.getProperty("lacrNo"))
                 .setSystemApplication(localYmlParseResult.getSystemApplication())
                 .setSubmitDate(new SimpleDateFormat("yyyy/MM/dd").format(new Date()))
-                .setAction1("Follow Jenkins handbook to execute checkin, build and move job.")
-                .setAction2A(String.format("Move all files from \\\\apacctltwuat145\\COLA\\Jenkins_upload\\Build_%s", localYmlParseResult.getProjectName()))
-                .setAction2B(String.format("to \\\\apacctltwuat145\\COLA\\COLA_AP_Deploy\\%s.", localYmlParseResult.getWarName()))
-                .setAction3("Un-zip D zip file and cover to D disk.")
-                .setAction4("Follow websphere guide to change AP.")
+                .addAction(new Action("Follow Jenkins handbook to execute checkin, build and move job."))
+                .addAction(new Action(
+                        String.format("Move all files from \\\\apacctltwuat145\\COLA\\Jenkins_upload\\Build_%s", localYmlParseResult.getProjectName()),
+                        String.format("to \\\\apacctltwuat145\\COLA\\COLA_AP_Deploy\\%s.", localYmlParseResult.getWarName())
+                ))
+                .addAction(new Action("Stop AP."))
+                .addAction(new Action("Un-zip D zip file and cover to D disk."))
+                .addAction(new Action("Follow websphere guide to change AP."))
                 .setProgrammerB64Png(signatureImages[0])
                 .setSupervisorB64Png(signatureImages[1])
                 .setVendorQmB64Png(signatureImages[2])

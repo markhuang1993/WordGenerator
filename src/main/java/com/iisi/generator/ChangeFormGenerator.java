@@ -1,6 +1,7 @@
 package com.iisi.generator;
 
 import com.iisi.freemarker.FreemarkerUtil;
+import com.iisi.generator.model.changeform.Action;
 import com.iisi.generator.model.changeform.ChangeFormData;
 import com.iisi.generator.model.changeform.ChangeFormTable;
 import freemarker.template.Template;
@@ -8,8 +9,7 @@ import freemarker.template.TemplateException;
 
 import java.io.*;
 import java.nio.charset.StandardCharsets;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 public class ChangeFormGenerator extends AbstractFormGenerator<ChangeFormData> {
 
@@ -17,6 +17,9 @@ public class ChangeFormGenerator extends AbstractFormGenerator<ChangeFormData> {
     public File processFormTemplate(ChangeFormData changeFormData, File destDir) throws IOException, TemplateException, IllegalAccessException {
         File documentFile = new File(destDir, "changeForm.doc");
         Map<String, String> dataMap = new HashMap<>(injectFormDataInMap(changeFormData));
+
+        String actionRows = processActionsTable(changeFormData.getActions());
+        dataMap.put("actionRows", actionRows);
 
         ChangeFormTable table = changeFormData.getJavaAppTable();
         String javaAppTable = this.createTable(table, "word/table/changeform/java");
@@ -28,5 +31,27 @@ public class ChangeFormGenerator extends AbstractFormGenerator<ChangeFormData> {
 
         System.out.println("change form doc is created at:" + documentFile.getAbsolutePath());
         return documentFile;
+    }
+
+    public String processActionsTable(List<Action> actions) throws IOException, TemplateException {
+        Template rowTemplate = ftlProvider.getFreeMarkerTemplate("word/table/changeform/action/row.ftl");
+        Template columnParagraphTemplate = ftlProvider.getFreeMarkerTemplate("word/table/changeform/action/column-paragraph.ftl");
+        StringBuilder rows = new StringBuilder();
+        int index = 0;
+        for (Action action : actions) {
+            index++;
+            StringBuilder paragraphs = new StringBuilder();
+            for (String line : action.getLines()) {
+                String paragraph = FreemarkerUtil.processTemplateToString(columnParagraphTemplate, Collections.singletonMap("line", line));
+                paragraphs.append(paragraph);
+            }
+
+            Map<String, String> m = new HashMap<>();
+            m.put("index", String.valueOf(index));
+            m.put("paragraphs", paragraphs.toString());
+            String row = FreemarkerUtil.processTemplateToString(rowTemplate, m);
+            rows.append(row);
+        }
+        return rows.toString();
     }
 }
