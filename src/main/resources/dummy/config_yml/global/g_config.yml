@@ -7,11 +7,11 @@ form:
       - 'Follow Jenkins handbook to execute checkin, build and move job.'
     action2:
       - 'Move all files from \\apacctltwuat145\COLA\Jenkins_upload\Build_{{lcfg.project.name}}'
-      - 'to \\apacctltwuat145\COLA\COLA_AP_Deploy\{{lcfg.project.ap145DeployName}}'
+      - 'to \\apacctltwuat145\COLA\COLA_AP_Deploy\{{lcfg.ap145.projectFolderName}}'
     action3:
       - 'Stop AP.'
     action4:
-      - 'Un-zip D zip file and cover to D disk'
+      - 'Un-zip D zip file and COPY ALL files from un-zip folder D\{{lcfg.project.dName}} to \\apacctltwuat145\{{lcfg.ap145.dName}}'
     action5:
       - 'Follow websphere guide to change AP.'
 

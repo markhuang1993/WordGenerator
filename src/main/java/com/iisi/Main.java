@@ -103,7 +103,13 @@ public class Main {
         int sIdx = 0;
         while((pIdx = str.indexOf(prefix)) != -1 && (sIdx = str.indexOf(suffix)) != -1 && pIdx < sIdx){
             String key = str.substring(pIdx + 2, sIdx);
-            String val = MapUtil.getMapValueByPath(m, key);
+            String val;
+            try {
+                val = MapUtil.getMapValueByPath(m, key);
+            } catch (Exception e) {
+                val = e.getMessage();
+                e.printStackTrace();
+            }
             sb.append(str.substring(0, pIdx)).append(String.valueOf(val));
             str = str.substring(sIdx + 2);
         }

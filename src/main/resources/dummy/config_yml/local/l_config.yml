@@ -4,6 +4,11 @@ project:
   systemApplication: 'sapp01'
   systemId: 'sId01'
   warName: 'extfunc05.war'
+  dName: 'PCL'
   owner: 'mark, johnson, roger'
   supervisor: 'andy, johnson'
   vendorQm: 'mark, huang, handsome'
+
+ap145:
+  dName: 'PCL\PHASE4'
+  projectFolderName: 'extfunc05_PCL4'
