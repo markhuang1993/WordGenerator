@@ -6,8 +6,8 @@ form:
     action1:
       - 'Follow Jenkins handbook to execute checkin, build and move job.'
     action2:
-      - 'Move all files from \\apacctltwuat145\COLA\Jenkins_upload\Build_{{localcfg.project.name}}'
-      - 'to \\apacctltwuat145\COLA\COLA_AP_Deploy\{{localcfg.project.ap145DeployName}}'
+      - 'Move all files from \\apacctltwuat145\COLA\Jenkins_upload\Build_{{lcfg.project.name}}'
+      - 'to \\apacctltwuat145\COLA\COLA_AP_Deploy\{{lcfg.project.ap145DeployName}}'
     action3:
       - 'Stop AP.'
     action4:

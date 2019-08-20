@@ -19,16 +19,16 @@ import com.iisi.parser.form.model.argument.ArgumentParseResult;
 import com.iisi.parser.form.model.argument.FormArgument;
 import com.iisi.parser.form.model.yml.global.GlobalYmlParseResult;
 import com.iisi.parser.form.model.yml.local.LocalYmlParseResult;
+import com.iisi.util.MapUtil;
 import com.iisi.util.ResourceUtil;
 import freemarker.template.TemplateException;
 
 import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.stream.Collectors;
 
 public class Main {
     public static void main(String[] args) throws IOException, TemplateException, IllegalAccessException {
@@ -79,8 +79,36 @@ public class Main {
         changeFormGenerator.processFormTemplate(formData, destDir);
     }
 
-    private static List<Action> processFormActionValues(List<Action> actions, LocalYmlParseResult localYmlParseResult){
-        return actions;
+    private static List<Action> processFormActionValues(List<Action> actions, LocalYmlParseResult localYmlParseResult) {
+        Map<String, Object> m = new HashMap<>();
+        m.put("lcfg", localYmlParseResult.getOriginMap());
+        List<Action> newActions = actions.stream().map(action -> {
+            Action newAction = new Action();
+            List<String> lines = action.getLines();
+            for (String line : lines) {
+                newAction.addLine(replaceStr(line, m));
+            }
+            return newAction;
+        }).collect(Collectors.toList());
+        return newActions;
+    }
+
+    private static String replaceStr(String str, Map m) {
+        String prefix = "{{";
+        String suffix = "}}";
+
+        StringBuilder sb = new StringBuilder();
+
+        int pIdx = 0;
+        int sIdx = 0;
+        while((pIdx = str.indexOf(prefix)) != -1 && (sIdx = str.indexOf(suffix)) != -1 && pIdx < sIdx){
+            String key = str.substring(pIdx + 2, sIdx);
+            String val = MapUtil.getMapValueByPath(m, key);
+            sb.append(str.substring(0, pIdx)).append(String.valueOf(val));
+            str = str.substring(sIdx + 2);
+        }
+        sb.append(str);
+        return sb.toString();
     }
 
     private static ChangeFormTable changeFormJavaTable(
