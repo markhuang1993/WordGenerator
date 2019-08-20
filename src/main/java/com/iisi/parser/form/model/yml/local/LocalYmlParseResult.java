@@ -1,5 +1,9 @@
 package com.iisi.parser.form.model.yml.local;
 
+import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.Map;
+
 public  class LocalYmlParseResult {
     private String projectName;
     private String systemApplication;
@@ -8,8 +12,9 @@ public  class LocalYmlParseResult {
     private String owner;
     private String supervisor;
     private String vendorQm;
+    private Map<String, Object> originMap;
 
-    public LocalYmlParseResult(String projectName, String systemApplication, String systemId, String warName, String owner, String supervisor, String vendorQm) {
+    public LocalYmlParseResult(String projectName, String systemApplication, String systemId, String warName, String owner, String supervisor, String vendorQm,Map<String, Object> originMap) {
         this.projectName = projectName;
         this.systemApplication = systemApplication;
         this.systemId = systemId;
@@ -17,6 +22,7 @@ public  class LocalYmlParseResult {
         this.owner = owner;
         this.supervisor = supervisor;
         this.vendorQm = vendorQm;
+        this.originMap = originMap;
     }
 
     public String getProjectName() {
@@ -45,6 +51,14 @@ public  class LocalYmlParseResult {
 
     public String getvendorQm() {
         return vendorQm;
+    }
+
+    public Map getOriginMap() {
+        return new LinkedHashMap<>(originMap);
+    }
+
+    public void setOriginMap(Map<String, Object> originMap) {
+        this.originMap = originMap;
     }
 
     @Override

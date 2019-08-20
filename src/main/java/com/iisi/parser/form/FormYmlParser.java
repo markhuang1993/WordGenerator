@@ -1,12 +1,15 @@
 package com.iisi.parser.form;
 
 import com.fasterxml.jackson.dataformat.yaml.YAMLMapper;
+import com.iisi.generator.model.changeform.Action;
 import com.iisi.parser.form.model.yml.global.GlobalYmlParseResult;
 import com.iisi.parser.form.model.yml.local.LocalYmlParseResult;
 import com.iisi.util.MapUtil;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 public class FormYmlParser {
@@ -35,7 +38,17 @@ public class FormYmlParser {
 
         String citiProjectRelativePathPrefix = MapUtil.getMapValueByPath(map, "citi.project.relativePathPrefix");
 
-        return new GlobalYmlParseResult(signatureImgDir, citiProjectRelativePathPrefix);
+        List<Action> actions = new ArrayList<>();
+        Map<String, List<String>> actionMap = MapUtil.getMapValueByPath(map, "form.actions");
+        for (List<String> actionLines : actionMap.values()) {
+            Action action = new Action();
+            for (String line : actionLines) {
+                action.addLine(line);
+            }
+            actions.add(action);
+        }
+
+        return new GlobalYmlParseResult(signatureImgDir, citiProjectRelativePathPrefix, actions);
     }
 
 
@@ -55,7 +68,8 @@ public class FormYmlParser {
                 warName,
                 owner,
                 supervisor,
-                vendorQm
+                vendorQm,
+                map
         );
     }
 

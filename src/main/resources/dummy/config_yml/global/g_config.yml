@@ -2,6 +2,19 @@ form:
   image:
     signature:
       path: 'C:\Users\markh\IdeaProjects\WordGenerator\src\main\resources\image'
+  actions:
+    action1:
+      - 'Follow Jenkins handbook to execute checkin, build and move job.'
+    action2:
+      - 'Move all files from \\apacctltwuat145\COLA\Jenkins_upload\Build_{{localcfg.project.name}}'
+      - 'to \\apacctltwuat145\COLA\COLA_AP_Deploy\{{localcfg.project.ap145DeployName}}'
+    action3:
+      - 'Stop AP.'
+    action4:
+      - 'Un-zip D zip file and cover to D disk'
+    action5:
+      - 'Follow websphere guide to change AP.'
+
 citi:
   project:
     relativePathPrefix: '@iisi/repos'

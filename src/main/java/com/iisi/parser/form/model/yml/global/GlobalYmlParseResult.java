@@ -1,14 +1,20 @@
 package com.iisi.parser.form.model.yml.global;
 
-import java.io.File;
+import com.iisi.generator.model.changeform.Action;
 
-public  class GlobalYmlParseResult {
+import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
+
+public class GlobalYmlParseResult {
     private File signatureImgDir;
     private String citiProjectRelativePathPrefix;
+    private List<Action> actions;
 
-    public GlobalYmlParseResult(File signatureImgDir, String citiProjectRelativePathPrefix) {
+    public GlobalYmlParseResult(File signatureImgDir, String citiProjectRelativePathPrefix, List<Action> actions) {
         this.signatureImgDir = signatureImgDir;
         this.citiProjectRelativePathPrefix = citiProjectRelativePathPrefix;
+        this.actions = new ArrayList<>(actions);
     }
 
     public File getSignatureImgDir() {
@@ -25,6 +31,14 @@ public  class GlobalYmlParseResult {
 
     public void setCitiProjectRelativePathPrefix(String citiProjectRelativePathPrefix) {
         this.citiProjectRelativePathPrefix = citiProjectRelativePathPrefix;
+    }
+
+    public void setActions(List<Action> actions) {
+        this.actions = new ArrayList<>(actions);
+    }
+
+    public List<Action> getActions() {
+        return actions;
     }
 
     @Override

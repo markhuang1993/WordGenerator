@@ -69,14 +69,7 @@ public class Main {
                 .setLacrNo(System.getProperty("lacrNo"))
                 .setSystemApplication(localYmlParseResult.getSystemApplication())
                 .setSubmitDate(new SimpleDateFormat("yyyy/MM/dd").format(new Date()))
-                .addAction(new Action("Follow Jenkins handbook to execute checkin, build and move job."))
-                .addAction(new Action(
-                        String.format("Move all files from \\\\apacctltwuat145\\COLA\\Jenkins_upload\\Build_%s", localYmlParseResult.getProjectName()),
-                        String.format("to \\\\apacctltwuat145\\COLA\\COLA_AP_Deploy\\%s.", localYmlParseResult.getWarName())
-                ))
-                .addAction(new Action("Stop AP."))
-                .addAction(new Action("Un-zip D zip file and cover to D disk."))
-                .addAction(new Action("Follow websphere guide to change AP."))
+                .setActions(processFormActionValues(globalYmlParseResult.getActions(), localYmlParseResult))
                 .setProgrammerB64Png(signatureImages[0])
                 .setSupervisorB64Png(signatureImages[1])
                 .setVendorQmB64Png(signatureImages[2])
@@ -84,6 +77,10 @@ public class Main {
                 .build();
 
         changeFormGenerator.processFormTemplate(formData, destDir);
+    }
+
+    private static List<Action> processFormActionValues(List<Action> actions, LocalYmlParseResult localYmlParseResult){
+        return actions;
     }
 
     private static ChangeFormTable changeFormJavaTable(
