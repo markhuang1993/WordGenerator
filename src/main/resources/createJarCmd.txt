@@ -1,0 +1,1 @@
+clean jar:jar package -Dmaven.test.skip=true -Pgen-jar

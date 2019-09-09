@@ -46,16 +46,22 @@ public class Main {
         LocalYmlParseResult localYmlParseResult = ymlParser.parsLocalYml(formArgument.getLocalConfigYmlFile());
         System.out.println(localYmlParseResult);
 
-        List<DiffDetail> diffDetails = DiffTxtParser.getInstance().parseDiffTxt(formArgument.getDiffTxtFile());
+        File diffTxtFile = formArgument.getDiffTxtFile();
+        List<DiffDetail> diffDetails = DiffTxtParser.getInstance().parseDiffTxt(diffTxtFile);
 
         String jenkinsJobExecutor = formArgument.getJenkinsJobExecutor();
         File destDir = formArgument.getDestDir();
 
-        createCheckoutForm(jenkinsJobExecutor, destDir, globalYmlParseResult, localYmlParseResult, diffDetails);
-        createChangeForm(jenkinsJobExecutor, destDir, globalYmlParseResult, localYmlParseResult, diffDetails);
+        boolean isPat = diffTxtFile.getName().contains("Pat");
+
+        if (!isPat) {
+            createCheckoutForm(jenkinsJobExecutor, destDir, globalYmlParseResult, localYmlParseResult, diffDetails);
+        }
+        createChangeForm(isPat, jenkinsJobExecutor, destDir, globalYmlParseResult, localYmlParseResult, diffDetails);
     }
 
     private static void createChangeForm(
+            boolean isPat,
             String jobExecutor,
             File destDir,
             GlobalYmlParseResult globalYmlParseResult,
@@ -64,8 +70,8 @@ public class Main {
         File[] signatureImages = ResourceUtil.getSignatureImages(jobExecutor, globalYmlParseResult, localYmlParseResult);
         ChangeFormGenerator changeFormGenerator = new ChangeFormGenerator();
         ChangeFormData formData = ChangeFormData.builder()
-                .setPromoteToUat(CheckboxString.CHECKED.val())
-                .setPromoteToProduction(CheckboxString.UNCHECKED.val())
+                .setPromoteToUat(isPat ? CheckboxString.UNCHECKED.val() : CheckboxString.CHECKED.val())
+                .setPromoteToProduction(isPat ? CheckboxString.CHECKED.val() : CheckboxString.UNCHECKED.val())
                 .setLacrNo(System.getProperty("lacrNo"))
                 .setSystemApplication(localYmlParseResult.getSystemApplication())
                 .setSubmitDate(new SimpleDateFormat("yyyy/MM/dd").format(new Date()))
@@ -101,7 +107,7 @@ public class Main {
 
         int pIdx = 0;
         int sIdx = 0;
-        while((pIdx = str.indexOf(prefix)) != -1 && (sIdx = str.indexOf(suffix)) != -1 && pIdx < sIdx){
+        while ((pIdx = str.indexOf(prefix)) != -1 && (sIdx = str.indexOf(suffix)) != -1 && pIdx < sIdx) {
             String key = str.substring(pIdx + 2, sIdx);
             String val;
             try {
