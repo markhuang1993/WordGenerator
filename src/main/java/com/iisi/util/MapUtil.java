@@ -8,8 +8,12 @@ public final class MapUtil {
         throw new AssertionError();
     }
 
-    @SuppressWarnings("unchecked")
     public static <T> T getMapValueByPath(Map m, String path) {
+        return getMapValueByPath(m, path, false);
+    }
+
+    @SuppressWarnings("unchecked")
+    public static <T> T getMapValueByPath(Map m, String path, boolean ignoreNotExist) {
 
         String[] keys = path.split("\\.");
 
@@ -30,6 +34,9 @@ public final class MapUtil {
                     temp = ((Map) temp).get(key);
                 }
             } else {
+                if (ignoreNotExist){
+                    return null;
+                }
                 throw new IllegalArgumentException(String.format("Path:%s not exist", nowPath.toString()));
             }
         }

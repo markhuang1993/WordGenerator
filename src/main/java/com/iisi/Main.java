@@ -38,21 +38,20 @@ public class Main {
         }
 
         FormArgument formArgument = argumentParseResult.getFormArgument();
+        File diffTxtFile = formArgument.getDiffTxtFile();
+        boolean isPat = diffTxtFile.getName().contains("Pat");
 
         FormYmlParser ymlParser = FormYmlParser.getInstance();
-        GlobalYmlParseResult globalYmlParseResult = ymlParser.parseGlobalYml(formArgument.getGlobalConfigYmlFile());
+        GlobalYmlParseResult globalYmlParseResult = ymlParser.parseGlobalYml(formArgument.getGlobalConfigYmlFile(), isPat);
         System.out.println(globalYmlParseResult);
 
         LocalYmlParseResult localYmlParseResult = ymlParser.parsLocalYml(formArgument.getLocalConfigYmlFile());
         System.out.println(localYmlParseResult);
 
-        File diffTxtFile = formArgument.getDiffTxtFile();
         List<DiffDetail> diffDetails = DiffTxtParser.getInstance().parseDiffTxt(diffTxtFile);
 
         String jenkinsJobExecutor = formArgument.getJenkinsJobExecutor();
         File destDir = formArgument.getDestDir();
-
-        boolean isPat = diffTxtFile.getName().contains("Pat");
 
         if (!isPat) {
             createCheckoutForm(jenkinsJobExecutor, destDir, globalYmlParseResult, localYmlParseResult, diffDetails);
@@ -79,7 +78,7 @@ public class Main {
                 .setProgrammerB64Png(signatureImages[0])
                 .setSupervisorB64Png(signatureImages[1])
                 .setVendorQmB64Png(signatureImages[2])
-                .setJavaAppTable(changeFormJavaTable(globalYmlParseResult, localYmlParseResult, diffDetails))
+                .setJavaAppTable(changeFormJavaTable(isPat, globalYmlParseResult, localYmlParseResult, diffDetails))
                 .build();
 
         changeFormGenerator.processFormTemplate(formData, destDir);
@@ -92,7 +91,10 @@ public class Main {
             Action newAction = new Action();
             List<String> lines = action.getLines();
             for (String line : lines) {
-                newAction.addLine(replaceStr(line, m));
+                String newLine = replaceStr(line, m);
+                if (!"".equals(newLine)) {
+                    newAction.addLine(newLine);
+                }
             }
             return newAction;
         }).collect(Collectors.toList());
@@ -105,18 +107,26 @@ public class Main {
 
         StringBuilder sb = new StringBuilder();
 
-        int pIdx = 0;
-        int sIdx = 0;
+        int pIdx;
+        int sIdx;
         while ((pIdx = str.indexOf(prefix)) != -1 && (sIdx = str.indexOf(suffix)) != -1 && pIdx < sIdx) {
             String key = str.substring(pIdx + 2, sIdx);
+
+            boolean ignoreNotExist = false;
+            if (key.charAt(key.length() - 1) == '!') {
+                ignoreNotExist = true;
+                key = key.substring(0, key.length() - 1);
+            }
+
             String val;
             try {
-                val = MapUtil.getMapValueByPath(m, key);
+                val = MapUtil.getMapValueByPath(m, key, ignoreNotExist);
+                val = val == null ? "" : val;
             } catch (Exception e) {
                 val = e.getMessage();
                 e.printStackTrace();
             }
-            sb.append(str.substring(0, pIdx)).append(String.valueOf(val));
+            sb.append(str, 0, pIdx).append(val);
             str = str.substring(sIdx + 2);
         }
         sb.append(str);
@@ -124,6 +134,7 @@ public class Main {
     }
 
     private static ChangeFormTable changeFormJavaTable(
+            boolean isPat,
             GlobalYmlParseResult globalYmlParseResult,
             LocalYmlParseResult localYmlParseResult,
             List<DiffDetail> diffDetails) {
@@ -149,6 +160,9 @@ public class Main {
                 });
         ChangeFormTableRow changeFormTableRow = new ChangeFormTableRow();
         changeFormTableRow.setProgramExecutionName(localYmlParseResult.getWarName());
+        if (isPat) {
+            changeFormTableRow.setProgramDescription("apacctltwap145Node01Cell\\" + localYmlParseResult.getWarName() + ".ear");
+        }
         tableRows.add(changeFormTableRow);
         return new ChangeFormTable(tableRows);
     }

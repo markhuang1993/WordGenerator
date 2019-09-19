@@ -3,6 +3,7 @@ project:
   lacrNo: 'lno01'
   systemApplication: 'sapp01'
   systemId: 'sId01'
+  contextName: 'extfunc05'
   warName: 'extfunc05.war'
   dName: 'PCL'
   owner: 'mark, johnson, roger'
@@ -12,3 +13,6 @@ project:
 ap145:
   dName: 'PCL\PHASE4'
   projectFolderName: 'extfunc05_PCL4'
+
+pat:
+  deployNote: '我是你大爺'

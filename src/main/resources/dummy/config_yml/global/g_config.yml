@@ -2,18 +2,31 @@ form:
   image:
     signature:
       path: 'C:\Users\markh\IdeaProjects\WordGenerator\src\main\resources\image'
-  actions:
-    action1:
-      - 'Follow Jenkins handbook to execute checkin, build and move job.'
-    action2:
-      - 'Move all files from \\apacctltwuat145\COLA\Jenkins_upload\Build_{{lcfg.project.name}}'
-      - 'to \\apacctltwuat145\COLA\COLA_AP_Deploy\{{lcfg.ap145.projectFolderName}}'
-    action3:
-      - 'Stop AP.'
-    action4:
-      - 'Un-zip D zip file and COPY ALL files from un-zip folder D\{{lcfg.project.dName}} to \\apacctltwuat145\{{lcfg.ap145.dName}}'
-    action5:
-      - 'Follow websphere guide to change AP.'
+  uat:
+    actions:
+      action1:
+        - 'Follow Jenkins handbook to execute checkin, build and move job.'
+      action2:
+        - 'Move all files from \\apacctltwuat145\COLA\Jenkins_upload\Build_{{lcfg.project.name}}'
+        - 'to \\apacctltwuat145\COLA\COLA_AP_Deploy\{{lcfg.ap145.projectFolderName}}'
+      action3:
+        - 'Stop AP ({{lcfg.project.contextName}}).'
+      action4:
+        - 'Un-zip D zip file and COPY ALL files from un-zip folder D\{{lcfg.project.dName}} to \\apacctltwuat145\{{lcfg.ap145.dName}}'
+      action5:
+        - 'Follow websphere guide to change AP.'
+  pat:
+    actions:
+      action1:
+        - 'uninstall ap.'
+      action2:
+        - 'Depoly new ap(Karen替代所開的資料夾\extfunc25.war).'
+        - '{{lcfg.pat.deployNote!}}'
+      action3:
+        - 'Execute deploy sql file at PROD DB from vendor, for setting {{lcfg.project.name}} data.'
+        - 'Deploy sql file name: 替代要交付的SQL檔名'
+      action4:
+        - 'Follow websphere guide to change AP.'
 
 citi:
   project:

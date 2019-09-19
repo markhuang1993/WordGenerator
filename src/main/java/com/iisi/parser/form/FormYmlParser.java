@@ -26,7 +26,7 @@ public class FormYmlParser {
         return FormYmlParser.Nested.CHANGE_FORM_YML_PARSER;
     }
 
-    public GlobalYmlParseResult parseGlobalYml(File ymlFile) throws IOException {
+    public GlobalYmlParseResult parseGlobalYml(File ymlFile, boolean isPat) throws IOException {
 
         Map map = yamlMapper.readValue(ymlFile, Map.class);
         String signatureImgPath = MapUtil.getMapValueByPath(map, "form.image.signature.path");
@@ -39,7 +39,8 @@ public class FormYmlParser {
         String citiProjectRelativePathPrefix = MapUtil.getMapValueByPath(map, "citi.project.relativePathPrefix");
 
         List<Action> actions = new ArrayList<>();
-        Map<String, List<String>> actionMap = MapUtil.getMapValueByPath(map, "form.actions");
+        String actionPath = isPat ? "form.pat.actions" : "form.uat.actions";
+        Map<String, List<String>> actionMap = MapUtil.getMapValueByPath(map, actionPath);
         for (List<String> actionLines : actionMap.values()) {
             Action action = new Action();
             for (String line : actionLines) {
@@ -58,6 +59,7 @@ public class FormYmlParser {
         String systemApplication = MapUtil.getMapValueByPath(map, "project.systemApplication");
         String systemId = MapUtil.getMapValueByPath(map, "project.systemId");
         String warName = MapUtil.getMapValueByPath(map, "project.warName");
+        String contextName = MapUtil.getMapValueByPath(map, "project.contextName");
         String owner = MapUtil.getMapValueByPath(map, "project.owner");
         String supervisor = MapUtil.getMapValueByPath(map, "project.supervisor");
         String vendorQm = MapUtil.getMapValueByPath(map, "project.vendorQm");
@@ -65,6 +67,7 @@ public class FormYmlParser {
                 name,
                 systemApplication,
                 systemId,
+                contextName,
                 warName,
                 owner,
                 supervisor,
