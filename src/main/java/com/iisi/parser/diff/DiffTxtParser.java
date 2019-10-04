@@ -1,6 +1,7 @@
 package com.iisi.parser.diff;
 
 import com.iisi.constants.DiffStatus;
+import com.iisi.util.XmlUtil;
 
 import java.io.File;
 import java.io.IOException;
@@ -44,7 +45,7 @@ public class DiffTxtParser {
             }
 
             if (len > 1) {
-                diffDetail.setFilePath(detail[1].trim());
+                diffDetail.setFilePath(XmlUtil.specialStringToXmlFormat(detail[1].trim()));
             }
             diffDetails.add(diffDetail);
         }
