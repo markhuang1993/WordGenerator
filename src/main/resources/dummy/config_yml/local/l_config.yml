@@ -10,6 +10,12 @@ project:
   supervisor: 'andy, johnson'
   vendorQm: 'mark, huang, handsome'
 
+form:
+  uat:
+    actions:
+      action1:
+        - 'Hello uat.'
+
 ap145:
   dName: 'PCL\PHASE4'
   projectFolderName: 'extfunc05_PCL4'

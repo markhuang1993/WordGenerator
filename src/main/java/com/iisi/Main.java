@@ -45,7 +45,7 @@ public class Main {
         GlobalYmlParseResult globalYmlParseResult = ymlParser.parseGlobalYml(formArgument.getGlobalConfigYmlFile(), isPat);
         System.out.println(globalYmlParseResult);
 
-        LocalYmlParseResult localYmlParseResult = ymlParser.parsLocalYml(formArgument.getLocalConfigYmlFile());
+        LocalYmlParseResult localYmlParseResult = ymlParser.parsLocalYml(formArgument.getLocalConfigYmlFile(), isPat);
         System.out.println(localYmlParseResult);
 
         List<DiffDetail> diffDetails = DiffTxtParser.getInstance().parseDiffTxt(diffTxtFile);
@@ -68,13 +68,17 @@ public class Main {
             List<DiffDetail> diffDetails) throws IllegalAccessException, TemplateException, IOException {
         File[] signatureImages = ResourceUtil.getSignatureImages(jobExecutor, globalYmlParseResult, localYmlParseResult);
         ChangeFormGenerator changeFormGenerator = new ChangeFormGenerator();
+        List<Action> actions = localYmlParseResult.getActions();
+        if (actions == null || actions.size() == 0) {
+            actions = globalYmlParseResult.getActions();
+        }
         ChangeFormData formData = ChangeFormData.builder()
                 .setPromoteToUat(isPat ? CheckboxString.UNCHECKED.val() : CheckboxString.CHECKED.val())
                 .setPromoteToProduction(isPat ? CheckboxString.CHECKED.val() : CheckboxString.UNCHECKED.val())
                 .setLacrNo(System.getProperty("lacrNo"))
                 .setSystemApplication(localYmlParseResult.getSystemApplication())
                 .setSubmitDate(new SimpleDateFormat("yyyy/MM/dd").format(new Date()))
-                .setActions(processFormActionValues(globalYmlParseResult.getActions(), localYmlParseResult))
+                .setActions(processFormActionValues(actions, localYmlParseResult))
                 .setProgrammerB64Png(signatureImages[0])
                 .setSupervisorB64Png(signatureImages[1])
                 .setVendorQmB64Png(signatureImages[2])
@@ -87,7 +91,7 @@ public class Main {
     private static List<Action> processFormActionValues(List<Action> actions, LocalYmlParseResult localYmlParseResult) {
         Map<String, Object> m = new HashMap<>();
         m.put("lcfg", localYmlParseResult.getOriginMap());
-        List<Action> newActions = actions.stream().map(action -> {
+        return actions.stream().map(action -> {
             Action newAction = new Action();
             List<String> lines = action.getLines();
             for (String line : lines) {
@@ -98,7 +102,6 @@ public class Main {
             }
             return newAction;
         }).collect(Collectors.toList());
-        return newActions;
     }
 
     private static String replaceStr(String str, Map m) {

@@ -1,10 +1,10 @@
 package com.iisi.parser.form.model.yml.local;
 
-import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.Map;
+import com.iisi.generator.model.changeform.Action;
 
-public  class LocalYmlParseResult {
+import java.util.*;
+
+public class LocalYmlParseResult {
     private String projectName;
     private String systemApplication;
     private String systemId;
@@ -13,9 +13,15 @@ public  class LocalYmlParseResult {
     private String owner;
     private String supervisor;
     private String vendorQm;
+    private List<Action> actions;
     private Map<String, Object> originMap;
 
-    public LocalYmlParseResult(String projectName, String systemApplication, String systemId, String contextName, String warName, String owner, String supervisor, String vendorQm,Map<String, Object> originMap) {
+    public LocalYmlParseResult(
+            String projectName, String systemApplication,
+            String systemId, String contextName,
+            String warName, String owner,
+            String supervisor, String vendorQm,
+            List<Action> actions, Map<String, Object> originMap) {
         this.projectName = projectName;
         this.systemApplication = systemApplication;
         this.systemId = systemId;
@@ -24,6 +30,7 @@ public  class LocalYmlParseResult {
         this.owner = owner;
         this.supervisor = supervisor;
         this.vendorQm = vendorQm;
+        this.actions = new ArrayList<>(actions);
         this.originMap = originMap;
     }
 
@@ -55,6 +62,10 @@ public  class LocalYmlParseResult {
         return vendorQm;
     }
 
+    public List<Action> getActions() {
+        return actions;
+    }
+
     public Map getOriginMap() {
         return new LinkedHashMap<>(originMap);
     }
@@ -82,6 +93,8 @@ public  class LocalYmlParseResult {
                 ", owner='" + owner + '\'' +
                 ", supervisor='" + supervisor + '\'' +
                 ", vendorQm='" + vendorQm + '\'' +
+                ", actions=" + actions +
+                ", originMap=" + originMap +
                 '}';
     }
 }

@@ -38,22 +38,35 @@ public class FormYmlParser {
 
         String citiProjectRelativePathPrefix = MapUtil.getMapValueByPath(map, "citi.project.relativePathPrefix");
 
-        List<Action> actions = new ArrayList<>();
-        String actionPath = isPat ? "form.pat.actions" : "form.uat.actions";
-        Map<String, List<String>> actionMap = MapUtil.getMapValueByPath(map, actionPath);
-        for (List<String> actionLines : actionMap.values()) {
-            Action action = new Action();
-            for (String line : actionLines) {
-                action.addLine(line);
-            }
-            actions.add(action);
-        }
+        List<Action> actions = getActionsFromYmlMap(map, isPat, false);
 
         return new GlobalYmlParseResult(signatureImgDir, citiProjectRelativePathPrefix, actions);
     }
 
+    private List<Action> getActionsFromYmlMap(Map map, boolean isPat, boolean ignoreNotFound) {
+        List<Action> actions = new ArrayList<>();
+        try {
+            String actionPath = isPat ? "form.pat.actions" : "form.uat.actions";
+            Map<String, List<String>> actionMap = MapUtil.getMapValueByPath(map, actionPath);
+            for (List<String> actionLines : actionMap.values()) {
+                Action action = new Action();
+                for (String line : actionLines) {
+                    action.addLine(line);
+                }
+                actions.add(action);
+            }
+        } catch (Exception e) {
+            if (e instanceof IllegalArgumentException) {
+                if (!ignoreNotFound) e.printStackTrace();
+            } else {
+                e.printStackTrace();
+            }
+        }
+        return actions;
+    }
 
-    public LocalYmlParseResult parsLocalYml(File ymlFile) throws IOException {
+
+    public LocalYmlParseResult parsLocalYml(File ymlFile, boolean isPat) throws IOException {
         Map map = yamlMapper.readValue(ymlFile, Map.class);
         String name = MapUtil.getMapValueByPath(map, "project.name");
         String systemApplication = MapUtil.getMapValueByPath(map, "project.systemApplication");
@@ -63,6 +76,8 @@ public class FormYmlParser {
         String owner = MapUtil.getMapValueByPath(map, "project.owner");
         String supervisor = MapUtil.getMapValueByPath(map, "project.supervisor");
         String vendorQm = MapUtil.getMapValueByPath(map, "project.vendorQm");
+        List<Action> actions = getActionsFromYmlMap(map, isPat, true);
+
         return new LocalYmlParseResult(
                 name,
                 systemApplication,
@@ -72,6 +87,7 @@ public class FormYmlParser {
                 owner,
                 supervisor,
                 vendorQm,
+                actions,
                 map
         );
     }
