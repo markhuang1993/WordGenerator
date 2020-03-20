@@ -73,8 +73,7 @@ public class Main {
             actions = globalYmlParseResult.getActions();
         }
         ChangeFormData formData = ChangeFormData.builder()
-                .setPromoteToUat(isPat ? CheckboxString.UNCHECKED.val() : CheckboxString.CHECKED.val())
-                .setPromoteToProduction(isPat ? CheckboxString.CHECKED.val() : CheckboxString.UNCHECKED.val())
+                .setPat(isPat)
                 .setLacrNo(System.getProperty("lacrNo"))
                 .setSystemApplication(localYmlParseResult.getSystemApplication())
                 .setSubmitDate(new SimpleDateFormat("yyyy/MM/dd").format(new Date()))

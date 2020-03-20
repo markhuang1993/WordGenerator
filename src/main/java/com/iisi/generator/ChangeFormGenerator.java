@@ -1,5 +1,6 @@
 package com.iisi.generator;
 
+import com.iisi.constants.CheckboxString;
 import com.iisi.freemarker.FreemarkerUtil;
 import com.iisi.generator.model.changeform.Action;
 import com.iisi.generator.model.changeform.ChangeFormData;
@@ -18,6 +19,9 @@ public class ChangeFormGenerator extends AbstractFormGenerator<ChangeFormData> {
         File documentFile = new File(destDir, "changeForm.doc");
         Map<String, String> dataMap = new HashMap<>(injectFormDataInMap(changeFormData));
 
+        Map<String, String> envData = processDeployEnv(changeFormData.isPat());
+        dataMap.putAll(envData);
+
         String actionRows = processActionsTable(changeFormData.getActions());
         dataMap.put("actionRows", actionRows);
 
@@ -33,7 +37,19 @@ public class ChangeFormGenerator extends AbstractFormGenerator<ChangeFormData> {
         return documentFile;
     }
 
-    public String processActionsTable(List<Action> actions) throws IOException, TemplateException {
+    private Map<String, String> processDeployEnv(boolean isPat) throws IOException, TemplateException {
+        Map<String, String> result = new HashMap<>();
+        result.put("promoteToUat", isPat ? CheckboxString.UNCHECKED.val() : CheckboxString.CHECKED.val());
+        result.put("promoteToProduction", isPat ? CheckboxString.CHECKED.val() : CheckboxString.UNCHECKED.val());
+        if (isPat) {
+            Template sourceReviewGuidTemplate = ftlProvider.getFreeMarkerTemplate("word/table/changeform/source_code_review_guide.ftl");
+            String  sourceReviewGuidStr = FreemarkerUtil.processTemplateToString(sourceReviewGuidTemplate, Collections.emptyMap());
+            result.put("sourceCodeReviewGuid", sourceReviewGuidStr);
+        }
+        return result;
+    }
+
+    private String processActionsTable(List<Action> actions) throws IOException, TemplateException {
         Template rowTemplate = ftlProvider.getFreeMarkerTemplate("word/table/changeform/action/row.ftl");
         Template columnParagraphTemplate = ftlProvider.getFreeMarkerTemplate("word/table/changeform/action/column-paragraph.ftl");
         StringBuilder rows = new StringBuilder();

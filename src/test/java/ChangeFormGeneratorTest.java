@@ -19,8 +19,7 @@ public class ChangeFormGeneratorTest {
     public void createDocTest() throws IllegalAccessException, TemplateException, IOException {
         ChangeFormGenerator changeFormGenerator = new ChangeFormGenerator();
         ChangeFormData formData = ChangeFormData.builder()
-                .setPromoteToUat(CheckboxString.CHECKED.val())
-                .setPromoteToProduction(CheckboxString.UNCHECKED.val())
+                .setPat(true)
                 .setLacrNo("37037")
                 .setSystemApplication("sapp")
                 .setSystemApplication("2019-06-22")
