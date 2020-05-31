@@ -1,5 +1,6 @@
 package com.iisi.parser.form;
 
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.dataformat.yaml.YAMLMapper;
 import com.iisi.generator.model.changeform.Action;
 import com.iisi.parser.form.model.yml.global.GlobalYmlParseResult;
@@ -28,7 +29,7 @@ public class FormYmlParser {
 
     public GlobalYmlParseResult parseGlobalYml(File ymlFile, boolean isPat) throws IOException {
 
-        Map map = yamlMapper.readValue(ymlFile, Map.class);
+        Map<String, Object> map = yamlMapper.readValue(ymlFile, new TypeReference<Map<String, Object>>(){});
         String signatureImgPath = MapUtil.getMapValueByPath(map, "form.image.signature.path");
 
         File signatureImgDir = new File(signatureImgPath);
@@ -43,7 +44,7 @@ public class FormYmlParser {
         return new GlobalYmlParseResult(signatureImgDir, citiProjectRelativePathPrefix, actions);
     }
 
-    private List<Action> getActionsFromYmlMap(Map map, boolean isPat, boolean ignoreNotFound) {
+    private List<Action> getActionsFromYmlMap(Map<String, Object> map, boolean isPat, boolean ignoreNotFound) {
         List<Action> actions = new ArrayList<>();
         try {
             String actionPath = isPat ? "form.pat.actions" : "form.uat.actions";
@@ -67,7 +68,7 @@ public class FormYmlParser {
 
 
     public LocalYmlParseResult parsLocalYml(File ymlFile, boolean isPat) throws IOException {
-        Map map = yamlMapper.readValue(ymlFile, Map.class);
+        Map<String, Object> map = yamlMapper.readValue(ymlFile, new TypeReference<Map<String, Object>>(){});
         String name = MapUtil.getMapValueByPath(map, "project.name");
         String systemApplication = MapUtil.getMapValueByPath(map, "project.systemApplication");
         String systemId = MapUtil.getMapValueByPath(map, "project.systemId");

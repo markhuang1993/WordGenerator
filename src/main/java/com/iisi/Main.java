@@ -103,7 +103,7 @@ public class Main {
         }).collect(Collectors.toList());
     }
 
-    private static String replaceStr(String str, Map m) {
+    private static String replaceStr(String str, Map<String , Object> m) {
         String prefix = "{{";
         String suffix = "}}";
 
@@ -140,15 +140,14 @@ public class Main {
             GlobalYmlParseResult globalYmlParseResult,
             LocalYmlParseResult localYmlParseResult,
             List<DiffDetail> diffDetails) {
-        ArrayList<ChangeFormTableRow> tableRows = new ArrayList<>();
 
         AtomicInteger no = new AtomicInteger(1);
-        diffDetails.stream()
-                .filter(diffDetail -> {
+        List<ChangeFormTableRow> tableRows = diffDetails.stream()
+                .filter(diffDetail -> { // only need status A and M
                     DiffStatus status = diffDetail.getStatus();
                     return DiffStatus.A.equals(status) || DiffStatus.M.equals(status);
                 })
-                .forEach(diffDetail -> {
+                .map(diffDetail -> {
                     ChangeFormTableRow changeFormTableRow = new ChangeFormTableRow();
                     DiffStatus status = diffDetail.getStatus();
                     changeFormTableRow.setNewOld(status.equals(DiffStatus.A) ? "N" : "O");
@@ -158,8 +157,8 @@ public class Main {
                     changeFormTableRow.setProgramFileName(diffFileName);
                     changeFormTableRow.setProgramDescription(genProgramDescription(globalYmlParseResult, localYmlParseResult, diffDetail));
                     changeFormTableRow.setCheckIn("Y");
-                    tableRows.add(changeFormTableRow);
-                });
+                    return changeFormTableRow;
+                }).collect(Collectors.toList());
         ChangeFormTableRow changeFormTableRow = new ChangeFormTableRow();
         changeFormTableRow.setProgramExecutionName(localYmlParseResult.getWarName());
         if (isPat) {
@@ -176,7 +175,6 @@ public class Main {
             LocalYmlParseResult localYmlParseResult,
             List<DiffDetail> diffDetails) throws IllegalAccessException, TemplateException, IOException {
         File[] signatureImages = ResourceUtil.getSignatureImages(jobExecutor, globalYmlParseResult, localYmlParseResult);
-        CheckoutFormGenerator checkoutFormGenerator = new CheckoutFormGenerator();
         CheckoutFormData formData = CheckoutFormData.builder()
                 .setLacrNo(System.getProperty("lacrNo"))
                 .setSystemApplication(localYmlParseResult.getSystemApplication())
@@ -186,30 +184,29 @@ public class Main {
                 .setJavaAppTable(checkoutFormJavaTable(globalYmlParseResult, localYmlParseResult, diffDetails))
                 .build();
 
-        checkoutFormGenerator.processFormTemplate(formData, destDir);
+        new CheckoutFormGenerator().processFormTemplate(formData, destDir);
     }
 
     private static CheckoutFormTable checkoutFormJavaTable(
             GlobalYmlParseResult globalYmlParseResult,
             LocalYmlParseResult localYmlParseResult,
             List<DiffDetail> diffDetails) {
-        ArrayList<CheckoutFormTableRow> tableRows = new ArrayList<>();
 
         AtomicInteger no = new AtomicInteger(1);
-        diffDetails.stream()
+        List<CheckoutFormTableRow> tableRows = diffDetails.stream()
                 .filter(diffDetail -> {
                     DiffStatus status = diffDetail.getStatus();
                     return DiffStatus.M.equals(status);
                 })
-                .forEach(diffDetail -> {
+                .map(diffDetail -> {
                     CheckoutFormTableRow checkoutFormTableRow = new CheckoutFormTableRow();
                     checkoutFormTableRow.setNo(String.valueOf(no.getAndAdd(1)));
                     checkoutFormTableRow.setSystemID(localYmlParseResult.getSystemId());
                     String diffFileName = getDiffFileName(diffDetail);
                     checkoutFormTableRow.setProgramFileName(diffFileName);
                     checkoutFormTableRow.setProgramDescription(genProgramDescription(globalYmlParseResult, localYmlParseResult, diffDetail));
-                    tableRows.add(checkoutFormTableRow);
-                });
+                    return checkoutFormTableRow;
+                }).collect(Collectors.toList());
         return new CheckoutFormTable(tableRows);
     }
 

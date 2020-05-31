@@ -39,13 +39,13 @@ public class CheckoutFormGeneratorTest {
         String s2 = Arrays.stream(new String[20]).map(x -> "e").collect(Collectors.joining(""));
         String s3 = Arrays.stream(new String[20]).map(x -> "t").collect(Collectors.joining(""));
         tableRows.add(new CheckoutFormTableRow(s, s1, s2, s3, "床前明月光\r\n疑似地上霜\r\n舉頭望明月\r\n低頭思故鄉"));
-        for (int i = 0; i < 160; i++) {
+        for (int i = 0; i < 20; i++) {
             tableRows.add(new CheckoutFormTableRow(
                     String.valueOf(i),
-                    String.valueOf(i + 160),
-                    String.valueOf(i + 320),
-                    String.valueOf(i + 480),
-                    String.valueOf(i + 640)
+                    String.valueOf(i + 20),
+                    String.valueOf(i + 40),
+                    String.valueOf(i + 60),
+                    String.valueOf(i + 80)
             ));
         }
 

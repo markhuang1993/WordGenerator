@@ -8,12 +8,12 @@ public final class MapUtil {
         throw new AssertionError();
     }
 
-    public static <T> T getMapValueByPath(Map m, String path) {
+    public static <T> T getMapValueByPath(Map<String, Object> m, String path) {
         return getMapValueByPath(m, path, false);
     }
 
     @SuppressWarnings("unchecked")
-    public static <T> T getMapValueByPath(Map m, String path, boolean ignoreNotExist) {
+    public static <T> T getMapValueByPath(Map<String, Object> m, String path, boolean ignoreNotExist) {
 
         String[] keys = path.split("\\.");
 
@@ -28,10 +28,10 @@ public final class MapUtil {
                 if (key.matches(arrRegx)) {
                     key = key.replaceAll(arrRegx, "$1,$2");
                     String[] sp = key.split(",");
-                    temp = ((Map) temp).get(sp[0]);
-                    temp = ((List) temp).get(Integer.parseInt(sp[1]));
+                    temp = ((Map<String, Object>) temp).get(sp[0]);
+                    temp = ((List<Object>) temp).get(Integer.parseInt(sp[1]));
                 } else {
-                    temp = ((Map) temp).get(key);
+                    temp = ((Map<String, Object>) temp).get(key);
                 }
             } else {
                 if (ignoreNotExist){

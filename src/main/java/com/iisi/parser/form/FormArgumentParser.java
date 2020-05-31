@@ -74,7 +74,7 @@ public class FormArgumentParser {
         formArgument.setJenkinsJobExecutor(args[3]);
 
         if (len <= 4) {
-            sb.append("Args dest dircectory not found").append(System.lineSeparator());
+            sb.append("Args dest directory not found").append(System.lineSeparator());
             return new ArgumentParseResult(sb.toString());
         }
         File destDir = new File(args[4]);
