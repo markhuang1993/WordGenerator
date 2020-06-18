@@ -9,12 +9,17 @@ import java.util.List;
 public class GlobalYmlParseResult {
     private File signatureImgDir;
     private String citiProjectRelativePathPrefix;
-    private List<Action> actions;
+    private List<Action> uatActions;
+    private List<Action> patActions;
+    private List<Action> sqlActions;
 
-    public GlobalYmlParseResult(File signatureImgDir, String citiProjectRelativePathPrefix, List<Action> actions) {
+    public GlobalYmlParseResult(final File signatureImgDir, final String citiProjectRelativePathPrefix,
+                                final List<Action> uatActions, final List<Action> patActions, final List<Action> sqlActions) {
         this.signatureImgDir = signatureImgDir;
         this.citiProjectRelativePathPrefix = citiProjectRelativePathPrefix;
-        this.actions = new ArrayList<>(actions);
+        this.uatActions = uatActions;
+        this.patActions = patActions;
+        this.sqlActions = sqlActions;
     }
 
     public File getSignatureImgDir() {
@@ -33,12 +38,28 @@ public class GlobalYmlParseResult {
         this.citiProjectRelativePathPrefix = citiProjectRelativePathPrefix;
     }
 
-    public void setActions(List<Action> actions) {
-        this.actions = new ArrayList<>(actions);
+    public List<Action> getUatActions() {
+        return uatActions;
     }
 
-    public List<Action> getActions() {
-        return actions;
+    public void setUatActions(final List<Action> uatActions) {
+        this.uatActions = uatActions;
+    }
+
+    public List<Action> getPatActions() {
+        return patActions;
+    }
+
+    public void setPatActions(final List<Action> patActions) {
+        this.patActions = patActions;
+    }
+
+    public List<Action> getSqlActions() {
+        return sqlActions;
+    }
+
+    public void setSqlActions(final List<Action> sqlActions) {
+        this.sqlActions = sqlActions;
     }
 
     @Override
@@ -46,6 +67,9 @@ public class GlobalYmlParseResult {
         return "GlobalYmlParseResult{" +
                 "signatureImgDir=" + signatureImgDir +
                 ", citiProjectRelativePathPrefix='" + citiProjectRelativePathPrefix + '\'' +
+                ", uatActions=" + uatActions +
+                ", patActions=" + patActions +
+                ", sqlActions=" + sqlActions +
                 '}';
     }
 }

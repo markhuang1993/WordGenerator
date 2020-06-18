@@ -1,6 +1,7 @@
 package com.iisi;
 
 import com.iisi.constants.DiffStatus;
+import com.iisi.defaultform.DefaultChangeFormProvider;
 import com.iisi.generator.ChangeFormGenerator;
 import com.iisi.generator.CheckoutFormGenerator;
 import com.iisi.generator.model.changeform.*;
@@ -53,6 +54,7 @@ public class Main {
             createCheckoutForm(jenkinsJobExecutor, destDir, globalYmlParseResult, localYmlParseResult, diffDetails);
         }
         createChangeForm(isPat, jenkinsJobExecutor, destDir, globalYmlParseResult, localYmlParseResult, diffDetails);
+        createSqlChangeForm(isPat, jenkinsJobExecutor, destDir, globalYmlParseResult, localYmlParseResult, diffDetails);
     }
 
     private static void createChangeForm(
@@ -64,10 +66,16 @@ public class Main {
             List<DiffDetail> diffDetails) throws IllegalAccessException, TemplateException, IOException {
         File[] signatureImages = ResourceUtil.getSignatureImages(jobExecutor, globalYmlParseResult, localYmlParseResult);
         ChangeFormGenerator changeFormGenerator = new ChangeFormGenerator();
-        List<Action> actions = localYmlParseResult.getActions();
+        List<Action> actions = isPat ? localYmlParseResult.getPatActions() : localYmlParseResult.getUatActions();
         if (actions == null || actions.size() == 0) {
-            actions = globalYmlParseResult.getActions();
+            actions = isPat ? globalYmlParseResult.getPatActions() : globalYmlParseResult.getUatActions();
         }
+
+        diffDetails = diffDetails.stream().filter(diffDetail -> { // only need status A and M
+            DiffStatus status = diffDetail.getStatus();
+            return DiffStatus.A.equals(status) || DiffStatus.M.equals(status);
+        }).filter(diffDetail -> !diffDetail.getFilePath().endsWith(".sql")).collect(Collectors.toList());
+
         ChangeFormData formData = ChangeFormData.builder()
                 .setPat(isPat)
                 .setLacrNo(System.getProperty("lacrNo"))
@@ -77,10 +85,46 @@ public class Main {
                 .setProgrammerB64Png(signatureImages[0])
                 .setSupervisorB64Png(signatureImages[1])
                 .setVendorQmB64Png(signatureImages[2])
-                .setWindowsJavaAppTable(changeFormJavaTable(isPat, globalYmlParseResult, localYmlParseResult, diffDetails))
+                .setWindowsJavaAppTable(new DefaultChangeFormProvider().defaultWindowsJavaTable(6))
+                .setLinuxJavaAppTable(linuxChangeFormJavaTable(isPat, globalYmlParseResult, localYmlParseResult, diffDetails))
                 .build();
 
-        changeFormGenerator.processFormTemplate(formData, destDir);
+        changeFormGenerator.processFormTemplate(formData, destDir, "changeForm.doc");
+    }
+
+    private static void createSqlChangeForm(
+            boolean isPat,
+            String jobExecutor,
+            File destDir,
+            GlobalYmlParseResult globalYmlParseResult,
+            LocalYmlParseResult localYmlParseResult,
+            List<DiffDetail> diffDetails) throws IllegalAccessException, TemplateException, IOException {
+        File[] signatureImages = ResourceUtil.getSignatureImages(jobExecutor, globalYmlParseResult, localYmlParseResult);
+        ChangeFormGenerator changeFormGenerator = new ChangeFormGenerator();
+        List<Action> actions = localYmlParseResult.getSqlActions();
+        if (actions == null || actions.size() == 0) {
+            actions = globalYmlParseResult.getSqlActions();
+        }
+
+        diffDetails = diffDetails.stream().filter(diffDetail -> { // only need status A and M
+            DiffStatus status = diffDetail.getStatus();
+            return DiffStatus.A.equals(status) || DiffStatus.M.equals(status);
+        }).filter(diffDetail -> diffDetail.getFilePath().endsWith(".sql")).collect(Collectors.toList());
+
+        ChangeFormData formData = ChangeFormData.builder()
+                .setPat(isPat)
+                .setLacrNo(System.getProperty("lacrNo"))
+                .setSystemApplication(localYmlParseResult.getSystemApplication())
+                .setSubmitDate(new SimpleDateFormat("yyyy/MM/dd").format(new Date()))
+                .setActions(processFormActionValues(actions, localYmlParseResult))
+                .setProgrammerB64Png(signatureImages[0])
+                .setSupervisorB64Png(signatureImages[1])
+                .setVendorQmB64Png(signatureImages[2])
+                .setWindowsJavaAppTable(new DefaultChangeFormProvider().defaultWindowsJavaTable(6))
+                .setLinuxJavaAppTable(linuxChangeFormJavaTable(isPat, globalYmlParseResult, localYmlParseResult, diffDetails))
+                .build();
+
+        changeFormGenerator.processFormTemplate(formData, destDir, "changeForm-SQL.doc");
     }
 
     private static List<Action> processFormActionValues(List<Action> actions, LocalYmlParseResult localYmlParseResult) {
@@ -131,7 +175,7 @@ public class Main {
         return sb.toString();
     }
 
-    private static ChangeFormTable changeFormJavaTable(
+    private static ChangeFormTable windowsChangeFormJavaTable(
             boolean isPat,
             GlobalYmlParseResult globalYmlParseResult,
             LocalYmlParseResult localYmlParseResult,
@@ -139,10 +183,6 @@ public class Main {
 
         AtomicInteger no = new AtomicInteger(1);
         List<ChangeFormTableRow> tableRows = diffDetails.stream()
-                .filter(diffDetail -> { // only need status A and M
-                    DiffStatus status = diffDetail.getStatus();
-                    return DiffStatus.A.equals(status) || DiffStatus.M.equals(status);
-                })
                 .map(diffDetail -> {
                     WindowsChangeFormTableRow changeFormTableRow = new WindowsChangeFormTableRow();
                     DiffStatus status = diffDetail.getStatus();
@@ -164,6 +204,28 @@ public class Main {
         return new ChangeFormTable(tableRows);
     }
 
+    private static ChangeFormTable linuxChangeFormJavaTable(
+            boolean isPat,
+            GlobalYmlParseResult globalYmlParseResult,
+            LocalYmlParseResult localYmlParseResult,
+            List<DiffDetail> diffDetails) {
+
+        AtomicInteger no = new AtomicInteger(1);
+        List<ChangeFormTableRow> tableRows = diffDetails.stream()
+                .map(diffDetail -> {
+                    LinuxChangeFormTableRow changeFormTableRow = new LinuxChangeFormTableRow();
+                    DiffStatus status = diffDetail.getStatus();
+                    changeFormTableRow.setNewOld(status.equals(DiffStatus.A) ? "N" : "O");
+                    changeFormTableRow.setNo(String.valueOf(no.getAndAdd(1)));
+                    changeFormTableRow.setProgramFileName("Y");
+                    changeFormTableRow.setProgramDescription(getDiffFileName(diffDetail));
+                    changeFormTableRow.setToDir(genProgramDescription(globalYmlParseResult, localYmlParseResult, diffDetail));
+                    changeFormTableRow.setCheckIn("Y");
+                    return changeFormTableRow;
+                }).collect(Collectors.toList());
+        return new ChangeFormTable(tableRows);
+    }
+
     private static void createCheckoutForm(
             String jobExecutor,
             File destDir,
@@ -180,7 +242,7 @@ public class Main {
                 .setJavaAppTable(checkoutFormJavaTable(globalYmlParseResult, localYmlParseResult, diffDetails))
                 .build();
 
-        new CheckoutFormGenerator().processFormTemplate(formData, destDir);
+        new CheckoutFormGenerator().processFormTemplate(formData, destDir, "checkoutForm.doc");
     }
 
     private static CheckoutFormTable checkoutFormJavaTable(

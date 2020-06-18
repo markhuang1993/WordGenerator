@@ -14,8 +14,8 @@ import java.util.Map;
 public class CheckoutFormGenerator extends AbstractFormGenerator<CheckoutFormData> {
 
     @SuppressWarnings("Duplicates")
-    public File processFormTemplate(CheckoutFormData checkoutFormData, File destDir) throws IOException, TemplateException, IllegalAccessException {
-        File documentFile = new File(destDir,"checkoutForm.doc");
+    public File processFormTemplate(CheckoutFormData checkoutFormData, File destDir, String formName) throws IOException, TemplateException, IllegalAccessException {
+        File documentFile = new File(destDir, formName);
         Map<String, String> dataMap = new HashMap<>(injectFormDataInMap(checkoutFormData));
 
         CheckoutFormTable table = checkoutFormData.getJavaAppTable();

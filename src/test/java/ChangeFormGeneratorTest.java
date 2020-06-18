@@ -32,12 +32,13 @@ public class ChangeFormGeneratorTest {
                 .setProgrammerB64Png(ResourceUtil.getClassPathResource("image/mark.png"))
                 .setSupervisorB64Png(ResourceUtil.getClassPathResource("image/huang.png"))
                 .setVendorQmB64Png(ResourceUtil.getClassPathResource("image/handsome.png"))
-                .setWindowsJavaAppTable(this.tableData())
+                .setWindowsJavaAppTable(this.windowsJavaTable())
+                .setLinuxJavaAppTable(this.linuxJavaTable())
                 .build();
-        changeFormGenerator.processFormTemplate(formData, new File(System.getProperty("user.dir")));
+        changeFormGenerator.processFormTemplate(formData, new File(System.getProperty("user.dir")), "changeForm.doc");
     }
 
-    private ChangeFormTable tableData() {
+    private ChangeFormTable windowsJavaTable() {
         ArrayList<ChangeFormTableRow> tableRows = new ArrayList<>();
         String s = Arrays.stream(new String[10]).map(x -> "q").collect(Collectors.joining(""));
         String s1 = Arrays.stream(new String[10]).map(x -> "w").collect(Collectors.joining(""));
@@ -53,6 +54,24 @@ public class ChangeFormGeneratorTest {
                     String.valueOf(i + 64),
                     String.valueOf(i + 80),
                     String.valueOf(i + 96)
+            ));
+        }
+
+        return new ChangeFormTable(tableRows);
+    }
+
+
+    private ChangeFormTable linuxJavaTable() {
+        ArrayList<ChangeFormTableRow> tableRows = new ArrayList<>();
+        for (int i = 0; i < 5; i++) {
+            tableRows.add(new LinuxChangeFormTableRow(
+                    "no-" + i,
+                    "newOLd-" + i,
+                    "ckin-" + i,
+                    "pfn-" + i,
+                    "pd-" + i,
+                    "fd-" + i,
+                    "td-" + i
             ));
         }
 

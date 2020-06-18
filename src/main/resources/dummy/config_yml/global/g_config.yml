@@ -27,6 +27,12 @@ form:
         - 'Deploy sql file name: 替代要交付的SQL檔名'
       action4:
         - 'Follow websphere guide to change AP.'
+  sql:
+    actions:
+      action1:
+        - 'test'
+      action2:
+        - 'tttttt'
 
 citi:
   project:

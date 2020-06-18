@@ -29,7 +29,7 @@ public class CheckoutFormGeneratorTest {
                 .setSupervisorB64Png(ResourceUtil.getClassPathResource("image/huang.png"))
                 .setJavaAppTable(this.tableData())
                 .build();
-        checkoutFormGenerator.processFormTemplate(formData, new File(System.getProperty("user.dir")));
+        checkoutFormGenerator.processFormTemplate(formData, new File(System.getProperty("user.dir")), "checkoutForm.doc");
     }
 
     private CheckoutFormTable tableData() {

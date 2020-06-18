@@ -631,7 +631,7 @@
                         <w:sz w:val="24"/>
                         <w:szCs w:val="24"/>
                         <w:bdr w:val="none" w:sz="0" w:space="0" w:color="auto" w:frame="1"/>
-                        <w:shd w:val="clear" w:color="auto" w:fill="FFFF00"/>
+<#--                        <w:shd w:val="clear" w:color="auto" w:fill="FFFF00"/>-->
                         <w:lang w:val="en-US"/>
                     </w:rPr>
                     <w:t>系統密碼</w:t>

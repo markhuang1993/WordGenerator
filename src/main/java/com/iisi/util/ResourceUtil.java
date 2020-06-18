@@ -47,7 +47,7 @@ public final class ResourceUtil {
             supervisorSing = ResourceUtil.getClassPathResource("image/unknown.png");
         }
 
-        String vendorQm = localYmlParseResult.getvendorQm();
+        String vendorQm = localYmlParseResult.getVendorQm();
         String[] vendorQms = vendorQm.split(",");
         File vendorQmSing = getSignaturePng(vendorQms, signatureImgDir);
         if (vendorQmSing == null) {

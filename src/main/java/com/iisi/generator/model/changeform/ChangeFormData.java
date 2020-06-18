@@ -19,6 +19,7 @@ public class ChangeFormData implements FormData {
     private File supervisorB64Png;
     private File vendorQmB64Png;
     private ChangeFormTable windowsJavaAppTable;
+    private ChangeFormTable linuxJavaAppTable;
 
     public String getLacrNo() {
         return lacrNo;
@@ -120,6 +121,14 @@ public class ChangeFormData implements FormData {
         return windowsJavaAppTable;
     }
 
+    public ChangeFormTable getLinuxJavaAppTable() {
+        return linuxJavaAppTable;
+    }
+
+    public void setLinuxJavaAppTable(final ChangeFormTable linuxJavaAppTable) {
+        this.linuxJavaAppTable = linuxJavaAppTable;
+    }
+
     public static Builder builder() {
         return new Builder();
     }
@@ -192,6 +201,11 @@ public class ChangeFormData implements FormData {
 
         public Builder setWindowsJavaAppTable(ChangeFormTable windowsJavaAppTable) {
             this.checkoutFormData.windowsJavaAppTable = windowsJavaAppTable;
+            return this;
+        }
+
+        public Builder setLinuxJavaAppTable(final ChangeFormTable linuxJavaAppTable) {
+            this.checkoutFormData.linuxJavaAppTable = linuxJavaAppTable;
             return this;
         }
 

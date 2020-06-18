@@ -4,3 +4,4 @@ Status     Diff files                                                 Check sum
 Added    | PCL/others/Old/ddl/export/20140416-keyValue-下 叉 &8 板 .xls | 15e86a1c029a3ffe1a9e522c0f1bfefa
 Deleted  | PCL/others/Old/ddl/export/20140416-keyValue-下 叉 兩 板 .xls | -
 Modified | PCL/pcl-web/src/main/webapp/static/js/es5/step2.js       | 49700ebf690cdf94003d09fb8cd9dc09
+Modified | PCL/pcl-web/src/main/webapp/ddl/mySql.sql       | 49700ebf690cdf94003d09fb8cd9dc08

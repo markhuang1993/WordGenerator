@@ -14,8 +14,8 @@ import java.util.*;
 
 public class ChangeFormGenerator extends AbstractFormGenerator<ChangeFormData> {
 
-    public File processFormTemplate(ChangeFormData changeFormData, File destDir) throws IOException, TemplateException, IllegalAccessException {
-        File documentFile = new File(destDir, "changeForm.doc");
+    public File processFormTemplate(ChangeFormData changeFormData, File destDir, String formName) throws IOException, TemplateException, IllegalAccessException {
+        File documentFile = new File(destDir, formName);
         Map<String, String> dataMap = new HashMap<>(injectFormDataInMap(changeFormData));
 
         Map<String, String> envData = processDeployEnv(changeFormData.isPat());
@@ -24,9 +24,13 @@ public class ChangeFormGenerator extends AbstractFormGenerator<ChangeFormData> {
         String actionRows = processActionsTable(changeFormData.getActions());
         dataMap.put("actionRows", actionRows);
 
-        ChangeFormTable table = changeFormData.getWindowsJavaAppTable();
-        String javaAppTable = this.createTable(table, "word/table/changeform/windows_java");
-        dataMap.put("javaChangeTable", javaAppTable);
+        ChangeFormTable windowsJavaTable = changeFormData.getWindowsJavaAppTable();
+        String windowsJavaTableStr = this.createTable(windowsJavaTable, "word/table/changeform/windows_java");
+        dataMap.put("windowsJavaChangeTable", windowsJavaTableStr);
+
+        ChangeFormTable linuxJavaTable = changeFormData.getLinuxJavaAppTable();
+        String linuxJavaTableStr = this.createTable(linuxJavaTable, "word/table/changeform/linux_java");
+        dataMap.put("linuxJavaChangeTable", linuxJavaTableStr);
 
         Template t = ftlProvider.getFreeMarkerTemplate("word/changeForm.ftl");
         OutputStreamWriter writer = new OutputStreamWriter(new FileOutputStream(documentFile), StandardCharsets.UTF_8);
