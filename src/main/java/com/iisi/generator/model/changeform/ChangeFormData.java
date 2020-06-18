@@ -18,7 +18,7 @@ public class ChangeFormData implements FormData {
     private File programmerB64Png;
     private File supervisorB64Png;
     private File vendorQmB64Png;
-    private ChangeFormTable javaAppTable;
+    private ChangeFormTable windowsJavaAppTable;
 
     public String getLacrNo() {
         return lacrNo;
@@ -104,8 +104,8 @@ public class ChangeFormData implements FormData {
         this.vendorQmB64Png = vendorQmB64Png;
     }
 
-    public void setJavaAppTable(ChangeFormTable javaAppTable) {
-        this.javaAppTable = javaAppTable;
+    public void setWindowsJavaAppTable(ChangeFormTable windowsJavaAppTable) {
+        this.windowsJavaAppTable = windowsJavaAppTable;
     }
 
     public void setPat(boolean pat) {
@@ -116,8 +116,8 @@ public class ChangeFormData implements FormData {
         return isPat;
     }
 
-    public ChangeFormTable getJavaAppTable() {
-        return javaAppTable;
+    public ChangeFormTable getWindowsJavaAppTable() {
+        return windowsJavaAppTable;
     }
 
     public static Builder builder() {
@@ -190,8 +190,8 @@ public class ChangeFormData implements FormData {
             return this;
         }
 
-        public Builder setJavaAppTable(ChangeFormTable javaAppTable) {
-            this.checkoutFormData.javaAppTable = javaAppTable;
+        public Builder setWindowsJavaAppTable(ChangeFormTable windowsJavaAppTable) {
+            this.checkoutFormData.windowsJavaAppTable = windowsJavaAppTable;
             return this;
         }
 

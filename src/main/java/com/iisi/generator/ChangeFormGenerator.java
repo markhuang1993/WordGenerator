@@ -24,7 +24,7 @@ public class ChangeFormGenerator extends AbstractFormGenerator<ChangeFormData> {
         String actionRows = processActionsTable(changeFormData.getActions());
         dataMap.put("actionRows", actionRows);
 
-        ChangeFormTable table = changeFormData.getJavaAppTable();
+        ChangeFormTable table = changeFormData.getWindowsJavaAppTable();
         String javaAppTable = this.createTable(table, "word/table/changeform/windows_java");
         dataMap.put("javaChangeTable", javaAppTable);
 

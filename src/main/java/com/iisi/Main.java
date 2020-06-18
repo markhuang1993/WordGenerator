@@ -1,13 +1,9 @@
 package com.iisi;
 
-import com.iisi.constants.CheckboxString;
 import com.iisi.constants.DiffStatus;
 import com.iisi.generator.ChangeFormGenerator;
 import com.iisi.generator.CheckoutFormGenerator;
-import com.iisi.generator.model.changeform.Action;
-import com.iisi.generator.model.changeform.ChangeFormData;
-import com.iisi.generator.model.changeform.ChangeFormTable;
-import com.iisi.generator.model.changeform.ChangeFormTableRow;
+import com.iisi.generator.model.changeform.*;
 import com.iisi.generator.model.checkoutform.CheckoutFormData;
 import com.iisi.generator.model.checkoutform.CheckoutFormTable;
 import com.iisi.generator.model.checkoutform.CheckoutFormTableRow;
@@ -81,7 +77,7 @@ public class Main {
                 .setProgrammerB64Png(signatureImages[0])
                 .setSupervisorB64Png(signatureImages[1])
                 .setVendorQmB64Png(signatureImages[2])
-                .setJavaAppTable(changeFormJavaTable(isPat, globalYmlParseResult, localYmlParseResult, diffDetails))
+                .setWindowsJavaAppTable(changeFormJavaTable(isPat, globalYmlParseResult, localYmlParseResult, diffDetails))
                 .build();
 
         changeFormGenerator.processFormTemplate(formData, destDir);
@@ -148,7 +144,7 @@ public class Main {
                     return DiffStatus.A.equals(status) || DiffStatus.M.equals(status);
                 })
                 .map(diffDetail -> {
-                    ChangeFormTableRow changeFormTableRow = new ChangeFormTableRow();
+                    WindowsChangeFormTableRow changeFormTableRow = new WindowsChangeFormTableRow();
                     DiffStatus status = diffDetail.getStatus();
                     changeFormTableRow.setNewOld(status.equals(DiffStatus.A) ? "N" : "O");
                     changeFormTableRow.setNo(String.valueOf(no.getAndAdd(1)));
@@ -159,7 +155,7 @@ public class Main {
                     changeFormTableRow.setCheckIn("Y");
                     return changeFormTableRow;
                 }).collect(Collectors.toList());
-        ChangeFormTableRow changeFormTableRow = new ChangeFormTableRow();
+        WindowsChangeFormTableRow changeFormTableRow = new WindowsChangeFormTableRow();
         changeFormTableRow.setProgramExecutionName(localYmlParseResult.getWarName());
         if (isPat) {
             changeFormTableRow.setProgramDescription("apacctltwap145Node01Cell\\" + localYmlParseResult.getWarName() + ".ear");

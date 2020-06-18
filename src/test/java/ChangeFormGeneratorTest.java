@@ -1,9 +1,5 @@
-import com.iisi.constants.CheckboxString;
 import com.iisi.generator.ChangeFormGenerator;
-import com.iisi.generator.model.changeform.Action;
-import com.iisi.generator.model.changeform.ChangeFormData;
-import com.iisi.generator.model.changeform.ChangeFormTable;
-import com.iisi.generator.model.changeform.ChangeFormTableRow;
+import com.iisi.generator.model.changeform.*;
 import com.iisi.util.ResourceUtil;
 import freemarker.template.TemplateException;
 import org.junit.Test;
@@ -36,7 +32,7 @@ public class ChangeFormGeneratorTest {
                 .setProgrammerB64Png(ResourceUtil.getClassPathResource("image/mark.png"))
                 .setSupervisorB64Png(ResourceUtil.getClassPathResource("image/huang.png"))
                 .setVendorQmB64Png(ResourceUtil.getClassPathResource("image/handsome.png"))
-                .setJavaAppTable(this.tableData())
+                .setWindowsJavaAppTable(this.tableData())
                 .build();
         changeFormGenerator.processFormTemplate(formData, new File(System.getProperty("user.dir")));
     }
@@ -47,9 +43,9 @@ public class ChangeFormGeneratorTest {
         String s1 = Arrays.stream(new String[10]).map(x -> "w").collect(Collectors.joining(""));
         String s2 = Arrays.stream(new String[10]).map(x -> "e").collect(Collectors.joining(""));
         String s3 = Arrays.stream(new String[10]).map(x -> "r").collect(Collectors.joining(""));
-        tableRows.add(new ChangeFormTableRow(s, s1, s2, s3, "asd", "qwe", "床前明月光\r\n疑似地上霜\r\n舉頭望明月\r\n低頭思故鄉"));
+        tableRows.add(new WindowsChangeFormTableRow(s, s1, s2, s3, "asd", "qwe", "床前明月光\r\n疑似地上霜\r\n舉頭望明月\r\n低頭思故鄉"));
         for (int i = 0; i < 16; i++) {
-            tableRows.add(new ChangeFormTableRow(
+            tableRows.add(new WindowsChangeFormTableRow(
                     String.valueOf(i),
                     String.valueOf(i + 16),
                     String.valueOf(i + 32),
