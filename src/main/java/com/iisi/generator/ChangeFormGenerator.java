@@ -14,7 +14,6 @@ import java.util.*;
 
 public class ChangeFormGenerator extends AbstractFormGenerator<ChangeFormData> {
 
-    @SuppressWarnings("Duplicates")
     public File processFormTemplate(ChangeFormData changeFormData, File destDir) throws IOException, TemplateException, IllegalAccessException {
         File documentFile = new File(destDir, "changeForm.doc");
         Map<String, String> dataMap = new HashMap<>(injectFormDataInMap(changeFormData));
@@ -26,7 +25,7 @@ public class ChangeFormGenerator extends AbstractFormGenerator<ChangeFormData> {
         dataMap.put("actionRows", actionRows);
 
         ChangeFormTable table = changeFormData.getJavaAppTable();
-        String javaAppTable = this.createTable(table, "word/table/changeform/java");
+        String javaAppTable = this.createTable(table, "word/table/changeform/windows_java");
         dataMap.put("javaChangeTable", javaAppTable);
 
         Template t = ftlProvider.getFreeMarkerTemplate("word/changeForm.ftl");
