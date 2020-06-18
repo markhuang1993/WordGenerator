@@ -1,1 +1,0 @@
-run test -> get xxxForm.doc -> change name to xxxForm.xml -> use idea structure view -> add new text in ftl
