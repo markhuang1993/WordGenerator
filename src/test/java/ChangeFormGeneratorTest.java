@@ -1,5 +1,6 @@
 import com.iisi.constants.CheckboxString;
 import com.iisi.generator.ChangeFormGenerator;
+import com.iisi.generator.model.changeform.Action;
 import com.iisi.generator.model.changeform.ChangeFormData;
 import com.iisi.generator.model.changeform.ChangeFormTable;
 import com.iisi.generator.model.changeform.ChangeFormTableRow;
@@ -11,6 +12,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 import java.util.stream.Collectors;
 
 public class ChangeFormGeneratorTest {
@@ -18,6 +20,9 @@ public class ChangeFormGeneratorTest {
     @Test
     public void createDocTest() throws IllegalAccessException, TemplateException, IOException {
         ChangeFormGenerator changeFormGenerator = new ChangeFormGenerator();
+        List<Action> actionList = new ArrayList<>();
+        actionList.add(new Action("yo ho"));
+        actionList.add(new Action("i am", "mark"));
         ChangeFormData formData = ChangeFormData.builder()
                 .setPat(true)
                 .setLacrNo("37037")
@@ -27,6 +32,7 @@ public class ChangeFormGeneratorTest {
                 .setLacrCoordinator("77777")
                 .setLibrarian("shxt")
                 .setProcessDate("2019-06-23")
+                .setActions(actionList)
                 .setProgrammerB64Png(ResourceUtil.getClassPathResource("image/mark.png"))
                 .setSupervisorB64Png(ResourceUtil.getClassPathResource("image/huang.png"))
                 .setVendorQmB64Png(ResourceUtil.getClassPathResource("image/handsome.png"))
