@@ -36,7 +36,6 @@ public class ChangeFormGenerator extends AbstractFormGenerator<ChangeFormData> {
         OutputStreamWriter writer = new OutputStreamWriter(new FileOutputStream(documentFile), StandardCharsets.UTF_8);
         FreemarkerUtil.processTemplate(t, dataMap, writer);
 
-        System.out.println("change form doc is created at:" + documentFile.getAbsolutePath());
         return documentFile;
     }
 

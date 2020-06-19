@@ -89,7 +89,8 @@ public class Main {
                 .setLinuxJavaAppTable(linuxChangeFormJavaTable(isPat, globalYmlParseResult, localYmlParseResult, diffDetails))
                 .build();
 
-        changeFormGenerator.processFormTemplate(formData, destDir, "changeForm.doc");
+        File docFile = changeFormGenerator.processFormTemplate(formData, destDir, "changeForm.doc");
+        System.out.println("change form doc is created at:" + docFile.getAbsolutePath());
     }
 
     private static void createSqlChangeForm(
@@ -111,6 +112,11 @@ public class Main {
             return DiffStatus.A.equals(status) || DiffStatus.M.equals(status);
         }).filter(diffDetail -> diffDetail.getFilePath().endsWith(".sql")).collect(Collectors.toList());
 
+        if (diffDetails.size() == 0) {
+            System.out.println("no sql change, skip create sql change form");
+            return;
+        }
+
         ChangeFormData formData = ChangeFormData.builder()
                 .setPat(isPat)
                 .setLacrNo(System.getProperty("lacrNo"))
@@ -124,7 +130,8 @@ public class Main {
                 .setLinuxJavaAppTable(linuxChangeFormJavaTable(isPat, globalYmlParseResult, localYmlParseResult, diffDetails))
                 .build();
 
-        changeFormGenerator.processFormTemplate(formData, destDir, "changeForm-SQL.doc");
+        File docFile = changeFormGenerator.processFormTemplate(formData, destDir, "changeForm-SQL.doc");
+        System.out.println("sql change form doc is created at:" + docFile.getAbsolutePath());
     }
 
     private static List<Action> processFormActionValues(List<Action> actions, LocalYmlParseResult localYmlParseResult) {
@@ -242,7 +249,8 @@ public class Main {
                 .setJavaAppTable(checkoutFormJavaTable(globalYmlParseResult, localYmlParseResult, diffDetails))
                 .build();
 
-        new CheckoutFormGenerator().processFormTemplate(formData, destDir, "checkoutForm.doc");
+        File docFile = new CheckoutFormGenerator().processFormTemplate(formData, destDir, "checkoutForm.doc");
+        System.out.println("checkout form doc is created at:" + docFile.getAbsolutePath());
     }
 
     private static CheckoutFormTable checkoutFormJavaTable(

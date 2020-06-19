@@ -26,7 +26,6 @@ public class CheckoutFormGenerator extends AbstractFormGenerator<CheckoutFormDat
         OutputStreamWriter writer = new OutputStreamWriter(new FileOutputStream(documentFile), StandardCharsets.UTF_8);
         FreemarkerUtil.processTemplate(t, dataMap, writer);
 
-        System.out.println("checkout form doc is created at:" + documentFile.getAbsolutePath());
         return documentFile;
     }
 
