@@ -86,7 +86,7 @@ public class Main {
                 .setSupervisorB64Png(signatureImages[1])
                 .setVendorQmB64Png(signatureImages[2])
                 .setWindowsJavaAppTable(new DefaultChangeFormProvider().defaultWindowsJavaTable(6))
-                .setLinuxJavaAppTable(linuxChangeFormJavaTable(isPat, globalYmlParseResult, localYmlParseResult, diffDetails))
+                .setLinuxJavaAppTable(linuxChangeFormJavaTable(globalYmlParseResult, localYmlParseResult, diffDetails))
                 .build();
 
         File docFile = changeFormGenerator.processFormTemplate(formData, destDir, "changeForm.doc");
@@ -127,7 +127,7 @@ public class Main {
                 .setSupervisorB64Png(signatureImages[1])
                 .setVendorQmB64Png(signatureImages[2])
                 .setWindowsJavaAppTable(new DefaultChangeFormProvider().defaultWindowsJavaTable(6))
-                .setLinuxJavaAppTable(linuxChangeFormJavaTable(isPat, globalYmlParseResult, localYmlParseResult, diffDetails))
+                .setLinuxJavaAppTable(linuxChangeFormJavaTable(globalYmlParseResult, localYmlParseResult, diffDetails))
                 .build();
 
         File docFile = changeFormGenerator.processFormTemplate(formData, destDir, "changeForm-SQL.doc");
@@ -212,7 +212,6 @@ public class Main {
     }
 
     private static ChangeFormTable linuxChangeFormJavaTable(
-            boolean isPat,
             GlobalYmlParseResult globalYmlParseResult,
             LocalYmlParseResult localYmlParseResult,
             List<DiffDetail> diffDetails) {
@@ -222,12 +221,12 @@ public class Main {
                 .map(diffDetail -> {
                     LinuxChangeFormTableRow changeFormTableRow = new LinuxChangeFormTableRow();
                     DiffStatus status = diffDetail.getStatus();
-                    changeFormTableRow.setNewOld(status.equals(DiffStatus.A) ? "N" : "O");
                     changeFormTableRow.setNo(String.valueOf(no.getAndAdd(1)));
-                    changeFormTableRow.setProgramFileName("Y");
-                    changeFormTableRow.setProgramDescription(getDiffFileName(diffDetail));
-                    changeFormTableRow.setToDir(genProgramDescription(globalYmlParseResult, localYmlParseResult, diffDetail));
+                    changeFormTableRow.setNewOld(status.equals(DiffStatus.A) ? "N" : "O");
                     changeFormTableRow.setCheckIn("Y");
+                    changeFormTableRow.setProgramDescription("");
+                    changeFormTableRow.setProgramFileName(getDiffFileName(diffDetail));
+                    changeFormTableRow.setFromDir(genProgramDescription(globalYmlParseResult, localYmlParseResult, diffDetail));
                     return changeFormTableRow;
                 }).collect(Collectors.toList());
         return new ChangeFormTable(tableRows);
