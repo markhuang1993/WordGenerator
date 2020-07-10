@@ -226,7 +226,7 @@ public class Main {
                     changeFormTableRow.setCheckIn("Y");
                     changeFormTableRow.setProgramDescription("");
                     changeFormTableRow.setProgramFileName(getDiffFileName(diffDetail));
-                    changeFormTableRow.setFromDir(genProgramDescription(globalYmlParseResult, localYmlParseResult, diffDetail));
+                    changeFormTableRow.setToDir(genProgramDescription(globalYmlParseResult, localYmlParseResult, diffDetail));
                     return changeFormTableRow;
                 }).collect(Collectors.toList());
         return new ChangeFormTable(tableRows);
