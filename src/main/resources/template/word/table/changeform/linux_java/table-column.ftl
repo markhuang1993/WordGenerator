@@ -37,7 +37,7 @@
                 <w:b/>
                 <w:lang w:val="en-US"/>
             </w:rPr>
-            <w:t>${newOld!}</w:t>
+            <w:t>${fileStat!}</w:t>
         </w:r>
     </w:p>
 </w:tc>

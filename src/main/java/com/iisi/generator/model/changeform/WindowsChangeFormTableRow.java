@@ -2,7 +2,7 @@ package com.iisi.generator.model.changeform;
 
 public class WindowsChangeFormTableRow extends ChangeFormTableRow {
     private String no;
-    private String newOld;
+    private String fileStat;
     private String systemID;
     private String checkIn;
     private String programFileName;
@@ -12,9 +12,9 @@ public class WindowsChangeFormTableRow extends ChangeFormTableRow {
     public WindowsChangeFormTableRow() {
     }
 
-    public WindowsChangeFormTableRow(String no, String newOld, String systemID, String checkIn, String programFileName, String programExecutionName, String programDescription) {
+    public WindowsChangeFormTableRow(String no, String fileStat, String systemID, String checkIn, String programFileName, String programExecutionName, String programDescription) {
         this.no = no;
-        this.newOld = newOld;
+        this.fileStat = fileStat;
         this.systemID = systemID;
         this.checkIn = checkIn;
         this.programFileName = programFileName;
@@ -30,12 +30,12 @@ public class WindowsChangeFormTableRow extends ChangeFormTableRow {
         this.no = no;
     }
 
-    public String getNewOld() {
-        return newOld;
+    public String getFileStat() {
+        return fileStat;
     }
 
-    public void setNewOld(String newOld) {
-        this.newOld = newOld;
+    public void setFileStat(String fileStat) {
+        this.fileStat = fileStat;
     }
 
     public String getSystemID() {

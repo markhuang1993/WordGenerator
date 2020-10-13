@@ -2,7 +2,7 @@ package com.iisi.generator.model.changeform;
 
 public class LinuxChangeFormTableRow extends ChangeFormTableRow {
     private String no;
-    private String newOld;
+    private String fileStat;
     private String checkIn;
     private String programFileName;
     private String programDescription;
@@ -12,9 +12,9 @@ public class LinuxChangeFormTableRow extends ChangeFormTableRow {
     public LinuxChangeFormTableRow() {
     }
 
-    public LinuxChangeFormTableRow(final String no, final String newOld, final String checkIn, final String programFileName, final String programDescription, final String fromDir, final String toDir) {
+    public LinuxChangeFormTableRow(final String no, final String fileStat, final String checkIn, final String programFileName, final String programDescription, final String fromDir, final String toDir) {
         this.no = no;
-        this.newOld = newOld;
+        this.fileStat = fileStat;
         this.checkIn = checkIn;
         this.programFileName = programFileName;
         this.programDescription = programDescription;
@@ -30,12 +30,12 @@ public class LinuxChangeFormTableRow extends ChangeFormTableRow {
         this.no = no;
     }
 
-    public String getNewOld() {
-        return newOld;
+    public String getFileStat() {
+        return fileStat;
     }
 
-    public void setNewOld(String newOld) {
-        this.newOld = newOld;
+    public void setFileStat(String fileStat) {
+        this.fileStat = fileStat;
     }
 
     public String getCheckIn() {

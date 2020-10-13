@@ -37,10 +37,19 @@ public class DiffTxtParser {
             int len = detail.length;
             if (len > 0) {
                 String d0 = detail[0].trim();
-                if ("Added".equals(d0)) {
-                    diffDetail.setStatus(DiffStatus.A);
-                } else if ("Modified".equals(d0)) {
-                    diffDetail.setStatus(DiffStatus.M);
+                switch (d0) {
+                    case "Added":
+                        diffDetail.setStatus(DiffStatus.A);
+                        break;
+                    case "Modified":
+                        diffDetail.setStatus(DiffStatus.M);
+                        break;
+                    case "Deleted":
+                        diffDetail.setStatus(DiffStatus.D);
+                        break;
+                    default:
+                        diffDetail.setStatus(DiffStatus.UNKNOWN);
+                        break;
                 }
             }
 

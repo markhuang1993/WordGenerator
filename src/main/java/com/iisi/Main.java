@@ -71,9 +71,9 @@ public class Main {
             actions = isPat ? globalYmlParseResult.getPatActions() : globalYmlParseResult.getUatActions();
         }
 
-        diffDetails = diffDetails.stream().filter(diffDetail -> { // only need status A and M
+        diffDetails = diffDetails.stream().filter(diffDetail -> { // only need status A,M,D
             DiffStatus status = diffDetail.getStatus();
-            return DiffStatus.A.equals(status) || DiffStatus.M.equals(status);
+            return DiffStatus.A.equals(status) || DiffStatus.M.equals(status) || DiffStatus.D.equals(status);
         }).filter(diffDetail -> !diffDetail.getFilePath().endsWith(".sql")).collect(Collectors.toList());
 
         ChangeFormData formData = ChangeFormData.builder()
@@ -107,9 +107,9 @@ public class Main {
             actions = globalYmlParseResult.getSqlActions();
         }
 
-        diffDetails = diffDetails.stream().filter(diffDetail -> { // only need status A and M
+        diffDetails = diffDetails.stream().filter(diffDetail -> { // only need status A,M,D
             DiffStatus status = diffDetail.getStatus();
-            return DiffStatus.A.equals(status) || DiffStatus.M.equals(status);
+            return DiffStatus.A.equals(status) || DiffStatus.M.equals(status) || DiffStatus.D.equals(status);
         }).filter(diffDetail -> diffDetail.getFilePath().endsWith(".sql")).collect(Collectors.toList());
 
         if (diffDetails.size() == 0) {
@@ -193,7 +193,7 @@ public class Main {
                 .map(diffDetail -> {
                     WindowsChangeFormTableRow changeFormTableRow = new WindowsChangeFormTableRow();
                     DiffStatus status = diffDetail.getStatus();
-                    changeFormTableRow.setNewOld(status.equals(DiffStatus.A) ? "N" : "O");
+                    changeFormTableRow.setFileStat(status.getFileStat());
                     changeFormTableRow.setNo(String.valueOf(no.getAndAdd(1)));
                     changeFormTableRow.setSystemID(localYmlParseResult.getSystemId());
                     String diffFileName = getDiffFileName(diffDetail);
@@ -222,7 +222,7 @@ public class Main {
                     LinuxChangeFormTableRow changeFormTableRow = new LinuxChangeFormTableRow();
                     DiffStatus status = diffDetail.getStatus();
                     changeFormTableRow.setNo(String.valueOf(no.getAndAdd(1)));
-                    changeFormTableRow.setNewOld(status.equals(DiffStatus.A) ? "N" : "O");
+                    changeFormTableRow.setFileStat(status.getFileStat());
                     changeFormTableRow.setCheckIn("Y");
                     changeFormTableRow.setProgramDescription("");
                     changeFormTableRow.setProgramFileName(getDiffFileName(diffDetail));

@@ -28,7 +28,7 @@
             </w:rPr>
         </w:pPr>
         <w:r>
-            <w:t>${newOld!}</w:t>
+            <w:t>${fileStat!}</w:t>
         </w:r>
     </w:p>
 </w:tc>

@@ -25,7 +25,7 @@ public final class FileUtil {
             for (File file : files) {
                 if (file.isFile()) {
                     result.add(file);
-                }else if(file.isDirectory()){
+                } else if (file.isDirectory()) {
                     result.addAll(getAllFilesInDirectory(file));
                 }
             }
