@@ -14,7 +14,7 @@ import java.util.List;
 import java.util.Map;
 
 public class FormYmlParser {
-    private YAMLMapper yamlMapper = new YAMLMapper();
+    private final YAMLMapper yamlMapper = new YAMLMapper();
 
     private FormYmlParser() {
     }
@@ -27,28 +27,28 @@ public class FormYmlParser {
         return FormYmlParser.Nested.CHANGE_FORM_YML_PARSER;
     }
 
-    public GlobalYmlParseResult parseGlobalYml(File ymlFile, boolean isPat) throws IOException {
+    public GlobalYmlParseResult parseGlobalYml(File ymlFile) throws IOException {
 
-        Map<String, Object> map = yamlMapper.readValue(ymlFile, new TypeReference<Map<String, Object>>() {
+        final Map<String, Object> map = yamlMapper.readValue(ymlFile, new TypeReference<Map<String, Object>>() {
         });
-        String signatureImgPath = MapUtil.getMapValueByPath(map, "form.image.signature.path");
+        final String signatureImgPath = MapUtil.getMapValueByPath(map, "form.image.signature.path");
 
-        File signatureImgDir = new File(signatureImgPath);
+        final File signatureImgDir = new File(signatureImgPath);
         if (!signatureImgDir.exists()) {
             System.out.println(String.format("[Warn] programmerImgDir:%s not exist", signatureImgDir.getAbsolutePath()));
         }
 
-        String citiProjectRelativePathPrefix = MapUtil.getMapValueByPath(map, "citi.project.relativePathPrefix");
+        final String citiProjectRelativePathPrefix = MapUtil.getMapValueByPath(map, "citi.project.relativePathPrefix");
 
-        List<Action> uatActions = getActionsFromYmlMap(map, "uat", false);
-        List<Action> patActions = getActionsFromYmlMap(map, "pat", false);
-        List<Action> sqlActions = getActionsFromYmlMap(map, "sql", false);
+        final List<Action> uatActions = getActionsFromYmlMap(map, "uat", false);
+        final List<Action> patActions = getActionsFromYmlMap(map, "pat", false);
+        final List<Action> sqlActions = getActionsFromYmlMap(map, "sql", false);
 
         return new GlobalYmlParseResult(signatureImgDir, citiProjectRelativePathPrefix, uatActions, patActions, sqlActions);
     }
 
     private List<Action> getActionsFromYmlMap(Map<String, Object> map, String type, boolean ignoreNotFound) {
-        List<Action> actions = new ArrayList<>();
+        final List<Action> actions = new ArrayList<>();
         try {
             String actionPath = String.format("form.%s.actions", type);
             Map<String, List<String>> actionMap = MapUtil.getMapValueByPath(map, actionPath);
@@ -70,20 +70,20 @@ public class FormYmlParser {
     }
 
 
-    public LocalYmlParseResult parsLocalYml(File ymlFile, boolean isPat) throws IOException {
-        Map<String, Object> map = yamlMapper.readValue(ymlFile, new TypeReference<Map<String, Object>>() {
+    public LocalYmlParseResult parsLocalYml(File ymlFile) throws IOException {
+        final Map<String, Object> map = yamlMapper.readValue(ymlFile, new TypeReference<Map<String, Object>>() {
         });
-        String name = MapUtil.getMapValueByPath(map, "project.name");
-        String systemApplication = MapUtil.getMapValueByPath(map, "project.systemApplication");
-        String systemId = MapUtil.getMapValueByPath(map, "project.systemId");
-        String warName = MapUtil.getMapValueByPath(map, "project.warName");
-        String contextName = MapUtil.getMapValueByPath(map, "project.contextName");
-        String owner = MapUtil.getMapValueByPath(map, "project.owner");
-        String supervisor = MapUtil.getMapValueByPath(map, "project.supervisor");
-        String vendorQm = MapUtil.getMapValueByPath(map, "project.vendorQm");
-        List<Action> uatActions = getActionsFromYmlMap(map, "uat", true);
-        List<Action> patActions = getActionsFromYmlMap(map, "pat", true);
-        List<Action> sqlActions = getActionsFromYmlMap(map, "sql", true);
+        final String name = MapUtil.getMapValueByPath(map, "project.name");
+        final String systemApplication = MapUtil.getMapValueByPath(map, "project.systemApplication");
+        final String systemId = MapUtil.getMapValueByPath(map, "project.systemId");
+        final String warName = MapUtil.getMapValueByPath(map, "project.warName");
+        final String contextName = MapUtil.getMapValueByPath(map, "project.contextName");
+        final String owner = MapUtil.getMapValueByPath(map, "project.owner");
+        final String supervisor = MapUtil.getMapValueByPath(map, "project.supervisor");
+        final String vendorQm = MapUtil.getMapValueByPath(map, "project.vendorQm");
+        final List<Action> uatActions = getActionsFromYmlMap(map, "uat", true);
+        final List<Action> patActions = getActionsFromYmlMap(map, "pat", true);
+        final List<Action> sqlActions = getActionsFromYmlMap(map, "sql", true);
 
         return new LocalYmlParseResult(
                 name,

@@ -15,7 +15,7 @@ import java.util.stream.Collectors;
 public class FtlProvider {
 
     private static final Configuration CONFIGURATION;
-    private Map<String, Template> templateCacheMap = new HashMap<>();
+    private final Map<String, Template> templateCacheMap = new HashMap<>();
 
     static {
         CONFIGURATION = new Configuration(Configuration.DEFAULT_INCOMPATIBLE_IMPROVEMENTS);
@@ -23,19 +23,19 @@ public class FtlProvider {
     }
 
     public FtlProvider(File templateBaseDir) {
-        List<File> files = FileUtil.getAllFilesInDirectory(templateBaseDir);
-        List<File> ftlFiles = files
+        final List<File> files = FileUtil.getAllFilesInDirectory(templateBaseDir);
+        final List<File> ftlFiles = files
                 .stream()
                 .filter(f -> f.getName().matches(".*?\\.ftl"))
                 .collect(Collectors.toList());
 
         for (File ftlFile : ftlFiles) {
             try {
-                String relativePath = ftlFile.getAbsolutePath()
+                final String relativePath = ftlFile.getAbsolutePath()
                         .replace(templateBaseDir.getAbsolutePath(), "")
                         .replace("\\", "/")
-                        .replaceAll("^/(.*)$","$1");
-                String templateName = relativePath.replace("/", "_");
+                        .replaceAll("^/(.*)$", "$1");
+                final String templateName = relativePath.replace("/", "_");
                 templateCacheMap.put(relativePath,
                         new Template(templateName, new String(Files.readAllBytes(ftlFile.toPath())), CONFIGURATION));
             } catch (IOException e) {
@@ -45,9 +45,9 @@ public class FtlProvider {
     }
 
     public Template getFreeMarkerTemplate(String templatePath) {
-        String newTemplatePath = templatePath.replace("\\", "/").replaceAll("^/(.*)$","$1");
-        Template template = templateCacheMap.get(newTemplatePath);
-        if (template == null){
+        final String newTemplatePath = templatePath.replace("\\", "/").replaceAll("^/(.*)$", "$1");
+        final Template template = templateCacheMap.get(newTemplatePath);
+        if (template == null) {
             System.out.println("[Error]Template not found, path:" + templatePath);
         }
         return template;

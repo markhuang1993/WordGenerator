@@ -23,20 +23,20 @@ public class DiffTxtParser {
     }
 
     public List<DiffDetail> parseDiffTxt(File diffTxtFile) throws IOException {
-        byte[] bytes = Files.readAllBytes(diffTxtFile.toPath());
-        String diffTxt = new String(bytes);
-        String[] sp = diffTxt.split("-{5,}");
+        final byte[] bytes = Files.readAllBytes(diffTxtFile.toPath());
+        final String diffTxt = new String(bytes);
+        final String[] sp = diffTxt.split("-{5,}");
         if (sp.length < 2) return new ArrayList<>();
 
-        List<DiffDetail> diffDetails = new ArrayList<>();
-        String[] diffDetailLines = sp[1].split("\r?\n");
+        final List<DiffDetail> diffDetails = new ArrayList<>();
+        final String[] diffDetailLines = sp[1].split("\r?\n");
         for (String diffDetailLine : diffDetailLines) {
-            DiffDetail diffDetail = new DiffDetail();
+            final DiffDetail diffDetail = new DiffDetail();
             if (diffDetailLine == null || "".equals(diffDetailLine)) continue;
-            String[] detail = diffDetailLine.split("\\|");
+            final String[] detail = diffDetailLine.split("\\|");
             int len = detail.length;
             if (len > 0) {
-                String d0 = detail[0].trim();
+                final String d0 = detail[0].trim();
                 switch (d0) {
                     case "Added":
                         diffDetail.setStatus(DiffStatus.A);

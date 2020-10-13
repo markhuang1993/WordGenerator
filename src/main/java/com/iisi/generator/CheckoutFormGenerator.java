@@ -15,15 +15,15 @@ public class CheckoutFormGenerator extends AbstractFormGenerator<CheckoutFormDat
 
     @SuppressWarnings("Duplicates")
     public File processFormTemplate(CheckoutFormData checkoutFormData, File destDir, String formName) throws IOException, TemplateException, IllegalAccessException {
-        File documentFile = new File(destDir, formName);
-        Map<String, String> dataMap = new HashMap<>(injectFormDataInMap(checkoutFormData));
+        final File documentFile = new File(destDir, formName);
+        final Map<String, String> dataMap = new HashMap<>(injectFormDataInMap(checkoutFormData));
 
-        CheckoutFormTable table = checkoutFormData.getJavaAppTable();
-        String javaAppTable = this.createTable(table, "word/table/checkoutform/java");
+        final CheckoutFormTable table = checkoutFormData.getJavaAppTable();
+        final String javaAppTable = this.createTable(table, "word/table/checkoutform/java");
         dataMap.put("javaCheckoutTable", javaAppTable);
 
-        Template t = ftlProvider.getFreeMarkerTemplate("word/checkoutForm.ftl");
-        OutputStreamWriter writer = new OutputStreamWriter(new FileOutputStream(documentFile), StandardCharsets.UTF_8);
+        final Template t = ftlProvider.getFreeMarkerTemplate("word/checkoutForm.ftl");
+        final OutputStreamWriter writer = new OutputStreamWriter(new FileOutputStream(documentFile), StandardCharsets.UTF_8);
         FreemarkerUtil.processTemplate(t, dataMap, writer);
 
         return documentFile;

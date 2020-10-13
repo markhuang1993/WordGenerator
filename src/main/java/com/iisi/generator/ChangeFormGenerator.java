@@ -15,25 +15,25 @@ import java.util.*;
 public class ChangeFormGenerator extends AbstractFormGenerator<ChangeFormData> {
 
     public File processFormTemplate(ChangeFormData changeFormData, File destDir, String formName) throws IOException, TemplateException, IllegalAccessException {
-        File documentFile = new File(destDir, formName);
-        Map<String, String> dataMap = new HashMap<>(injectFormDataInMap(changeFormData));
+        final File documentFile = new File(destDir, formName);
+        final Map<String, String> dataMap = new HashMap<>(injectFormDataInMap(changeFormData));
 
-        Map<String, String> envData = processDeployEnv(changeFormData.isPat());
+        final Map<String, String> envData = processDeployEnv(changeFormData.isPat());
         dataMap.putAll(envData);
 
-        String actionRows = processActionsTable(changeFormData.getActions());
+        final String actionRows = processActionsTable(changeFormData.getActions());
         dataMap.put("actionRows", actionRows);
 
-        ChangeFormTable windowsJavaTable = changeFormData.getWindowsJavaAppTable();
-        String windowsJavaTableStr = this.createTable(windowsJavaTable, "word/table/changeform/windows_java");
+        final ChangeFormTable windowsJavaTable = changeFormData.getWindowsJavaAppTable();
+        final String windowsJavaTableStr = this.createTable(windowsJavaTable, "word/table/changeform/windows_java");
         dataMap.put("windowsJavaChangeTable", windowsJavaTableStr);
 
-        ChangeFormTable linuxJavaTable = changeFormData.getLinuxJavaAppTable();
-        String linuxJavaTableStr = this.createTable(linuxJavaTable, "word/table/changeform/linux_java");
+        final ChangeFormTable linuxJavaTable = changeFormData.getLinuxJavaAppTable();
+        final String linuxJavaTableStr = this.createTable(linuxJavaTable, "word/table/changeform/linux_java");
         dataMap.put("linuxJavaChangeTable", linuxJavaTableStr);
 
-        Template t = ftlProvider.getFreeMarkerTemplate("word/changeForm.ftl");
-        OutputStreamWriter writer = new OutputStreamWriter(new FileOutputStream(documentFile), StandardCharsets.UTF_8);
+        final Template t = ftlProvider.getFreeMarkerTemplate("word/changeForm.ftl");
+        final OutputStreamWriter writer = new OutputStreamWriter(new FileOutputStream(documentFile), StandardCharsets.UTF_8);
         FreemarkerUtil.processTemplate(t, dataMap, writer);
 
         return documentFile;
@@ -45,7 +45,7 @@ public class ChangeFormGenerator extends AbstractFormGenerator<ChangeFormData> {
         result.put("promoteToProduction", isPat ? CheckboxString.CHECKED.val() : CheckboxString.UNCHECKED.val());
         if (isPat) {
             Template sourceReviewGuidTemplate = ftlProvider.getFreeMarkerTemplate("word/table/changeform/source_code_review_guide.ftl");
-            String  sourceReviewGuidStr = FreemarkerUtil.processTemplateToString(sourceReviewGuidTemplate, Collections.emptyMap());
+            String sourceReviewGuidStr = FreemarkerUtil.processTemplateToString(sourceReviewGuidTemplate, Collections.emptyMap());
             result.put("sourceCodeReviewGuid", sourceReviewGuidStr);
         }
         return result;

@@ -6,10 +6,11 @@ import com.iisi.generator.model.changeform.LinuxChangeFormTableRow;
 import com.iisi.generator.model.changeform.WindowsChangeFormTableRow;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class DefaultChangeFormProvider {
-    public ChangeFormTable defaultWindowsJavaTable(int rows) {
-        ArrayList<ChangeFormTableRow> tableRows = new ArrayList<>();
+    public ChangeFormTable windowsJavaTable(int rows) {
+        final List<ChangeFormTableRow> tableRows = new ArrayList<>();
         for (int i = 0; i < rows; i++) {
             tableRows.add(new WindowsChangeFormTableRow(
                     "", "", "", "", "",
@@ -19,8 +20,8 @@ public class DefaultChangeFormProvider {
         return new ChangeFormTable(tableRows);
     }
 
-    public ChangeFormTable defaultLinuxJavaTable(int rows) {
-        ArrayList<ChangeFormTableRow> tableRows = new ArrayList<>();
+    public ChangeFormTable linuxJavaTable(int rows) {
+        final List<ChangeFormTableRow> tableRows = new ArrayList<>();
         for (int i = 0; i < rows; i++) {
             tableRows.add(new LinuxChangeFormTableRow(
                     "", "", "", "", "",

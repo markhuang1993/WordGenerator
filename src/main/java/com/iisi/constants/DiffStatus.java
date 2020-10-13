@@ -3,7 +3,7 @@ package com.iisi.constants;
 public enum DiffStatus {
     A("N"), M("O"), R("R"), D("D"), UNKNOWN("?");
 
-    private String fileStat;
+    private final String fileStat;
 
     DiffStatus(String fileStat) {
         this.fileStat = fileStat;

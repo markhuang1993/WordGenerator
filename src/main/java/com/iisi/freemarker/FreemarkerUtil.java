@@ -20,7 +20,7 @@ public class FreemarkerUtil {
     }
 
     public static String processTemplateToString(Template template, Object dataModel) throws IOException, TemplateException {
-        StringWriter stringWriter = new StringWriter();
+        final StringWriter stringWriter = new StringWriter();
         processTemplate(template, dataModel, stringWriter);
         return stringWriter.toString();
     }

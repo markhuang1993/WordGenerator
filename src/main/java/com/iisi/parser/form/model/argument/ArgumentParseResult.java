@@ -2,8 +2,8 @@ package com.iisi.parser.form.model.argument;
 
 public class ArgumentParseResult {
     private FormArgument formArgument;
-    private boolean isParseSuccess;
-    private String errorMessage;
+    private final boolean isParseSuccess;
+    private final String errorMessage;
 
     public ArgumentParseResult(String errorMessage) {
         this.isParseSuccess = false;

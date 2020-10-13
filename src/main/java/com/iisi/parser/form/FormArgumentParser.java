@@ -18,21 +18,21 @@ public class FormArgumentParser {
     }
 
     public ArgumentParseResult parseArguments(String[] args) {
-        StringBuilder sb = new StringBuilder();
-        FormArgument formArgument = new FormArgument();
+        final StringBuilder sb = new StringBuilder();
+        final FormArgument formArgument = new FormArgument();
 
         if (args == null) {
             return new ArgumentParseResult("Args is null!");
         }
 
-        int len = args.length;
+        final int len = args.length;
         if (len <= 0) {
             sb.append("Args diffTxtPath not found").append(System.lineSeparator());
             return new ArgumentParseResult(sb.toString());
         }
 
-        String diffTxtPath = args[0];
-        File diffTxtFile = new File(diffTxtPath);
+        final String diffTxtPath = args[0];
+        final File diffTxtFile = new File(diffTxtPath);
         if (!diffTxtFile.exists()) {
             sb.append("Diff txt file not found at:").append(diffTxtFile.getAbsolutePath()).append(System.lineSeparator());
         } else {
@@ -44,8 +44,8 @@ public class FormArgumentParser {
             return new ArgumentParseResult(sb.toString());
         }
 
-        String globalConfigYmlPath = args[1];
-        File globalConfigYmlFile = new File(globalConfigYmlPath);
+        final String globalConfigYmlPath = args[1];
+        final File globalConfigYmlFile = new File(globalConfigYmlPath);
         if (!globalConfigYmlFile.exists()) {
             sb.append("Global config yml file not found at:").append(diffTxtFile.getAbsolutePath()).append(System.lineSeparator());
         } else {
@@ -58,8 +58,8 @@ public class FormArgumentParser {
             return new ArgumentParseResult(sb.toString());
         }
 
-        String localConfigYmlPath = args[2];
-        File localConfigYmlFile = new File(localConfigYmlPath);
+        final String localConfigYmlPath = args[2];
+        final File localConfigYmlFile = new File(localConfigYmlPath);
         if (!globalConfigYmlFile.exists()) {
             sb.append("Local config yml file not found at:").append(diffTxtFile.getAbsolutePath()).append(System.lineSeparator());
         } else {
@@ -77,7 +77,7 @@ public class FormArgumentParser {
             sb.append("Args dest directory not found").append(System.lineSeparator());
             return new ArgumentParseResult(sb.toString());
         }
-        File destDir = new File(args[4]);
+        final File destDir = new File(args[4]);
         destDir.mkdirs();
         formArgument.setDestDir(destDir);
 
