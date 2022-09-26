@@ -3,7 +3,6 @@ package com.iisi.parser.form.model.yml.global;
 import com.iisi.generator.model.changeform.Action;
 
 import java.io.File;
-import java.util.ArrayList;
 import java.util.List;
 
 public class GlobalYmlParseResult {

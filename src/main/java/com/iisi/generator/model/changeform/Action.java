@@ -5,7 +5,7 @@ import java.util.Arrays;
 import java.util.List;
 
 public class Action {
-    private List<String> lines;
+    private final List<String> lines;
 
     public Action(String... lines) {
         this.lines = new ArrayList<>(Arrays.asList(lines));

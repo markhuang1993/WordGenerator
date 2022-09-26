@@ -7,7 +7,7 @@ import java.util.Map;
 import java.util.function.Predicate;
 
 public final class ModelUtil {
-    private static Map<Class, Field[]> fieldCache = new HashMap<>();
+    private static final Map<Class<?>, Field[]> fieldCache = new HashMap<>();
 
     private ModelUtil() {
         throw new AssertionError();

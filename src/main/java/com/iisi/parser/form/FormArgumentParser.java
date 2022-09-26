@@ -26,7 +26,7 @@ public class FormArgumentParser {
         }
 
         final int len = args.length;
-        if (len <= 0) {
+        if (len == 0) {
             sb.append("Args diffTxtPath not found").append(System.lineSeparator());
             return new ArgumentParseResult(sb.toString());
         }
@@ -39,7 +39,7 @@ public class FormArgumentParser {
             formArgument.setDiffTxtFile(diffTxtFile);
         }
 
-        if (len <= 1) {
+        if (len == 1) {
             sb.append("Args globalConfigYmlPath not found").append(System.lineSeparator());
             return new ArgumentParseResult(sb.toString());
         }
@@ -53,7 +53,7 @@ public class FormArgumentParser {
         }
 
 
-        if (len <= 2) {
+        if (len == 2) {
             sb.append("Args localConfigYmlFile not found").append(System.lineSeparator());
             return new ArgumentParseResult(sb.toString());
         }
@@ -66,19 +66,23 @@ public class FormArgumentParser {
             formArgument.setLocalConfigYmlFile(localConfigYmlFile);
         }
 
-        if (len <= 3) {
+        if (len == 3) {
             sb.append("Args jenkinsJobExecutor not found").append(System.lineSeparator());
             return new ArgumentParseResult(sb.toString());
         }
 
         formArgument.setJenkinsJobExecutor(args[3]);
 
-        if (len <= 4) {
+        if (len == 4) {
             sb.append("Args dest directory not found").append(System.lineSeparator());
             return new ArgumentParseResult(sb.toString());
         }
         final File destDir = new File(args[4]);
-        destDir.mkdirs();
+
+        if (!destDir.exists() && !destDir.mkdirs()) {
+            throw new RuntimeException("can't mkdirs:" + destDir);
+        }
+
         formArgument.setDestDir(destDir);
 
         return new ArgumentParseResult(formArgument, true, sb.toString());

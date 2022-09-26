@@ -10,6 +10,7 @@ import freemarker.template.TemplateException;
 
 import java.io.*;
 import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
 import java.util.*;
 
 public class ChangeFormGenerator extends AbstractFormGenerator<ChangeFormData> {
@@ -33,7 +34,7 @@ public class ChangeFormGenerator extends AbstractFormGenerator<ChangeFormData> {
         dataMap.put("linuxJavaChangeTable", linuxJavaTableStr);
 
         final Template t = ftlProvider.getFreeMarkerTemplate("word/changeForm.ftl");
-        final OutputStreamWriter writer = new OutputStreamWriter(new FileOutputStream(documentFile), StandardCharsets.UTF_8);
+        final OutputStreamWriter writer = new OutputStreamWriter(Files.newOutputStream(documentFile.toPath()), StandardCharsets.UTF_8);
         FreemarkerUtil.processTemplate(t, dataMap, writer);
 
         return documentFile;

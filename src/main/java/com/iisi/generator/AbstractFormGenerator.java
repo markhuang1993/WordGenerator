@@ -19,7 +19,7 @@ import java.util.Map;
 import java.util.UUID;
 
 abstract class AbstractFormGenerator<T extends FormData> implements FormGenerator<T> {
-    static FtlProvider ftlProvider;
+    static final FtlProvider ftlProvider;
 
     static {
         final File templateDir = ResourceUtil.getClassPathResource("template");

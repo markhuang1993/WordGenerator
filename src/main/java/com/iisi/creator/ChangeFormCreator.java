@@ -46,7 +46,7 @@ public class ChangeFormCreator {
         final ChangeFormData formData = getChangeFormData(isLinuxForm, signatureImages, actionList, diffDetails);
 
         final File docFile = changeFormGenerator.processFormTemplate(formData, destDir, formName);
-        System.out.println("change form doc is created at:" + docFile.getAbsolutePath());
+        System.out.printf("change form doc is created at:%s%n", docFile.getAbsolutePath());
     }
 
     private ChangeFormData getChangeFormData(

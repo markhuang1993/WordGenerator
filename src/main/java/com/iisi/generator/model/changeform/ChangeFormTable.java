@@ -1,7 +1,6 @@
 package com.iisi.generator.model.changeform;
 
 import com.iisi.generator.model.FormTable;
-import com.iisi.generator.model.checkoutform.CheckoutFormTableRow;
 
 import java.util.List;
 

@@ -95,7 +95,7 @@ public class CheckoutFormData implements FormData {
         private Builder() {
         }
 
-        private CheckoutFormData checkoutFormData = new CheckoutFormData();
+        private final CheckoutFormData checkoutFormData = new CheckoutFormData();
 
         public Builder setLacrNo(String lacrNo) {
             this.checkoutFormData.lacrNo = lacrNo;

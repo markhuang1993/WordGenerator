@@ -44,29 +44,33 @@ public class Main {
             new CheckoutFormCreator(globalYmlParseResult, localYmlParseResult, diffDetails).create(jenkinsJobExecutor, destDir);
         }
 
-        final Map<String, List<DiffDetail>> diffDetailMap = categoryDiffDetails(diffDetails);
+        final Map<DiffDetailType, List<DiffDetail>> diffDetailMap = categoryDiffDetails(diffDetails);
 
         final ChangeFormCreator changeFormCreator = new ChangeFormCreator(isPat, jenkinsJobExecutor, destDir, globalYmlParseResult, localYmlParseResult);
-        changeFormCreator.create(diffDetailMap.get("default"), true, "changeForm.doc");
-        changeFormCreator.create(diffDetailMap.get("sql"), true, "changeForm-SQL.doc");
+        changeFormCreator.create(diffDetailMap.get(DiffDetailType.DEFAULT), true, "changeForm.doc");
+        changeFormCreator.create(diffDetailMap.get(DiffDetailType.SQL), true, "changeForm-SQL.doc");
     }
 
-    private static Map<String, List<DiffDetail>> categoryDiffDetails(List<DiffDetail> diffDetails) {
+    private static Map<DiffDetailType, List<DiffDetail>> categoryDiffDetails(List<DiffDetail> diffDetails) {
         return diffDetails.stream().filter(diffDetail -> { // only need status A,M,D
                 DiffStatus status = diffDetail.getStatus();
                 return DiffStatus.A.equals(status) || DiffStatus.M.equals(status) || DiffStatus.D.equals(status);
             }).reduce(new HashMap<>(), (hm, diffDetail) -> {
                 if (diffDetail.getFilePath().endsWith(".sql")) {
-                    List<DiffDetail> l = hm.getOrDefault("sql", new ArrayList<>());
+                    List<DiffDetail> l = hm.getOrDefault(DiffDetailType.SQL, new ArrayList<>());
                     l.add(diffDetail);
-                    hm.put("sql", l);
+                    hm.put(DiffDetailType.SQL, l);
                 } else {
-                    List<DiffDetail> l = hm.getOrDefault("default", new ArrayList<>());
+                    List<DiffDetail> l = hm.getOrDefault(DiffDetailType.DEFAULT, new ArrayList<>());
                     l.add(diffDetail);
-                    hm.put("default", l);
+                    hm.put(DiffDetailType.DEFAULT, l);
                 }
                 return hm;
             }, (hm1, hm2) -> hm1);
+    }
+
+    private enum DiffDetailType {
+        DEFAULT, SQL
     }
 }
 

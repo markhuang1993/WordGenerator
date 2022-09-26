@@ -2,8 +2,6 @@ package com.iisi.generator.model.checkoutform;
 
 import com.iisi.generator.model.FormTable;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 public class CheckoutFormTable implements FormTable {

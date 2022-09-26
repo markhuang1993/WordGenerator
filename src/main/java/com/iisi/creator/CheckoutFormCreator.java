@@ -43,7 +43,7 @@ public class CheckoutFormCreator {
                 .build();
 
         final File docFile = new CheckoutFormGenerator().processFormTemplate(formData, destDir, "checkoutForm.doc");
-        System.out.println("checkout form doc is created at:" + docFile.getAbsolutePath());
+        System.out.printf("checkout form doc is created at:%s%n", docFile.getAbsolutePath());
     }
 
     private CheckoutFormTable getJavaTable() {

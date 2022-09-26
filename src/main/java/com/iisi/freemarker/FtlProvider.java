@@ -48,7 +48,7 @@ public class FtlProvider {
         final String newTemplatePath = templatePath.replace("\\", "/").replaceAll("^/(.*)$", "$1");
         final Template template = templateCacheMap.get(newTemplatePath);
         if (template == null) {
-            System.out.println("[Error]Template not found, path:" + templatePath);
+            System.out.printf("[Error]Template not found, path:%s%n", templatePath);
         }
         return template;
     }

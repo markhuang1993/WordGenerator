@@ -35,7 +35,7 @@ public class FormYmlParser {
 
         final File signatureImgDir = new File(signatureImgPath);
         if (!signatureImgDir.exists()) {
-            System.out.println(String.format("[Warn] programmerImgDir:%s not exist", signatureImgDir.getAbsolutePath()));
+            System.out.printf("[Warn] programmerImgDir:%s not exist%n", signatureImgDir.getAbsolutePath());
         }
 
         final String citiProjectRelativePathPrefix = MapUtil.getMapValueByPath(map, "citi.project.relativePathPrefix");

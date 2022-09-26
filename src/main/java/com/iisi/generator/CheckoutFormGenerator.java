@@ -8,6 +8,7 @@ import freemarker.template.TemplateException;
 
 import java.io.*;
 import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -23,7 +24,7 @@ public class CheckoutFormGenerator extends AbstractFormGenerator<CheckoutFormDat
         dataMap.put("javaCheckoutTable", javaAppTable);
 
         final Template t = ftlProvider.getFreeMarkerTemplate("word/checkoutForm.ftl");
-        final OutputStreamWriter writer = new OutputStreamWriter(new FileOutputStream(documentFile), StandardCharsets.UTF_8);
+        final OutputStreamWriter writer = new OutputStreamWriter(Files.newOutputStream(documentFile.toPath()), StandardCharsets.UTF_8);
         FreemarkerUtil.processTemplate(t, dataMap, writer);
 
         return documentFile;

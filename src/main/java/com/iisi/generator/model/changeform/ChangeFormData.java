@@ -137,7 +137,7 @@ public class ChangeFormData implements FormData {
         private Builder() {
         }
 
-        private ChangeFormData checkoutFormData = new ChangeFormData();
+        private final ChangeFormData checkoutFormData = new ChangeFormData();
 
         public Builder setPat(boolean pat) {
             this.checkoutFormData.isPat = pat;
